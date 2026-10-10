@@ -96,7 +96,7 @@ async function readListing(value) {
     }
   } catch { /* données structurées facultatives */ }
   const visible = html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&euro;/g, "€").replace(/&amp;/g, "&").replace(/\s+/g, " ").slice(0, 9000);
-  const priceMatch = (title + " " + description + " " + visible).match(/(?:prix|price)?\s*[:\-]?\s*(\d{1,5}(?:[ ,.\u202f]\d{3})*(?:[,.]\d{1,2})?)\s*(?:€|EUR|euros)\b/i);
+  const priceMatch = (title + " " + description + " " + visible).match(/(?:prix|price)?\s*[:\-]?\s*(\d{1,5}(?:[ ,.\u202f]\d{3})*(?:[,.]\d{1,2})?)\s*(?:€|\bEUR\b|\beuros?\b)/i);
   const askingPrice = structured && structured.price ? structured.price : (priceMatch ? Number(priceMatch[1].replace(/[ \u202f]/g, "").replace(",", ".")) : null);
   return { url: finalUrl.toString(), title, description, image, askingPrice: Number.isFinite(askingPrice) ? askingPrice : null, visible: visible.slice(0, 5000) };
 }
