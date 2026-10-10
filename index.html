@@ -839,7 +839,7 @@ async function send(){
   const data=await response.json().catch(()=>({}));
   if(!response.ok||!data.answer)throw new Error(data.error||'Le service IA est momentanément indisponible.');
   const answer=String(data.answer);
-  recordAIUsage({provider:data.provider||'Cloudflare Workers AI',model:data.model||'Modèle non précisé',mode:expert?'Analyse objet':'Chat',ok:true,durationMs:Date.now()-requestStartedAt});
+  recordAIUsage({provider:data.provider||'Cloudflare Workers AI',model:data.model||(data.provider==='Cloudflare Workers AI'?'@cf/qwen/qwen3.8-27b':'Modèle non précisé'),mode:expert?'Analyse objet':'Chat',ok:true,durationMs:Date.now()-requestStartedAt});
   const target=typing.body.querySelector('div');
   if(target)target.textContent=answer;else typing.body.append(document.createTextNode(answer));
   typing.row.classList.remove('chat-typing');
