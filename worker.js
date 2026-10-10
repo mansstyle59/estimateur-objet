@@ -198,7 +198,7 @@ Titre saisi: ${title || "non précisé"}
 Catégorie saisie: ${category || "non précisée"}
 Détails saisis: ${details || "aucun"}
 ${listingContext}
-Réponds en français, en JSON strict uniquement avec: "title", "category" (meuble, outil, electronique, collection, mode, jardin, jouet, autre), "details", "condition" (excellent, bon, correct, moyen, à rénover ou inconnu), "renovation", "renovationType" (none, clean, paint, repair, custom), "identificationConfidence" (high, medium ou low), "alternatives" (maximum 3 identifications plausibles), "estimatedResaleLow" (nombre entier ou null), "estimatedResaleHigh" (nombre entier ou null), "priceBasis", "comparables" (vide sauf données réellement vérifiées).
+Réponds en français, en JSON strict uniquement avec: "title", "category" (meuble, outil, electronique, collection, mode, jardin, jouet, autre), "details", "condition" (excellent, bon, correct, moyen, à rénover ou inconnu), "renovation", "renovationType" (none, clean, paint, repair, custom), "identificationConfidence" (high, medium ou low), "alternatives" (maximum 3 identifications plausibles), "estimatedResaleLow" (nombre entier ou null, vente rapide), "estimatedResaleHigh" (nombre entier ou null, haut de fourchette réaliste), "estimatedListPrice" (nombre entier ou null, prix d’annonce conseillé), "maxBuyPrice" (nombre entier ou null, prix d’achat plafond prudent), "buyerVerdict" (ACHETER, NÉGOCIER ou PASSER), "negotiationStrategy" (texte court), "risks" (tableau de 3 risques maximum), "demand" (faible, moyenne ou forte), "workTimeHours" (nombre ou null), "priceBasis", "comparables" (vide sauf données réellement vérifiées).
 Dans "details", fournis les faits observés, défauts à vérifier, risques et prochaines vérifications. Dans "renovation", indique les travaux conseillés, difficulté et temps approximatif sans inventer de coût exact. Dans "priceBasis", explique la fourchette, les différences entre vente rapide et prix d’annonce, les hypothèses et les limites des données. "comparables" doit rester vide sauf données réellement vérifiées. Ne prétends jamais avoir vérifié des annonces ou ventes conclues. Si l’identité est incertaine, retourne null pour les deux prix. N’invente ni marque ni caractéristique.`;
       const options = { messages: [{ role: "user", content: prompt }], reasoning_effort: "low" };
       if (imageMatch) options.image = image;
@@ -219,6 +219,14 @@ Dans "details", fournis les faits observés, défauts à vérifier, risques et p
       for (const key of ["estimatedResaleLow","estimatedResaleHigh"]) { const v = analysis[key]; analysis[key] = v === null || v === "" || v === undefined ? null : (Number.isFinite(Number(v)) && Number(v) >= 0 && Number(v) <= 1000000 ? Math.round(Number(v)) : null); }
       if (analysis.identificationConfidence === "low") { analysis.estimatedResaleLow = null; analysis.estimatedResaleHigh = null; }
       if (analysis.estimatedResaleLow !== null && analysis.estimatedResaleHigh !== null && analysis.estimatedResaleHigh < analysis.estimatedResaleLow) [analysis.estimatedResaleLow, analysis.estimatedResaleHigh] = [analysis.estimatedResaleHigh, analysis.estimatedResaleLow];
+      for (const key of ["estimatedListPrice","maxBuyPrice"]) { const v = analysis[key]; analysis[key] = v === null || v === "" || v === undefined ? null : (Number.isFinite(Number(v)) && Number(v) >= 0 && Number(v) <= 1000000 ? Math.round(Number(v)) : null); }
+      if (!["ACHETER","NÉGOCIER","PASSER"].includes(analysis.buyerVerdict)) analysis.buyerVerdict = "NÉGOCIER";
+      if (typeof analysis.negotiationStrategy !== "string") analysis.negotiationStrategy = "";
+      if (!Array.isArray(analysis.risks)) analysis.risks = [];
+      analysis.risks = analysis.risks.filter(x => typeof x === "string").slice(0,3);
+      if (!["faible","moyenne","forte"].includes(analysis.demand)) analysis.demand = "moyenne";
+      analysis.workTimeHours = analysis.workTimeHours === null || analysis.workTimeHours === undefined || analysis.workTimeHours === "" ? null : (Number.isFinite(Number(analysis.workTimeHours)) && Number(analysis.workTimeHours) >= 0 && Number(analysis.workTimeHours) <= 500 ? Number(analysis.workTimeHours) : null);
+      if (analysis.identificationConfidence === "low") { analysis.estimatedListPrice = null; analysis.maxBuyPrice = null; analysis.buyerVerdict = "NÉGOCIER"; }
       if (typeof analysis.priceBasis !== "string") analysis.priceBasis = "";
       if (!Array.isArray(analysis.comparables)) analysis.comparables = [];
       const searchTerm = analysis.title || title || (listing && listing.title) || "objet occasion";
