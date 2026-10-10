@@ -1,25 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">ValorIA</title>
-  <desc id="desc">Loupe cuivrée et coche ivoire sur fond graphite, symbole des bonnes affaires vérifiées.</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#24211e"/>
-      <stop offset="1" stop-color="#111110"/>
-    </linearGradient>
-    <linearGradient id="copper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#F4B39A"/>
-      <stop offset="1" stop-color="#D97757"/>
-    </linearGradient>
-    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000000" flood-opacity=".35"/>
-    </filter>
-  </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <rect x="18" y="18" width="476" height="476" rx="98" fill="none" stroke="#D97757" stroke-opacity=".78" stroke-width="5"/>
-  <circle cx="224" cy="218" r="130" fill="#211b18" stroke="url(#copper)" stroke-width="18" filter="url(#shadow)"/>
-  <path d="M316 310 400 394" fill="none" stroke="#F4B39A" stroke-width="38" stroke-linecap="round"/>
-  <path d="m164 218 42 42 83-91" fill="none" stroke="#F4E7D7" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="m379 70 15 35 35 15-35 15-15 35-15-35-35-15 35-15z" fill="url(#copper)"/>
-  <circle cx="126" cy="365" r="7" fill="#D97757" opacity=".8"/>
-  <circle cx="151" cy="389" r="4" fill="#F4B39A" opacity=".7"/>
+<title id="title">ValorIA</title><desc id="desc">Loupe et coche minimalistes, symbole d’une bonne affaire vérifiée.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#242424"/><stop offset="1" stop-color="#111111"/></linearGradient><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0B49B"/><stop offset="1" stop-color="#C98770"/></linearGradient></defs>
+<rect width="512" height="512" rx="116" fill="url(#bg)"/><rect x="20" y="20" width="472" height="472" rx="100" fill="none" stroke="#FFFFFF" stroke-opacity=".12" stroke-width="3"/>
+<circle cx="218" cy="215" r="125" fill="#181818" stroke="url(#metal)" stroke-width="17"/><path d="M308 307 397 396" stroke="url(#metal)" stroke-width="34" stroke-linecap="round"/><path d="m158 215 41 42 81-88" fill="none" stroke="#F4F1EC" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/><path d="m372 72 12 27 27 12-27 12-12 27-12-27-27-12 27-12z" fill="#D99A80"/>
 </svg>
