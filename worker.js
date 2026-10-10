@@ -160,10 +160,12 @@ export default {
         const history = messages.map(m=>({role:m && m.role==="assistant"?"assistant":"user",content:String(m && m.content || "").slice(0,2500)})).filter(m=>m.content.trim());
         const promptText = context.length ? context.join("\n\n") : "Analyse cet objet avec méthode, sans inventer les données absentes.";
         const options = {messages:[{role:"system",content:system},...history,{role:"user",content:promptText}], reasoning_effort:"low", max_tokens:1200};
-        if (imageMatch) options.image = imageMatch[2];
-        let result, answer = "", provider = "Cloudflare Workers AI", model = "@cf/qwen/qwen3.8-27b";
+        // Use a vision-capable model for photos, and pass the complete data URI.
+        // Qwen text-only can return a plausible answer while silently ignoring the image.
+        let result, answer = "", provider = "Cloudflare Workers AI", model = imageMatch ? "@cf/meta/llama-3.2-11b-vision-instruct" : "@cf/qwen/qwen3.8-27b";
+        if (imageMatch) options.image = image;
         try {
-          result = await env.AI.run("@cf/qwen/qwen3.8-27b", options);
+          result = await env.AI.run(model, options);
           answer = result?.response || result?.choices?.[0]?.message?.content || "";
         } catch (e) { answer = ""; }
         if (!String(answer).trim() && env.OPENROUTER_API_KEY) {
