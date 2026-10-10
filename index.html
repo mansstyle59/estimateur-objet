@@ -258,9 +258,9 @@ async function send(){
  const attached=selectedFile&&selectedFile.preview?{image:selectedFile.preview}:null;
  addMessage('user',text||(attached?'Peux-tu identifier cette photo ?':''),attached);
  if(text){
-  const titleMatch=text.match(/(?:c['’]est|objet|meuble|commode|buffet|table|chaise|armoire)\\s+(?:un|une|des|du|de la)?\\s*([^,.!?]{2,100})/i);
+  const titleMatch=text.match(/(?:c['’]est|objet|meuble|commode|buffet|table|chaise|armoire)\s+(?:un|une|des|du|de la)?\s*([^,.!?]{2,100})/i);
   if(titleMatch&&!$('title').value.trim())$('title').value=titleMatch[1].trim();
-  const buyMatch=text.match(/(?:acheté|achat|prix d'achat|à|pour)\\s*(?:à\\s*)?(\\d+(?:[.,]\\d{1,2})?)\\s*(?:€|euros?)/i);
+  const buyMatch=text.match(/(?:acheté|achat|prix d'achat|à|pour)\s*(?:à\s*)?(\d+(?:[.,]\d{1,2})?)\s*(?:€|euros?)/i);
   if(buyMatch)$('buy').value=buyMatch[1].replace(',','.');
   $('details').value=[$('details').value,text].filter(Boolean).join(' · ').slice(0,800);
  }
@@ -271,7 +271,7 @@ async function send(){
   $('photo').dispatchEvent(new Event('change',{bubbles:true}));
   busy=true;$('chatSend').disabled=true;watchAnalysis();return;
  }
- const url=text.match(/https?:\\/\\/[^\\s]+/i);
+ const url=text.match(/https?:\/\/[^\s]+/i);
  if(url){$('listingUrl').value=url[0].replace(/[),.]+$/,'');$('analyzePhoto').click();busy=true;$('chatSend').disabled=true;watchAnalysis();return;}
  if(!text)return;
  conversation.push({role:'user',content:text});
