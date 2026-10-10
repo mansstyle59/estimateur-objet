@@ -1060,3 +1060,27 @@ const splash=$('appSplash');if(splash){let splashHidden=false;const splashStarte
 @media(prefers-reduced-motion:reduce){#chatApp .chat-menu{animation:none!important}}
 </style>
 </body></html>
+<style id="valoria-fix-focus-icons">
+/* Correction ciblée après contrôle visuel : aucun cadre orange au focus */
+#chatApp #chatInput:focus,#chatApp #chatInput:focus-visible,#chatApp .chat-composer:focus-within{outline:none!important;outline-color:transparent!important;box-shadow:none!important}
+#chatApp .chat-composer:focus-within{border-color:rgba(255,255,255,.16)!important}
+#chatApp .chat-brand-icon{display:block!important;visibility:visible!important;opacity:1!important;width:52px!important;height:52px!important;flex:0 0 52px!important;border-radius:16px!important}
+#chatApp .chat-brand-icon img{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;height:100%!important;object-fit:contain!important}
+#chatApp .chat-welcome-mark{display:grid!important;visibility:visible!important;opacity:1!important;position:relative!important;flex:0 0 42px!important;width:42px!important;height:42px!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:14px!important;background:#242424!important;box-shadow:none!important}
+#chatApp .chat-welcome-mark:before{content:"";position:absolute;inset:10px;border:2px solid #d9d6d0!important;border-radius:50%!important;background:transparent!important}
+#chatApp .chat-welcome-mark:after{content:"";position:absolute;right:7px;bottom:7px;width:10px;height:10px;border-right:2px solid #d9d6d0!important;border-bottom:2px solid #d9d6d0!important;transform:rotate(-45deg)!important;border-radius:0!important}
+#chatApp .chat-suggestion{display:grid!important;grid-template-columns:34px minmax(0,1fr)!important;grid-template-rows:auto auto!important;column-gap:11px!important;row-gap:4px!important;align-content:center!important;align-items:center!important;justify-content:initial!important}
+#chatApp .chat-suggestion:before{display:grid!important;grid-column:1!important;grid-row:1 / span 2!important;place-items:center!important;align-self:center!important;width:34px!important;height:34px!important;margin:0!important;border:1px solid rgba(255,255,255,.11)!important;border-radius:11px!important;background:rgba(255,255,255,.045)!important;color:#e5e2dc!important;font-size:20px!important;font-weight:400!important;opacity:1!important}
+#chatApp .chat-suggestion:nth-child(1):before{content:"⌕"!important}
+#chatApp .chat-suggestion:nth-child(2):before{content:"↗"!important}
+#chatApp .chat-suggestion:nth-child(3):before{content:"✳"!important}
+#chatApp .chat-suggestion:nth-child(4):before{content:"€"!important}
+#chatApp .chat-suggestion strong{grid-column:2!important;grid-row:1!important}
+#chatApp .chat-suggestion span{grid-column:2!important;grid-row:2!important}
+@media(max-width:600px){
+ #chatApp .chat-suggestion{grid-template-columns:1fr!important;grid-template-rows:28px auto auto!important;align-items:start!important;row-gap:6px!important}
+ #chatApp .chat-suggestion:before{grid-column:1!important;grid-row:1!important;width:28px!important;height:28px!important;border-radius:9px!important}
+ #chatApp .chat-suggestion strong{grid-column:1!important;grid-row:2!important}
+ #chatApp .chat-suggestion span{grid-column:1!important;grid-row:3!important}
+}
+</style>
