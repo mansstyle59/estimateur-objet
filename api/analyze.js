@@ -1,5 +1,6 @@
 const ALLOWED_ORIGIN = "https://mansstyle59.github.io";
 const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
+const recentRequests = new Map();
 
 module.exports = async function handler(req, res) {
   const origin = req.headers.origin || "";
@@ -13,6 +14,11 @@ module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Méthode non autorisée." });
   if (origin && origin !== ALLOWED_ORIGIN) return res.status(403).json({ error: "Origine non autorisée." });
+  const ip = String(req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "unknown").split(",")[0].trim();
+  const now = Date.now();
+  const recent = (recentRequests.get(ip) || []).filter(ts => now - ts < 60_000);
+  if (recent.length >= 8) return res.status(429).json({ error: "Limite temporaire atteinte : maximum 8 analyses par minute depuis cette adresse. Réessaie dans un instant." });
+  recent.push(now); recentRequests.set(ip, recent);
   const key = process.env.GEMINI_API_KEY;
   if (!key) return res.status(503).json({ error: "Le serveur n’est pas configuré : ajoute GEMINI_API_KEY dans les variables d’environnement Vercel." });
 
