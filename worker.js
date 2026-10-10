@@ -23,13 +23,14 @@ function safePublicUrl(value) {
   } catch { return null; }
 }
 function decodeMeta(html, key) {
-  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const patterns = [
-    new RegExp('<meta[^>]+property=["\\']' + escaped + '["\\'][^>]+content=["\\']([^"\\']*)["\\']', 'i'),
-    new RegExp('<meta[^>]+content=["\\']([^"\\']*)["\\'][^>]+property=["\\']' + escaped + '["\\']', 'i'),
-    new RegExp('<meta[^>]+name=["\\']' + escaped + '["\\'][^>]+content=["\\']([^"\\']*)["\\']', 'i')
-  ];
-  for (const re of patterns) { const m = html.match(re); if (m) return m[1].replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").slice(0, 1800); }
+  const tags = html.match(/<meta\\b[^>]*>/gi) || [];
+  for (const tag of tags) {
+    const attrName = tag.match(/\\b(property|name)\\s*=\\s*["']([^"']+)["']/i);
+    const content = tag.match(/\\bcontent\\s*=\\s*["']([^"']*)["']/i);
+    if (attrName && content && attrName[2].toLowerCase() === key.toLowerCase()) {
+      return content[1].replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").slice(0, 1800);
+    }
+  }
   return "";
 }
 function toBase64(bytes) {
