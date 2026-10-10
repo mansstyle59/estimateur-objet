@@ -266,46 +266,49 @@ async function send(){
  if(busy)return;
  const text=input.value.trim();
  if(!text&&!selectedFile)return;
- const attached=selectedFile&&selectedFile.preview?{image:selectedFile.preview}:null;
- addMessage('user',text||(attached?'Peux-tu identifier cette photo ?':''),attached);
- if(text){
-  const titleMatch=text.match(/(?:c['’]est|objet|meuble|commode|buffet|table|chaise|armoire)\s+(?:un|une|des|du|de la)?\s*([^,.!?]{2,100})/i);
-  if(titleMatch&&!$('title').value.trim())$('title').value=titleMatch[1].trim();
-  const buyMatch=text.match(/(?:acheté|achat|prix d'achat|à|pour)\s*(?:à\s*)?(\d+(?:[.,]\d{1,2})?)\s*(?:€|euros?)/i);
-  if(buyMatch)$('buy').value=buyMatch[1].replace(',','.');
-  $('details').value=[$('details').value,text].filter(Boolean).join(' · ').slice(0,800);
- }
- input.value='';input.style.height='auto';
- const file=selectedFile&&selectedFile.file;selectedFile=null;$('chatFileName').textContent='';
- if(file){
-  const dt=new DataTransfer();dt.items.add(file);$('photo').files=dt.files;
-  $('photo').dispatchEvent(new Event('change',{bubbles:true}));
-  busy=true;$('chatSend').disabled=true;watchAnalysis();return;
- }
- const url=text.match(/https?:\/\/[^\s]+/i);
- if(url){$('listingUrl').value=url[0].replace(/[),.]+$/,'');$('analyzePhoto').click();busy=true;$('chatSend').disabled=true;watchAnalysis();return;}
- if(!text)return;
- conversation.push({role:'user',content:text});
+ const file=selectedFile&&selectedFile.file;
+ const preview=selectedFile&&selectedFile.preview;
+ const urlMatch=text.match(/https?:\/\/[^\s]+/i);
+ const url=urlMatch?urlMatch[0].replace(/[),.]+$/,''):'';
+ addMessage('user',text||(file?'Peux-tu analyser cet objet comme un acheteur et vendeur expérimenté ?':''),preview?{image:preview}:null);
+ input.value='';input.style.height='auto';selectedFile=null;$('chatFileName').textContent='';
  busy=true;$('chatSend').disabled=true;$('chatAttach').disabled=true;$('chatLink').disabled=true;
- const typing=addMessage('assistant','Je réfléchis…');
+ const typing=addMessage('assistant',file||url?'J’examine l’objet, son potentiel et les risques…':'Je réfléchis…');
  typing.row.classList.add('chat-typing');
  try{
-  const response=await fetch('https://estimateur-objet-api.dewulf-denis.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'chat',messages:conversation.slice(-12)})});
-  const data=await response.json();
+  let image='';
+  if(file){
+   image=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||''));reader.onerror=()=>reject(new Error('Impossible de lire cette photo.'));reader.readAsDataURL(file);});
+  }
+  const expert=!!(image||url);
+  if(!expert&&text)conversation.push({role:'user',content:text});
+  const payload=expert?{action:'expertAnalyze',image:image||undefined,listingUrl:url||undefined,message:text,messages:conversation.slice(-8)}:{action:'chat',messages:conversation.slice(-12)};
+  const response=await fetch('https://estimateur-objet-api.dewulf-denis.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  const data=await response.json().catch(()=>({}));
   if(!response.ok||!data.answer)throw new Error(data.error||'Le service IA est momentanément indisponible.');
-  typing.body.querySelector('div')?.textContent=data.answer;
+  const answer=String(data.answer);
+  const target=typing.body.querySelector('div');
+  if(target)target.textContent=answer;else typing.body.append(document.createTextNode(answer));
   typing.row.classList.remove('chat-typing');
-  conversation.push({role:'assistant',content:data.answer});
+  conversation.push({role:'assistant',content:answer});
+  if(expert){
+   const card=document.createElement('div');card.className='chat-result-card';card.style.cssText='margin-top:10px;padding:10px;border:1px solid #544035;border-radius:12px;background:#211b18';
+   const title=document.createElement('strong');title.textContent='Analyse achat-revente';card.append(title);
+   const info=document.createElement('p');info.style.cssText='margin:6px 0 0;font-size:12px;line-height:1.5;color:#d8c9bd';info.textContent=data.listingRead?'Lien lu par le serveur. Le prix détecté reste à vérifier.':image?'Analyse fondée sur la photo fournie.':'Analyse indicative.';
+   card.append(info);typing.body.append(card);
+   if(Number.isFinite(data.listingAskingPrice)&&data.listingAskingPrice>0){$('buy').value=data.listingAskingPrice;}
+   if(data.listingTitle&&!$('title').value.trim())$('title').value=data.listingTitle;
+  }
   scrollBottom();
  }catch(err){
-  typing.body.querySelector('div')?.textContent=(err.message||'Connexion IA impossible.')+' Tu peux réessayer dans un instant.';
+  const target=typing.body.querySelector('div');
+  if(target)target.textContent=(err.message||'Connexion IA impossible.')+' Essaie une photo plus légère ou une capture d’écran du lien.';
   typing.row.classList.remove('chat-typing');
-  conversation.pop();
+  if(conversation.length&&conversation[conversation.length-1].role==='user')conversation.pop();
  }finally{
   busy=false;$('chatSend').disabled=false;$('chatAttach').disabled=false;$('chatLink').disabled=false;input.focus();
  }
-}
-function watchAnalysis(){
+}function watchAnalysis(){
  let prior=$('aiStatus').textContent;let done=false;
  const observer=new MutationObserver(()=>{
   const t=$('aiStatus').textContent.trim();if(!t||t===prior)return;prior=t;
