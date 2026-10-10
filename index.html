@@ -1201,3 +1201,76 @@ const splash=$('appSplash');if(splash){let splashHidden=false;const splashStarte
  #chatApp .chat-suggestion{min-height:104px!important}
 }
 </style>
+<style id="valoria-menu-harmonization">
+/* Menu latéral harmonisé avec l’en-tête et les cartes */
+#chatApp .chat-menu{
+ box-sizing:border-box!important;
+ width:min(88vw,390px)!important;
+ max-width:calc(100vw - 24px)!important;
+ max-height:calc(100dvh - env(safe-area-inset-top) - 12px)!important;
+ overflow-y:auto!important;
+ padding:18px 14px calc(18px + env(safe-area-inset-bottom))!important;
+ border:1px solid rgba(255,255,255,.12)!important;
+ border-radius:0 26px 26px 0!important;
+ background:rgba(18,18,18,.94)!important;
+ color:#f4f2ee!important;
+ box-shadow:0 18px 50px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.055)!important;
+ backdrop-filter:blur(22px) saturate(115%)!important;
+ -webkit-backdrop-filter:blur(22px) saturate(115%)!important;
+ scrollbar-width:thin!important;
+ scrollbar-color:rgba(255,255,255,.18) transparent!important;
+}
+#chatApp .chat-menu-head{
+ display:grid!important;
+ grid-template-columns:46px minmax(0,1fr) 42px!important;
+ align-items:center!important;
+ gap:12px!important;
+ padding:4px 2px 22px!important;
+ margin-bottom:20px!important;
+ border-bottom:1px solid rgba(255,255,255,.1)!important;
+}
+#chatApp .chat-menu-mark{width:46px!important;height:46px!important;min-width:46px!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:15px!important;background:rgba(255,255,255,.045)!important;box-shadow:none!important;overflow:hidden!important}
+#chatApp .chat-menu-mark img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important}
+#chatApp .chat-menu-head b{font-size:20px!important;font-weight:720!important;letter-spacing:-.55px!important;color:#f6f4f0!important}
+#chatApp .chat-menu-head small{display:block!important;margin-top:4px!important;font-size:11px!important;line-height:1.45!important;color:#aaa69f!important}
+#chatApp #chatMenuClose{
+ display:grid!important;place-items:center!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+ padding:0!important;border-radius:50%!important;border:1px solid rgba(255,255,255,.15)!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.035))!important;
+ color:#f4f2ee!important;font-size:25px!important;font-weight:300!important;line-height:1!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;
+}
+#chatApp .chat-menu-label{margin:20px 9px 10px!important;font-size:10px!important;font-weight:700!important;letter-spacing:1.5px!important;color:#88857f!important}
+#chatApp .chat-menu>button[role="menuitem"]{
+ display:grid!important;grid-template-columns:36px minmax(0,1fr)!important;align-items:center!important;gap:12px!important;
+ width:100%!important;min-height:62px!important;margin:3px 0!important;padding:10px 11px!important;
+ text-align:left!important;border:1px solid transparent!important;border-radius:17px!important;
+ background:transparent!important;color:#f0eeea!important;box-shadow:none!important;
+ transition:background .16s ease,border-color .16s ease!important;
+}
+#chatApp .chat-menu>button[role="menuitem"]:hover,#chatApp .chat-menu>button[role="menuitem"]:focus-visible{
+ background:rgba(255,255,255,.065)!important;border-color:rgba(255,255,255,.075)!important;outline:none!important;
+}
+#chatApp .chat-menu>button[role="menuitem"]>span:first-child{
+ display:grid!important;place-items:center!important;width:36px!important;height:36px!important;
+ border-radius:12px!important;border:1px solid rgba(255,255,255,.1)!important;background:rgba(255,255,255,.045)!important;
+ color:#e4e1db!important;font-size:20px!important;
+}
+#chatApp .chat-menu>button[role="menuitem"] b{display:block!important;font-size:13px!important;font-weight:620!important;line-height:1.4!important;color:#f3f1ed!important}
+#chatApp .chat-menu>button[role="menuitem"] small{display:block!important;margin-top:3px!important;font-size:10px!important;line-height:1.45!important;color:#a6a29c!important}
+#chatApp .chat-menu-divider{height:1px!important;margin:18px 8px!important;background:rgba(255,255,255,.1)!important}
+#chatApp .chat-recent-list{display:flex!important;flex-direction:column!important;gap:3px!important}
+#chatApp .chat-recent-empty{padding:10px 12px!important;font-size:11px!important;line-height:1.55!important;color:#8e8a84!important}
+#chatApp .chat-recent-list button{border-radius:14px!important;background:transparent!important;border:1px solid transparent!important;color:#dedbd5!important}
+#chatApp .chat-recent-list button:hover{background:rgba(255,255,255,.06)!important;border-color:rgba(255,255,255,.07)!important}
+#chatApp .chat-menu[hidden]{display:none!important}
+@media(max-width:600px){
+ #chatApp .chat-menu{width:min(86vw,360px)!important;max-width:calc(100vw - 18px)!important;padding:calc(14px + env(safe-area-inset-top)) 12px calc(16px + env(safe-area-inset-bottom))!important;border-radius:0 24px 24px 0!important}
+ #chatApp .chat-menu-head{grid-template-columns:42px minmax(0,1fr) 40px!important;gap:10px!important;padding-bottom:18px!important;margin-bottom:16px!important}
+ #chatApp .chat-menu-mark{width:42px!important;height:42px!important;min-width:42px!important;border-radius:14px!important}
+ #chatApp #chatMenuClose{width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}
+ #chatApp .chat-menu-head b{font-size:19px!important}
+ #chatApp .chat-menu>button[role="menuitem"]{min-height:58px!important;border-radius:15px!important}
+}
+@media(prefers-reduced-transparency:reduce){#chatApp .chat-menu{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#151515!important}}
+</style>
