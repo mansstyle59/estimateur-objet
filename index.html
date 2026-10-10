@@ -548,77 +548,7 @@ body{line-height:1.5}
 #chatApp .chat-menu-toggle[aria-expanded="true"] .burger-lines i:last-child{transform:rotate(-45deg)!important}
 #chatApp .chat-menu-toggle:focus-visible{outline:2px solid #d97757!important;outline-offset:3px!important}
 @media(max-width:480px){#chatApp .chat-menu-toggle{border-radius:14px!important}}
-</style><meta property="og:title" content="ValorIA — L’intelligence des bonnes affaires"><meta property="og:description" content="Estimation · Achat-revente · Rentabilité. Photographiez un objet, estimez sa valeur et calculez votre bénéfice potentiel."><style id="valoria-brand-finish">.brand b{font-size:19px;letter-spacing:-.45px;color:#f4eee6}.brand small{display:block;margin-top:2px;font-size:11px;letter-spacing:.1px}#chatApp .chat-head-name{color:#f4eee6!important}#chatApp .chat-head-sub:after{content:" · Estimation · Rentabilité";color:#aaa69e}@media(max-width:390px){.brand b{font-size:17px}}</style><style id="valoria-ai-usage-style">.ai-usage-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}.ai-usage-stat{padding:12px 8px;border:1px solid #494039;border-radius:12px;background:#211e1b}.ai-usage-stat b{display:block;font-size:22px;color:#f4b39a}.ai-usage-stat small{display:block;margin-top:3px;font-size:10px;color:#aaa69e}.ai-usage-subtitle{margin:16px 0 7px;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#dfaa91;font-weight:800}.ai-usage-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #39332e;font-size:12px}.ai-usage-row span{min-width:0;overflow-wrap:anywhere;color:#eee8df}.ai-usage-row b,.ai-usage-row small{flex-shrink:0;color:#dfaa91}.ai-usage-row small{font-size:10px}@media(max-width:380px){.ai-usage-stat b{font-size:18px}.ai-usage-stat small{font-size:9px}}</style><style id="chatgpt-claude-inspired-ui">
-/* ValorIA — interface conversationnelle épurée, inspirée des usages modernes de chat */
-body:has(#chatApp){background:#141413!important}
-body:has(#chatApp)>.wrap{display:none!important}
-#chatApp{width:100%;max-width:900px!important;min-height:100dvh!important;margin:0 auto!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#141413!important;display:flex;flex-direction:column;overflow:visible!important}
-#chatApp .chat-header{position:sticky;top:0;display:flex;align-items:center;gap:11px;padding:12px 16px!important;background:rgba(20,20,19,.96)!important;border-bottom:1px solid rgba(255,255,255,.08)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-#chatApp .chat-brand-icon{width:42px;height:42px;flex:0 0 42px;border-radius:13px;background:#201e1b!important}
-#chatApp .chat-header>div:nth-child(2){min-width:0;flex:1}
-#chatApp .chat-head-name{font-size:16px!important;font-weight:700;line-height:1.25}
-#chatApp .chat-head-sub{display:block!important;max-width:100%;font-size:11px!important;line-height:1.4;color:#a8a39b!important;white-space:normal}
-#chatApp .chat-status-dot{display:inline-block!important;width:6px;height:6px;margin-right:5px}
-#chatApp .new-chat,#chatApp .chat-menu-toggle{width:42px!important;height:42px!important;flex:0 0 42px;border-radius:50%!important;background:transparent!important;border:1px solid #45423d!important;color:#eee8df!important}
-#chatApp .new-chat{font-size:25px;line-height:1}
-#chatApp .chat-menu-toggle{display:grid;place-items:center;padding:0}
-#chatApp .burger-lines{display:flex;flex-direction:column;gap:5px;width:19px}
-#chatApp .burger-lines i{display:block;height:2px;width:100%;background:currentColor;border-radius:2px}
-#chatApp .chat-scroll{flex:1;width:100%;max-width:900px;max-height:none!important;min-height:0!important;margin:0 auto;padding:clamp(24px,5vh,58px) clamp(18px,5vw,48px) 30px!important;overflow-y:auto;overscroll-behavior:contain}
-#chatApp .chat-welcome{max-width:690px!important;margin:0 auto!important}
-#chatApp .chat-welcome-intro{gap:0!important;margin:0 0 28px!important}
-#chatApp .chat-welcome-mark{display:none!important}
-#chatApp .chat-welcome-copy h1{font-size:clamp(28px,5vw,38px)!important;letter-spacing:-1.1px!important;font-weight:650!important;margin:0 0 12px!important;color:#f3f0e9}
-#chatApp .chat-welcome-copy p{max-width:600px!important;font-size:15px!important;line-height:1.7!important;color:#b9b4ab!important}
-#chatApp .chat-suggestions{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
-#chatApp .chat-suggestion{min-height:94px!important;padding:17px!important;gap:7px!important;border:1px solid #393733!important;border-radius:16px!important;background:#1d1c1a!important;box-shadow:none!important}
-#chatApp .chat-suggestion:before{width:18px!important;height:2px!important;background:#df8869!important}
-#chatApp .chat-suggestion strong{font-size:14px!important;font-weight:650!important;color:#f1ede6}
-#chatApp .chat-suggestion span{font-size:12px!important;color:#a9a39a!important}
-#chatApp .chat-suggestion:hover{border-color:#6a5144!important;background:#23211e!important}
-#chatApp .chat-example-list{margin-top:26px!important;padding-top:17px!important;border-top:1px solid #302e2a!important}
-#chatApp .chat-example-heading{font-size:10px!important;letter-spacing:1px!important;color:#a9a39a!important}
-#chatApp .chat-example-list button{font-size:13px!important;padding:12px 2px!important}
-#chatApp #chatMessages{width:100%;max-width:690px!important;margin:0 auto!important}
-#chatApp .chat-message{gap:12px!important;margin:22px 0!important}
-#chatApp .chat-message-body{font-size:15px!important;line-height:1.78!important;color:#e9e5de!important}
-#chatApp .chat-message.user .chat-message-body{background:#262522!important;border:0!important;border-radius:19px!important;padding:12px 16px!important;color:#f1eee8!important}
-#chatApp .chat-message.assistant .chat-message-body{padding-top:2px}
-#chatApp .chat-composer-wrap{position:sticky;bottom:0;z-index:40;width:100%;padding:12px 16px calc(12px + env(safe-area-inset-bottom))!important;background:linear-gradient(180deg,rgba(20,20,19,.86),#141413 25%)!important;border-top:0!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-#chatApp .chat-composer{max-width:690px!important;border:1px solid #494640!important;border-radius:27px!important;background:#262522!important;box-shadow:0 8px 28px #0002!important;padding:12px 13px 10px!important;gap:8px!important}
-#chatApp #chatInput{width:100%;min-height:36px!important;max-height:180px!important;padding:4px 6px!important;font-size:16px!important;line-height:1.5!important;color:#f3eee7!important}
-#chatApp #chatInput::placeholder{color:#aaa59c!important}
-#chatApp .chat-composer-tools{display:flex;align-items:center;gap:9px}
-#chatApp .chat-tool{width:auto!important;min-width:40px;height:40px!important;border-radius:22px!important;background:transparent!important;border:1px solid #484640!important;color:#ddd7ce!important;padding:0 13px!important}
-#chatApp #chatAttach{width:40px!important;min-width:40px!important;padding:0!important;font-size:24px}
-#chatApp #chatLink{display:flex;align-items:center;gap:7px}
-#chatApp #chatSend{width:42px!important;min-width:42px!important;height:42px!important;margin-left:auto;border:0!important;border-radius:50%!important;background:#f2f0eb!important;color:#171614!important;box-shadow:none!important;font-size:25px!important}
-#chatApp #chatSend:disabled{opacity:.45}
-#chatApp .chat-disclaimer{max-width:690px;margin:8px auto 0!important;padding:0 8px!important;font-size:10px!important;line-height:1.5!important;color:#89857d!important;text-align:center}
-#chatApp .chat-menu{position:fixed!important;z-index:100001!important;top:68px!important;right:max(12px,calc((100vw - 900px)/2 + 14px))!important;left:auto!important;width:min(340px,calc(100vw - 24px))!important;max-height:calc(100dvh - 88px)!important;overflow-y:auto!important;padding:9px!important;border:1px solid #45413b!important;border-radius:20px!important;background:#22211f!important;box-shadow:0 18px 70px #000b!important}
-#chatApp .chat-menu-head{padding:12px!important}
-#chatApp .chat-menu button{min-height:48px!important}
-#chatApp .chat-menu button>span:first-child{border-radius:12px!important}
-#chatApp .chat-menu[hidden]{display:none!important}
-#chatApp :focus-visible{outline:2px solid #df8869!important;outline-offset:3px!important}
-@media(max-width:480px){
- #chatApp .chat-header{padding:10px 12px!important;gap:8px!important}
- #chatApp .chat-brand-icon{width:39px;height:39px;flex-basis:39px}
- #chatApp .chat-head-sub{font-size:10px!important}
- #chatApp .new-chat,#chatApp .chat-menu-toggle{width:39px!important;height:39px!important;flex-basis:39px}
- #chatApp .chat-scroll{padding:35px 18px 24px!important}
- #chatApp .chat-welcome-copy h1{font-size:29px!important}
- #chatApp .chat-welcome-copy p{font-size:14px!important}
- #chatApp .chat-suggestions{grid-template-columns:1fr 1fr!important;gap:8px!important}
- #chatApp .chat-suggestion{min-height:100px!important;padding:12px!important;border-radius:14px!important}
- #chatApp .chat-suggestion strong{font-size:12px!important}
- #chatApp .chat-suggestion span{font-size:11px!important}
- #chatApp .chat-composer-wrap{padding-left:12px!important;padding-right:12px!important}
- #chatApp .chat-composer{border-radius:24px!important;padding:10px!important}
- #chatApp .chat-menu{top:62px!important;right:10px!important}
-}
-@media(max-width:360px){#chatApp .chat-suggestions{grid-template-columns:1fr!important}#chatApp .chat-suggestion{min-height:82px!important}}
-</style></head><body><div id="appSplash" class="app-splash" role="status" aria-label="Chargement de ValorIA"><img class="app-splash-logo" src="./icon.svg" alt="Logo officiel ValorIA"><div class="app-splash-name">ValorIA</div><div class="app-splash-sub">L’intelligence des bonnes affaires</div><div class="app-splash-loader" aria-hidden="true"></div></div><div class="wrap">
+</style><meta property="og:title" content="ValorIA — L’intelligence des bonnes affaires"><meta property="og:description" content="Estimation · Achat-revente · Rentabilité. Photographiez un objet, estimez sa valeur et calculez votre bénéfice potentiel."><style id="valoria-brand-finish">.brand b{font-size:19px;letter-spacing:-.45px;color:#f4eee6}.brand small{display:block;margin-top:2px;font-size:11px;letter-spacing:.1px}#chatApp .chat-head-name{color:#f4eee6!important}#chatApp .chat-head-sub:after{content:" · Estimation · Rentabilité";color:#aaa69e}@media(max-width:390px){.brand b{font-size:17px}}</style><style id="valoria-ai-usage-style">.ai-usage-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}.ai-usage-stat{padding:12px 8px;border:1px solid #494039;border-radius:12px;background:#211e1b}.ai-usage-stat b{display:block;font-size:22px;color:#f4b39a}.ai-usage-stat small{display:block;margin-top:3px;font-size:10px;color:#aaa69e}.ai-usage-subtitle{margin:16px 0 7px;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#dfaa91;font-weight:800}.ai-usage-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #39332e;font-size:12px}.ai-usage-row span{min-width:0;overflow-wrap:anywhere;color:#eee8df}.ai-usage-row b,.ai-usage-row small{flex-shrink:0;color:#dfaa91}.ai-usage-row small{font-size:10px}@media(max-width:380px){.ai-usage-stat b{font-size:18px}.ai-usage-stat small{font-size:9px}}</style></head><body><div id="appSplash" class="app-splash" role="status" aria-label="Chargement de ValorIA"><img class="app-splash-logo" src="./icon.svg" alt="Logo officiel ValorIA"><div class="app-splash-name">ValorIA</div><div class="app-splash-sub">L’intelligence des bonnes affaires</div><div class="app-splash-loader" aria-hidden="true"></div></div><div class="wrap">
 <header class="top"><div class="mark"><img src="./icon.svg" alt=""></div><div class="brand"><b>ValorIA</b><small>L’intelligence des bonnes affaires</small></div><span class="pill">GRATUIT</span></header>
 <section class="hero"><div class="eyebrow">ACHAT · RÉNOVATION · REVENTE</div><h1>Repère les bonnes affaires.</h1><p>Ajoute une photo ou un lien, indique ton prix d’achat et découvre le bénéfice potentiel.</p></section>
 <nav class="steps" aria-label="Étapes"><div class="stepnav active" data-nav="1"><b>1</b>Photo</div><div class="stepnav" data-nav="2"><b>2</b>Achat</div><div class="stepnav" data-nav="3"><b>3</b>Travaux</div><div class="stepnav" data-nav="4"><b>4</b>Résultat</div></nav>
