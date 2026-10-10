@@ -19,8 +19,8 @@ module.exports = async function handler(req, res) {
   const recent = (recentRequests.get(ip) || []).filter(ts => now - ts < 60_000);
   if (recent.length >= 8) return res.status(429).json({ error: "Limite temporaire atteinte : maximum 8 analyses par minute depuis cette adresse. Réessaie dans un instant." });
   recent.push(now); recentRequests.set(ip, recent);
-  const key = process.env.GEMINI_API_KEY;
-  if (!key) return res.status(503).json({ error: "Le serveur n’est pas configuré : ajoute GEMINI_API_KEY dans les variables d’environnement Vercel." });
+  const key = process.env.HF_TOKEN;
+  if (!key) return res.status(503).json({ error: "Le serveur n’est pas configuré : ajoute HF_TOKEN comme variable secrète dans Vercel." });
 
   try {
     const body = req.body || {};
@@ -33,16 +33,28 @@ module.exports = async function handler(req, res) {
     const category = String(body.category || "").slice(0, 40);
     const details = String(body.details || "").slice(0, 300);
     const prompt = "Tu es un assistant d'identification visuelle pour l'achat-revente d'objets d'occasion en France. Analyse uniquement ce qui est visible sur la photo. Ne prétends jamais reconnaître une marque si elle n'est pas lisible. N'invente pas l'âge, le matériau ou l'état caché. Ne donne AUCUN prix ni aucune estimation de marché : une photo seule ne permet pas de confirmer un prix de revente. Retourne uniquement un objet JSON avec ces champs : title (nom descriptif court en français), category (une valeur parmi meuble, outil, electronique, collection, mode, jardin, jouet, autre), details (matière/style/marque/détails visibles, en distinguant les suppositions), condition (une valeur parmi excellent, bon, moyen, mauvais, selon l'apparence seulement), renovation (conseil prudent en français), renovationType (none, clean, paint, repair, custom), observations (liste de chaînes), confidence (faible, moyenne ou élevée), estimatedResaleLow (null), estimatedResaleHigh (null), priceDisclaimer (phrase expliquant que le prix doit être vérifié avec des annonces comparables). Si la photo est floue ou l'objet incertain, le dire clairement. Infos saisies par l'utilisateur : nom=" + title + ', catégorie=' + category + ', détails=' + details + ".";
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=" + encodeURIComponent(key), {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, { inline_data: { mime_type: mimeType, data: base64 } }] }], generationConfig: { responseMimeType: "application/json", temperature: 0.2, maxOutputTokens: 700 } })
+    const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
+      method: "POST",
+      headers: { "Authorization": "Bearer " + key, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "Qwen/Qwen2.5-VL-7B-Instruct",
+        messages: [{ role: "user", content: [
+          { type: "text", text: prompt },
+          { type: "image_url", image_url: { url: "data:" + mimeType + ";base64," + base64 } }
+        ] }],
+        max_tokens: 700,
+        temperature: 0.2
+      })
     });
     const payload = await response.json().catch(() => ({}));
-    if (!response.ok) return res.status(response.status === 429 ? 429 : 502).json({ error: response.status === 429 ? "Quota IA atteint ou limite de requêtes. Réessaie plus tard ou vérifie les quotas dans Google AI Studio." : "Le service IA a refusé la demande. Vérifie la clé et le modèle dans Google AI Studio." });
-    const text = payload.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("");
+    if (!response.ok) return res.status(response.status === 429 ? 429 : 502).json({ error: response.status === 429 ? "Quota ou limite du fournisseur IA atteint. Vérifie les crédits et limites Hugging Face." : "Le fournisseur IA a refusé la demande. Vérifie le jeton Hugging Face et la disponibilité du modèle." });
+    const text = payload.choices?.[0]?.message?.content;
     if (!text) return res.status(502).json({ error: "L’IA n’a pas retourné d’analyse. Réessaie avec une photo plus nette." });
     let analysis;
-    try { analysis = JSON.parse(text); } catch { return res.status(502).json({ error: "La réponse IA n’était pas exploitable. Réessaie." }); }
+    try {
+      const clean = String(text).replace(/^\s*```(?:json)?/i, "").replace(/```\s*$/, "").trim();
+      analysis = JSON.parse(clean);
+    } catch { return res.status(502).json({ error: "La réponse IA n’était pas exploitable. Réessaie." }); }
     analysis.estimatedResaleLow = null; analysis.estimatedResaleHigh = null;
     return res.status(200).json({ analysis });
   } catch (error) {
