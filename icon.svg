@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 <rect width="512" height="512" rx="112" fill="#141413"/>
 <rect x="18" y="18" width="476" height="476" rx="98" fill="none" stroke="#D97757" stroke-width="8"/>
-<path d="M128 126h256a22 22 0 0 1 22 22v216a22 22 0 0 1-22 22H128a22 22 0 0 1-22-22V148a22 22 0 0 1 22-22Z" fill="#201F1C" stroke="#49463F" stroke-width="8"/>
-<path d="M166 184h180M166 224h120" stroke="#B7B3AA" stroke-width="14" stroke-linecap="round"/>
-<circle cx="256" cy="304" r="76" fill="#30211D" stroke="#D97757" stroke-width="12"/>
-<path d="M280 269a38 38 0 1 0 11 53l28 28" fill="none" stroke="#F4B39A" stroke-width="16" stroke-linecap="round"/>
-<circle cx="250" cy="303" r="16" fill="#D97757"/>
+<circle cx="220" cy="218" r="112" fill="#211b18" stroke="#D97757" stroke-width="16"/>
+<path d="M300 300 L390 390" fill="none" stroke="#F4B39A" stroke-width="34" stroke-linecap="round"/>
+<path d="M164 218 L203 257 L278 176" fill="none" stroke="#F4E7D7" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M367 94 L383 132 L421 148 L383 164 L367 202 L351 164 L313 148 L351 132 Z" fill="#D97757"/>
+<text x="256" y="458" text-anchor="middle" font-family="Arial,sans-serif" font-size="43" font-weight="700" letter-spacing="-2" fill="#F4E7D7">Valor<tspan fill="#D97757">IA</tspan></text>
 </svg>
