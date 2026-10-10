@@ -1495,6 +1495,34 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 }
 </style>
 
+
+<style id="valoria-brand-ia-orange">
+/* Marque ValorIA : IA en cuivre partout où le nom est affiché */
+.brand b,.app-splash-name,.chat-menu-head b{color:#f5f2ed!important}
+.brand b .brand-ia,.app-splash-name .brand-ia,.chat-menu-head b .brand-ia{color:#e49a7c!important}
+</style>
+<script id="valoria-brand-ia-orange-script">
+(function(){
+ const brandSelectors='.brand b,.app-splash-name,.chat-menu-head b';
+ function colorBrandIA(){
+  document.querySelectorAll(brandSelectors).forEach(function(el){
+   if(el.querySelector('.brand-ia')) return;
+   const name=(el.textContent||'').trim();
+   if(name==='ValorIA'){
+    el.textContent='';
+    el.append(document.createTextNode('Valor'));
+    const ia=document.createElement('span');
+    ia.className='brand-ia';
+    ia.textContent='IA';
+    el.append(ia);
+   }
+  });
+ }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',colorBrandIA);
+ else colorBrandIA();
+})();
+</script>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
