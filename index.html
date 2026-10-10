@@ -1598,6 +1598,43 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 }
 </style>
 
+
+<style id="valoria-home-icons-lineart">
+/* Nouveau jeu d'icônes accueil : tracés fins et géométriques, sans emoji */
+#chatApp .chat-suggestion:before{
+ content:""!important;position:relative!important;
+ display:grid!important;place-items:center!important;
+ width:38px!important;height:38px!important;min-width:38px!important;
+ border:1px solid rgba(223,152,125,.28)!important;
+ border-radius:12px!important;background:rgba(223,152,125,.055)!important;
+ color:#e4a187!important;font-size:0!important;line-height:1!important;
+ box-shadow:none!important;
+}
+#chatApp .chat-suggestion:after{
+ content:""!important;grid-column:1!important;grid-row:1!important;
+ justify-self:center!important;align-self:center!important;
+ width:17px!important;height:17px!important;
+ background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;
+ pointer-events:none!important;
+}
+#chatApp .chat-suggestion:nth-child(1):after{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dfa187' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10.8' cy='10.8' r='6.5'/%3E%3Cpath d='m16 16 4.2 4.2'/%3E%3C/svg%3E")!important
+}
+#chatApp .chat-suggestion:nth-child(2):after{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dfa187' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3Cpath d='M4 20h16' opacity='.35'/%3E%3C/svg%3E")!important
+}
+#chatApp .chat-suggestion:nth-child(3):after{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dfa187' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 11 8.5-7 8.5 7'/%3E%3Cpath d='M5.5 10v10h13V10M9 20v-6h6v6'/%3E%3C/svg%3E")!important
+}
+#chatApp .chat-suggestion:nth-child(4):after{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dfa187' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16.8 5.5a5 5 0 0 0-7.5 3.7H6.5m2.8 0H17M6.5 13h11M9.3 13.2a5 5 0 0 0 7.5 3.8'/%3E%3C/svg%3E")!important
+}
+@media(max-width:480px){
+ #chatApp .chat-suggestion:before{width:32px!important;height:32px!important;min-width:32px!important;border-radius:10px!important}
+ #chatApp .chat-suggestion:after{width:16px!important;height:16px!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
