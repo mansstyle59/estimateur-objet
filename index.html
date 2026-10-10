@@ -1827,3 +1827,17 @@ body{color:var(--valoria-white)}
 @media(prefers-reduced-transparency:reduce){#chatApp .chat-header,#chatApp .chat-welcome,#chatApp .chat-suggestion,#chatApp .chat-composer,#chatApp .chat-menu{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}#chatApp .chat-composer{background:#252524!important}}
 </style>
 
+
+
+<style id="valoria-header-compact-fix">
+html,body{max-width:100%!important;overflow-x:hidden!important}
+body>.wrap{width:min(100% - 32px,760px)!important;max-width:760px!important;margin-left:auto!important;margin-right:auto!important}
+body>.wrap>.top{box-sizing:border-box!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:14px!important;width:100%!important;min-width:0!important;min-height:74px!important;padding:10px 0!important;overflow:hidden!important;border-bottom:1px solid rgba(255,255,255,.09)!important}
+body>.wrap>.top>.mark{display:flex!important;flex:0 0 56px!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;width:56px!important;height:56px!important;min-width:56px!important;min-height:56px!important;max-width:56px!important;max-height:56px!important;padding:5px!important;border-radius:17px!important;overflow:hidden!important;background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:none!important}
+body>.wrap>.top>.mark img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;flex:none!important}
+body>.wrap>.top>.brand{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;justify-content:center!important;gap:3px!important;min-width:0!important;overflow:hidden!important;padding:0!important}
+body>.wrap>.top>.brand b{display:block!important;font-size:22px!important;line-height:1.15!important;letter-spacing:-.5px!important;white-space:nowrap!important}
+body>.wrap>.top>.brand small{display:block!important;margin:0!important;font-size:12px!important;line-height:1.35!important;letter-spacing:0!important;white-space:normal!important;overflow-wrap:anywhere!important}
+body>.wrap>.top>.pill{flex:0 0 auto!important;margin-left:auto!important;font-size:9px!important;white-space:nowrap!important}
+@media(max-width:480px){body>.wrap{width:calc(100% - 28px)!important}body>.wrap>.top{gap:11px!important;min-height:68px!important}body>.wrap>.top>.mark{flex-basis:48px!important;width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;max-width:48px!important;max-height:48px!important;border-radius:15px!important}body>.wrap>.top>.brand b{font-size:20px!important}body>.wrap>.top>.brand small{font-size:11px!important}}
+</style>
