@@ -1350,6 +1350,118 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 }
 </style>
 
+
+<style id="valoria-liquid-glass-visible-v2">
+/* Refonte plus visible : mêmes matières, mêmes rayons, mêmes reflets sur toute l’app */
+:root{--glass-stroke:rgba(255,255,255,.16);--glass-shine:rgba(255,255,255,.085);--glass-dark:rgba(25,25,24,.78)}
+/* Écran estimation */
+.hero{
+ border:1px solid rgba(223,152,125,.25)!important;
+ border-radius:28px!important;
+ background:radial-gradient(ellipse at 100% 0%,rgba(223,152,125,.18),transparent 52%),linear-gradient(135deg,rgba(49,44,41,.94),rgba(20,20,19,.92))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 18px 38px rgba(0,0,0,.23)!important;
+}
+.search-intro,.estimate,.analysis-card{
+ border:1px solid rgba(223,152,125,.22)!important;
+ border-radius:22px!important;
+ background:linear-gradient(135deg,rgba(223,152,125,.13),rgba(255,255,255,.045) 52%,rgba(255,255,255,.018))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 12px 28px rgba(0,0,0,.17)!important;
+}
+.panel{
+ border:1px solid rgba(255,255,255,.13)!important;
+ border-radius:24px!important;
+ background:linear-gradient(145deg,rgba(39,39,38,.88),rgba(23,23,22,.96))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.065),0 14px 32px rgba(0,0,0,.16)!important;
+}
+.upload{
+ border:1px dashed rgba(223,152,125,.55)!important;
+ border-radius:22px!important;
+ background:linear-gradient(145deg,rgba(223,152,125,.10),rgba(255,255,255,.025))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+.control,.choice{
+ border:1px solid rgba(255,255,255,.14)!important;
+ border-radius:15px!important;
+ background:rgba(255,255,255,.045)!important;
+}
+.choice.selected{border-color:rgba(223,152,125,.62)!important;background:rgba(223,152,125,.14)!important;box-shadow:inset 0 0 0 1px rgba(223,152,125,.22)!important}
+/* Chat plein écran : couche de verre lisible, reflets homogènes */
+#chatApp.chat-shell{
+ background:radial-gradient(ellipse at 50% -12%,rgba(223,152,125,.085),transparent 46%),#111110!important;
+}
+#chatApp .chat-header{
+ background:rgba(28,28,27,.86)!important;
+ border-bottom:1px solid rgba(255,255,255,.11)!important;
+ box-shadow:0 8px 26px rgba(0,0,0,.18)!important;
+ backdrop-filter:blur(28px) saturate(135%)!important;-webkit-backdrop-filter:blur(28px) saturate(135%)!important;
+}
+#chatApp .chat-menu-toggle,#chatApp .new-chat{
+ border:1px solid rgba(255,255,255,.16)!important;
+ border-radius:15px!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.045))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 5px 14px rgba(0,0,0,.12)!important;
+}
+#chatApp .chat-suggestion{
+ border:1px solid rgba(255,255,255,.14)!important;
+ border-radius:20px!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.035))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 9px 22px rgba(0,0,0,.12)!important;
+ backdrop-filter:blur(20px) saturate(125%)!important;-webkit-backdrop-filter:blur(20px) saturate(125%)!important;
+}
+#chatApp .chat-suggestion strong{color:#f7f2ed!important}
+#chatApp .chat-suggestion span{color:#c5bdb5!important}
+#chatApp .chat-suggestion:hover{border-color:rgba(223,152,125,.4)!important;background:linear-gradient(145deg,rgba(223,152,125,.14),rgba(255,255,255,.04))!important}
+#chatApp .chat-composer-wrap{background:linear-gradient(to bottom,transparent,rgba(17,17,16,.72) 38%,rgba(17,17,16,.94))!important}
+#chatApp .chat-composer{
+ border:1px solid rgba(255,255,255,.20)!important;
+ border-radius:27px!important;
+ background:linear-gradient(145deg,rgba(58,58,57,.94),rgba(31,31,30,.96))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 14px 32px rgba(0,0,0,.28)!important;
+ backdrop-filter:blur(26px) saturate(130%)!important;-webkit-backdrop-filter:blur(26px) saturate(130%)!important;
+}
+#chatApp .chat-composer:focus-within{border-color:rgba(223,152,125,.46)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 0 0 1px rgba(223,152,125,.10),0 14px 32px rgba(0,0,0,.28)!important}
+#chatApp .chat-tool:not(.send),#chatApp #chatLink{
+ border:1px solid rgba(255,255,255,.13)!important;
+ border-radius:50%!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.035))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+#chatApp .chat-tool.send{
+ border:1px solid rgba(255,255,255,.8)!important;
+ border-radius:50%!important;
+ background:linear-gradient(145deg,#fffaf5,#dfd5cc)!important;
+ color:#211c19!important;
+ box-shadow:inset 0 1px 0 #fff,0 5px 14px rgba(0,0,0,.24)!important;
+}
+#chatApp .chat-message.user .chat-message-body{
+ background:linear-gradient(145deg,rgba(223,152,125,.22),rgba(223,152,125,.11))!important;
+ border:1px solid rgba(223,152,125,.25)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.055)!important;
+}
+#chatApp .chat-result-card{
+ border:1px solid rgba(255,255,255,.15)!important;
+ border-radius:22px!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 30px rgba(0,0,0,.18)!important;
+ backdrop-filter:blur(20px) saturate(125%)!important;-webkit-backdrop-filter:blur(20px) saturate(125%)!important;
+}
+#chatApp .chat-menu{
+ background:rgba(25,25,24,.93)!important;
+ border:1px solid rgba(255,255,255,.16)!important;
+ box-shadow:0 24px 64px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.085)!important;
+ backdrop-filter:blur(30px) saturate(135%)!important;-webkit-backdrop-filter:blur(30px) saturate(135%)!important;
+}
+@media(max-width:600px){
+ .hero{border-radius:24px!important}
+ .panel{border-radius:21px!important}
+ #chatApp .chat-suggestion{border-radius:17px!important}
+ #chatApp .chat-composer{border-radius:24px!important}
+}
+@media(prefers-reduced-transparency:reduce){
+ .hero,.search-intro,.estimate,.analysis-card,.panel,.upload,#chatApp .chat-header,#chatApp .chat-suggestion,#chatApp .chat-composer,#chatApp .chat-menu,#chatApp .chat-result-card{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
