@@ -1321,3 +1321,31 @@ const splash=$('appSplash');if(splash){let splashHidden=false;const splashStarte
 @media(max-width:600px){#chatApp .chat-composer-wrap{padding:8px 16px calc(7px + env(safe-area-inset-bottom))!important}#chatApp .chat-composer{min-height:142px!important;border-radius:27px!important}#chatApp .chat-scroll{padding-bottom:22px!important}#chatApp .chat-suggestion{min-height:100px!important}}
 @media(prefers-reduced-transparency:reduce){#chatApp .chat-composer{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#292929!important}}
 </style>
+<style id="valoria-soft-seam-fix">
+/* Transition douce entre les cartes et le composeur : aucun trait de séparation */
+#chatApp .chat-composer-wrap{
+ background:linear-gradient(to bottom,rgba(16,16,16,0),rgba(16,16,16,.34) 22%,rgba(16,16,16,.72) 100%)!important;
+ background-image:linear-gradient(to bottom,rgba(16,16,16,0),rgba(16,16,16,.34) 22%,rgba(16,16,16,.72) 100%)!important;
+ border:0!important;border-top:0!important;outline:0!important;
+ box-shadow:none!important;
+}
+#chatApp .chat-composer-wrap:before,#chatApp .chat-composer-wrap:after{content:none!important;display:none!important;border:0!important;box-shadow:none!important}
+#chatApp .chat-scroll{border:0!important;box-shadow:none!important}
+#chatApp .chat-composer{
+ background:linear-gradient(145deg,rgba(54,54,54,.78),rgba(35,35,35,.88))!important;
+ border:1px solid rgba(255,255,255,.12)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.065),0 8px 26px rgba(0,0,0,.16)!important;
+ backdrop-filter:blur(16px) saturate(110%)!important;
+ -webkit-backdrop-filter:blur(16px) saturate(110%)!important;
+}
+#chatApp .chat-composer:focus-within{border-color:rgba(255,255,255,.16)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 26px rgba(0,0,0,.16)!important;outline:none!important}
+#chatApp .chat-suggestions{margin-bottom:14px!important}
+#chatApp .chat-suggestion{margin-bottom:0!important}
+#chatApp .chat-disclaimer{padding:0 8px!important}
+@media(max-width:600px){
+ #chatApp .chat-composer-wrap{padding:8px 16px calc(7px + env(safe-area-inset-bottom))!important}
+ #chatApp .chat-suggestions{margin-bottom:12px!important}
+ #chatApp .chat-composer{border-radius:27px!important}
+}
+@media(prefers-reduced-transparency:reduce){#chatApp .chat-composer{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#292929!important}}
+</style>
