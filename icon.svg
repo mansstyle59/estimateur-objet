@@ -1,21 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#17263d"/><stop offset="1" stop-color="#05080e"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0a6"/><stop offset=".38" stop-color="#f3c64f"/><stop offset="1" stop-color="#a66c12"/></linearGradient><linearGradient id="chair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2d7"/><stop offset="1" stop-color="#c6a878"/></linearGradient></defs>
-<rect x="12" y="12" width="488" height="488" rx="112" fill="url(#bg)" stroke="url(#gold)" stroke-width="12"/>
-<rect x="30" y="30" width="452" height="452" rx="96" fill="none" stroke="#e8b94b" stroke-opacity=".35" stroke-width="2"/>
-<path d="M115 148h282v184H115z" fill="#0b1422" stroke="#30415b" stroke-width="7" rx="20"/>
-<path d="M140 176h100M140 198h65" stroke="#94a5bd" stroke-width="9" stroke-linecap="round"/>
-<path d="M351 292l30-49 27 16-30 49z" fill="url(#gold)"/>
-<circle cx="245" cy="232" r="133" fill="#0a101a" stroke="url(#gold)" stroke-width="19"/>
-<circle cx="245" cy="232" r="115" fill="#13243a" stroke="#e5b742" stroke-opacity=".5" stroke-width="4"/>
-<path d="M182 172q0-17 18-17h74q18 0 18 18v55H182z" fill="url(#chair)"/>
-<path d="M178 220q0-12 14-12h89q17 0 17 15v39H178z" fill="url(#chair)"/>
-<path d="M181 250l-8 57m111-57 14 57M176 235l-31 11m145-11 27 10" stroke="#c68b35" stroke-width="12" stroke-linecap="round"/>
-<path d="M174 303h119" stroke="#c68b35" stroke-width="12" stroke-linecap="round"/>
-<path d="M327 315l116 113" stroke="url(#gold)" stroke-width="42" stroke-linecap="round"/>
-<path d="M327 315l116 113" stroke="#111927" stroke-width="22" stroke-linecap="round"/>
-<path d="M315 269l56 18-14 52-56-18z" fill="url(#gold)" stroke="#fff0a6" stroke-width="3"/>
-<text x="331" y="311" font-family="Arial,sans-serif" font-size="43" font-weight="900" fill="#101522" transform="rotate(18 331 311)">€</text>
-<path d="M369 134l15 16 34-40" fill="none" stroke="url(#gold)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="256" y="407" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="900" letter-spacing="1" fill="#fff4cf">ESTIMATEUR</text>
-<text x="256" y="450" text-anchor="middle" font-family="Arial,sans-serif" font-size="31" font-weight="900" letter-spacing="5" fill="url(#gold)">OBJET</text>
+<rect width="512" height="512" rx="112" fill="#141413"/>
+<rect x="18" y="18" width="476" height="476" rx="98" fill="none" stroke="#D97757" stroke-width="8"/>
+<path d="M128 126h256a22 22 0 0 1 22 22v216a22 22 0 0 1-22 22H128a22 22 0 0 1-22-22V148a22 22 0 0 1 22-22Z" fill="#201F1C" stroke="#49463F" stroke-width="8"/>
+<path d="M166 184h180M166 224h120" stroke="#B7B3AA" stroke-width="14" stroke-linecap="round"/>
+<circle cx="256" cy="304" r="76" fill="#30211D" stroke="#D97757" stroke-width="12"/>
+<path d="M280 269a38 38 0 1 0 11 53l28 28" fill="none" stroke="#F4B39A" stroke-width="16" stroke-linecap="round"/>
+<circle cx="250" cy="303" r="16" fill="#D97757"/>
 </svg>
