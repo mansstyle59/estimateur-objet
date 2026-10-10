@@ -36,8 +36,8 @@ function renderHistory(){const root=$('history');root.innerHTML='';const h=load(
 $('analyzePhoto').addEventListener('click',async()=>{
  if(!photoData){$('aiStatus').textContent='Ajoute d’abord une photo de l’objet.';return}
  const endpoint=(window.ESTIMATEUR_API_URL||'').trim();
- if(!endpoint){$('aiStatus').textContent='Le serveur IA sécurisé n’est pas encore configuré. Il faut déployer le dossier api sur Vercel, ajouter GEMINI_API_KEY dans les variables secrètes, puis renseigner l’URL du serveur dans config.js.';return}
- const button=$('analyzePhoto');button.disabled=true;button.textContent='Recherche Google en cours…';$('aiStatus').textContent='Gemini analyse la photo et recherche des objets comparables sur Google. Cela peut prendre quelques secondes.';
+ if(!endpoint){$('aiStatus').textContent='Le serveur Cloudflare n’est pas encore configuré. Suis le guide README-IA.md pour déployer worker.js, activer Workers AI et renseigner l’URL du Worker dans config.js.';return}
+ const button=$('analyzePhoto');button.disabled=true;button.textContent='Analyse IA en cours…';$('aiStatus').textContent='L’IA analyse la photo. Les liens de recherche te permettront ensuite de vérifier les annonces comparables.';
  try{
   const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:photoData,title:$('title').value,category:$('category').value,details:$('details').value})});
   const data=await response.json().catch(()=>({}));
@@ -50,7 +50,7 @@ $('analyzePhoto').addEventListener('click',async()=>{
   const comps=Array.isArray(a.comparables)?a.comparables:[];
   for(const item of comps.slice(0,5)){const line=document.createElement('p');const label=(item.title||'Objet comparable')+(Number.isFinite(item.price)?' — '+eur(item.price):'')+(item.condition?' · '+item.condition:'');if(item.url&&/^https?:\\/\\//i.test(item.url)){const link=document.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=label;line.appendChild(link)}else line.textContent=label;evidence.appendChild(line)}
   const sources=Array.isArray(data.sources)?data.sources:[];for(const source of sources.slice(0,5)){if(!source.url||!/^https?:\\/\\//i.test(source.url))continue;const link=document.createElement('a');link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Source Google : '+(source.title||source.url);link.style.display='block';evidence.appendChild(link)}
-  if(!marketEstimate){const p=document.createElement('p');p.textContent='Google n’a pas trouvé assez de comparables fiables pour proposer une fourchette de marché. Le repère générique affiché n’est pas une estimation vérifiée.';evidence.appendChild(p)}
+  if(!marketEstimate){const p=document.createElement('p');p.textContent='L’IA n’a pas pu proposer une fourchette fiable. Le repère générique affiché n’est pas une estimation vérifiée.';evidence.appendChild(p)}
   if(a.title)$('title').value=a.title;
   if(a.category&&$('category').querySelector('option[value="'+a.category+'"]'))$('category').value=a.category;
   if(a.details||Array.isArray(a.observations))$('details').value=[a.details,Array.isArray(a.observations)?'Observations visuelles : '+a.observations.join('; '):''].filter(Boolean).join('\\n');
@@ -60,7 +60,7 @@ $('analyzePhoto').addEventListener('click',async()=>{
   if(marketEstimate){$('aiStatus').textContent=data.searchGrounded?'Analyse terminée : une fourchette indicative a été calculée avec des sources issues de la recherche Google. Vérifie les comparables.':'Analyse terminée, mais les sources de recherche n’ont pas pu être confirmées. Vérifie les comparables.';}else{$('aiStatus').textContent='Objet analysé, mais Google n’a pas fourni assez de comparables pour estimer un prix de marché fiable.'}
   calc();
  }catch(e){$('aiStatus').textContent='Analyse impossible : '+e.message+' Vérifie l’URL du serveur et sa configuration.'}
- finally{button.disabled=false;button.textContent='✨ Analyser avec Google et l’IA'}
+ finally{button.disabled=false;button.textContent='✨ Analyser avec l’IA gratuite'}
 });
 
 $('photo').addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file||!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const max=1400,scale=Math.min(1,max/Math.max(img.width,img.height));const canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);photoData=canvas.toDataURL('image/jpeg',.78);$('preview').src=photoData;$('preview').classList.remove('hidden');$('uploadPrompt').classList.add('hidden');$('aiStatus').textContent='Photo prête. Appuie sur « Analyser la photo avec l’IA » lorsque le serveur sera configuré.'};img.onerror=()=>{$('aiStatus').textContent='Impossible de lire cette image. Essaie une autre photo.'};img.src=reader.result};reader.readAsDataURL(file)});
