@@ -1,4 +1,4 @@
-// URL publique du serveur Vercel hébergeant /api/analyze.
-// Exemple après déploiement : https://votre-projet.vercel.app/api/analyze
-// Laissez vide jusqu'à ce que le serveur soit déployé et configuré.
+// URL publique de ton Cloudflare Worker (sans /api/analyze).
+// Exemple : https://estimateur-objet-api.ton-compte.workers.dev
+// Remplace cette URL après avoir déployé worker.js dans Cloudflare.
 window.ESTIMATEUR_API_URL = "";
