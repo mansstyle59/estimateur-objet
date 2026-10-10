@@ -23,10 +23,10 @@ function safePublicUrl(value) {
   } catch { return null; }
 }
 function decodeMeta(html, key) {
-  const tags = html.match(/<meta\\b[^>]*>/gi) || [];
+  const tags = html.match(/<meta\b[^>]*>/gi) || [];
   for (const tag of tags) {
-    const attrName = tag.match(/\\b(property|name)\\s*=\\s*["']([^"']+)["']/i);
-    const content = tag.match(/\\bcontent\\s*=\\s*["']([^"']*)["']/i);
+    const attrName = tag.match(/\b(property|name)\s*=\s*["']([^"']+)["']/i);
+    const content = tag.match(/\bcontent\s*=\s*["']([^"']*)["']/i);
     if (attrName && content && attrName[2].toLowerCase() === key.toLowerCase()) {
       return content[1].replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").slice(0, 1800);
     }
@@ -42,7 +42,11 @@ function toBase64(bytes) {
 async function readListing(value) {
   const url = safePublicUrl(value);
   if (!url) throw new Error("Lien invalide : colle une adresse publique http ou https.");
-  const response = await fetch(url.toString(), { headers: { "User-Agent": "Mozilla/5.0 (compatible; EstimateurObjet/1.0)", "Accept": "text/html,application/xhtml+xml" }, redirect: "follow" });
+  const host = url.hostname.toLowerCase();
+  const market = host.includes("vinted.") ? "Vinted" : host.includes("leboncoin.") ? "Leboncoin" : (host === "facebook.com" || host.endsWith(".facebook.com") || host === "fb.com") ? "Facebook Marketplace" : "";
+  let response;
+  try { response = await fetch(url.toString(), { headers: { "User-Agent": "Mozilla/5.0 (compatible; EstimateurObjet/1.0)", "Accept": "text/html,application/xhtml+xml" }, redirect: "follow", signal: AbortSignal.timeout(8000) }); }
+  catch { throw new Error((market ? market + " bloque ou ne répond pas au lecteur automatique. " : "Le site ne répond pas au lecteur automatique. ") + "Essaie une capture d’écran ou ajoute la photo directement."); }
   const finalUrl = safePublicUrl(response.url);
   if (!finalUrl) throw new Error("Redirection vers une adresse non autorisée.");
   if (!response.ok) throw new Error("L’annonce est inaccessible (HTTP " + response.status + "). Essaie le lien public de l’annonce ou une capture d’écran.");
@@ -50,14 +54,14 @@ async function readListing(value) {
   if (!type.includes("text/html") && !type.includes("application/xhtml+xml")) throw new Error("Ce lien ne mène pas à une page d’annonce lisible.");
   const html = (await response.text()).slice(0, 1500000);
   const title = decodeMeta(html, "og:title") || ((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || "").replace(/<[^>]+>/g, " ").trim().slice(0, 300);
-  const description = decodeMeta(html, "og:description") || decodeMeta(html, "description");
-  let imageUrl = decodeMeta(html, "og:image");
+  const description = decodeMeta(html, "og:description") || decodeMeta(html, "description") || (structured && structured.description) || "";
+  let imageUrl = decodeMeta(html, "og:image") || (structured && structured.image) || "";
   if (imageUrl) { try { imageUrl = new URL(imageUrl, finalUrl).toString(); } catch { imageUrl = ""; } }
   let image = "";
   const imageSafe = imageUrl ? safePublicUrl(imageUrl) : null;
   if (imageSafe) {
     try {
-      const ir = await fetch(imageSafe.toString(), { headers: { "User-Agent": "Mozilla/5.0 (compatible; EstimateurObjet/1.0)", "Accept": "image/*" }, redirect: "follow" });
+      const ir = await fetch(imageSafe.toString(), { headers: { "User-Agent": "Mozilla/5.0 (compatible; EstimateurObjet/1.0)", "Accept": "image/*" }, redirect: "follow", signal: AbortSignal.timeout(4500) });
       const finalImage = safePublicUrl(ir.url);
       const ct = (ir.headers.get("content-type") || "").split(";")[0].toLowerCase();
       const len = Number(ir.headers.get("content-length") || 0);
@@ -67,6 +71,30 @@ async function readListing(value) {
       }
     } catch { /* text-only listing analysis remains possible */ }
   }
+  let structured = null;
+  try {
+    const scripts = [...html.matchAll(/<script[^>]*type=["']application\\/ld\\+json["'][^>]*>([\\s\\S]*?)<\\/script>/gi)].slice(0, 12);
+    for (const match of scripts) {
+      const parsed = JSON.parse(match[1].trim());
+      const nodes = Array.isArray(parsed) ? parsed : [parsed];
+      const queue = [...nodes];
+      while (queue.length) {
+        const node = queue.shift();
+        if (!node || typeof node !== "object") continue;
+        if (Array.isArray(node["@graph"])) queue.push(...node["@graph"]);
+        if (Array.isArray(node)) { queue.push(...node); continue; }
+        const types = Array.isArray(node["@type"]) ? node["@type"] : [node["@type"]];
+        if (types.some(t => ["Product", "ProductGroup"].includes(t))) {
+          const offers = Array.isArray(node.offers) ? node.offers[0] : node.offers;
+          const rawPrice = offers && (offers.price ?? offers.lowPrice);
+          const price = rawPrice != null ? Number(String(rawPrice).replace(",", ".")) : null;
+          structured = { title: typeof node.name === "string" ? node.name.slice(0, 300) : "", description: typeof node.description === "string" ? node.description.slice(0, 1800) : "", image: Array.isArray(node.image) ? node.image[0] : (typeof node.image === "string" ? node.image : ""), price: Number.isFinite(price) && price > 0 ? price : null };
+          break;
+        }
+      }
+      if (structured) break;
+    }
+  } catch { /* données structurées facultatives */ }
   const visible = html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&euro;/g, "€").replace(/&amp;/g, "&").replace(/\s+/g, " ").slice(0, 9000);
   const priceMatch = (title + " " + description + " " + visible).match(/(?:prix|price)?\s*[:\-]?\s*(\d{1,5}(?:[ ,.\u202f]\d{3})*(?:[,.]\d{1,2})?)\s*(?:€|EUR|euros)\b/i);
   const askingPrice = priceMatch ? Number(priceMatch[1].replace(/[ \u202f]/g, "").replace(",", ".")) : null;
