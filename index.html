@@ -440,6 +440,21 @@ body{line-height:1.5}
  #chatApp .chat-suggestion strong{font-size:11px}
  #chatApp .chat-suggestion span{font-size:9px}
 }
+</style><style id="link-composer-polish">
+#chatApp #chatLink{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;min-width:0;width:auto;height:42px;min-height:42px;padding:0 15px;border-radius:22px;font-size:13px!important;font-weight:550;line-height:1;white-space:nowrap}
+#chatApp #chatLink:before,#chatApp #chatLink:after{content:none!important;display:none!important}
+#chatApp #chatLink .link-icon{display:inline-block;font-size:16px;line-height:1}
+#chatApp #chatLink .link-label{display:inline-block;font-size:13px;line-height:1}
+#chatApp #chatAttach{width:42px;height:42px;min-width:42px;min-height:42px;border-radius:50%;font-size:0!important}
+#chatApp #chatAttach:before{content:none!important;display:none!important}
+#chatApp #chatAttach:after{content:"+";font-size:27px!important;font-weight:300;line-height:1}
+#chatApp #chatSend{flex:0 0 44px;width:44px;height:44px;min-width:44px;font-size:24px!important}
+#chatApp #chatSend:after{content:none!important;display:none!important}
+#chatApp .chat-composer-tools{gap:10px}
+@media(max-width:480px){
+ #chatApp #chatLink{height:40px;min-height:40px;padding:0 13px}
+ #chatApp .chat-composer-tools{gap:8px}
+}
 </style></head><body><div id="appSplash" class="app-splash" role="status" aria-label="Chargement d’Estimateur Objet"><img class="app-splash-logo" src="./icon.svg" alt="Logo officiel Estimateur Objet"><div class="app-splash-name">Estimateur Objet</div><div class="app-splash-sub">Assistant achat-revente · IA</div><div class="app-splash-loader" aria-hidden="true"></div></div><div class="wrap">
 <header class="top"><div class="mark"><img src="./icon.svg" alt=""></div><div class="brand"><b>ESTIMATEUR D’OBJET</b><small>Le bon achat, au bon prix</small></div><span class="pill">GRATUIT</span></header>
 <section class="hero"><div class="eyebrow">ACHAT · RÉNOVATION · REVENTE</div><h1>Repère les bonnes affaires.</h1><p>Ajoute une photo ou un lien, indique ton prix d’achat et découvre le bénéfice potentiel.</p></section>
@@ -691,7 +706,7 @@ body>.wrap{display:none!important}
 .market-tool-link b{display:block;font-size:12px}.market-tool-link small{display:block;font-size:10px;color:#aaa69e;margin-top:2px}
 .market-tools-note{font-size:10px;line-height:1.5;color:#aaa69e;margin:10px 0 0}
 @media(max-width:420px){.market-tools-grid{grid-template-columns:1fr}}
-</style><div class="chat-composer-wrap"><div class="chat-composer"><textarea id="chatInput" rows="1" placeholder="Écris un message ou décris ton objet…" aria-label="Message"></textarea><div class="chat-composer-tools"><button class="chat-tool" id="chatAttach" type="button" aria-label="Ajouter une photo">▧ Photo</button><button class="chat-tool" id="chatLink" type="button" aria-label="Coller un lien">↗ Lien</button><input class="chat-hidden-file" id="chatFile" type="file" accept="image/*"><span class="chat-attach-name" id="chatFileName"></span><button class="chat-tool send" id="chatSend" type="button" aria-label="Envoyer">↑</button></div></div><div class="chat-disclaimer">Les estimations sont indicatives. Vérifie les annonces réelles et l’état de l’objet avant d’acheter.</div></div>
+</style><div class="chat-composer-wrap"><div class="chat-composer"><textarea id="chatInput" rows="1" placeholder="Écris un message ou décris ton objet…" aria-label="Message"></textarea><div class="chat-composer-tools"><button class="chat-tool" id="chatAttach" type="button" aria-label="Ajouter une photo">▧ Photo</button><button class="chat-tool" id="chatLink" type="button" aria-label="Coller un lien"><span class="link-icon" aria-hidden="true">↗</span><span class="link-label">Lien</span></button><input class="chat-hidden-file" id="chatFile" type="file" accept="image/*"><span class="chat-attach-name" id="chatFileName"></span><button class="chat-tool send" id="chatSend" type="button" aria-label="Envoyer">↑</button></div></div><div class="chat-disclaimer">Les estimations sont indicatives. Vérifie les annonces réelles et l’état de l’objet avant d’acheter.</div></div>
 </div>
 <script>
 (function(){
