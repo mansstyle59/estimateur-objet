@@ -55,11 +55,9 @@ Pour les prix, donne seulement une fourchette indicative de revente d'occasion e
       const result = await env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", {
         messages: [{
           role: "user",
-          content: [
-            { type: "text", text: prompt },
-            { type: "image_url", image_url: { url: image } }
-          ]
+          content: prompt
         }],
+        image,
         max_tokens: 700
       });
 
