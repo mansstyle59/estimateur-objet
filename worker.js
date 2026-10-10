@@ -160,7 +160,7 @@ export default {
         const history = messages.map(m=>({role:m && m.role==="assistant"?"assistant":"user",content:String(m && m.content || "").slice(0,2500)})).filter(m=>m.content.trim());
         const promptText = context.length ? context.join("\n\n") : "Analyse cet objet avec méthode, sans inventer les données absentes.";
         const options = {messages:[{role:"system",content:system},...history,{role:"user",content:promptText}], reasoning_effort:"low", max_tokens:1200};
-        if (imageMatch) options.image = image;
+        if (imageMatch) options.image = imageMatch[2];
         let result, answer = "", provider = "Cloudflare Workers AI", model = "@cf/qwen/qwen3.8-27b";
         try {
           result = await env.AI.run("@cf/qwen/qwen3.8-27b", options);
