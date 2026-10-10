@@ -109,6 +109,26 @@ export default {
     if (request.method !== "POST") return json({ error: "Utilise une requête POST." }, 405);
     try {
       const body = await request.json();
+      if (body.action === "chat") {
+        if (!env.AI) return json({ error: "L’assistant IA n’est pas activé sur le Worker. Active Workers AI dans Cloudflare." }, 503);
+        const incoming = Array.isArray(body.messages) ? body.messages.slice(-12) : [];
+        const messages = incoming.map(m => ({
+          role: m && m.role === "assistant" ? "assistant" : "user",
+          content: String(m && m.content || "").slice(0, 4000)
+        })).filter(m => m.content.trim());
+        if (!messages.length || messages[messages.length - 1].role !== "user") {
+          return json({ error: "Écris un message pour démarrer la conversation." }, 400);
+        }
+        const system = "Tu es Estimateur Objet, assistant francophone spécialisé dans l’achat-revente d’occasion en France. Réponds naturellement, clairement et utilement. Aide à identifier les objets, comparer les prix, planifier une rénovation et calculer une marge. Pour les calculs, détaille les hypothèses et les frais. Ne prétends jamais avoir consulté Internet ou vérifié des annonces si aucun outil de recherche ne t’a fourni ces données. Distingue prix affichés et prix de vente réellement conclus. Si l’utilisateur demande une estimation précise sans photo, marque, dimensions ou état, demande les informations manquantes plutôt que d’inventer. Réponds en français, avec des listes courtes lorsque cela améliore la lisibilité.";
+        const result = await env.AI.run("@cf/qwen/qwen3.8-27b", {
+          messages: [{ role: "system", content: system }, ...messages],
+          reasoning_effort: "low",
+          max_tokens: 900
+        });
+        const answer = result?.response || result?.choices?.[0]?.message?.content || "";
+        if (!String(answer).trim()) return json({ error: "L’IA n’a pas renvoyé de réponse. Réessaie dans un instant." }, 502);
+        return json({ answer: String(answer).slice(0, 12000), provider: "Cloudflare Workers AI", model: "@cf/qwen/qwen3.8-27b" });
+      }
       if (body.action === "marketSearch") {
         const q = String(body.query || "").trim().slice(0, 180);
         if (q.length < 2) return json({ error: "Ajoute un nom d’objet plus précis pour rechercher des annonces." }, 400);
