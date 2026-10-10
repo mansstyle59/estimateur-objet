@@ -53,7 +53,7 @@ async function readListing(value) {
   const type = response.headers.get("content-type") || "";
   if (!type.includes("text/html") && !type.includes("application/xhtml+xml")) throw new Error("Ce lien ne mène pas à une page d’annonce lisible.");
   const html = (await response.text()).slice(0, 1500000);
-  const title = decodeMeta(html, "og:title") || ((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || "").replace(/<[^>]+>/g, " ").trim().slice(0, 300);
+  const title = decodeMeta(html, "og:title") || (structured && structured.title) || ((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || "").replace(/<[^>]+>/g, " ").trim().slice(0, 300);
   const description = decodeMeta(html, "og:description") || decodeMeta(html, "description") || (structured && structured.description) || "";
   let imageUrl = decodeMeta(html, "og:image") || (structured && structured.image) || "";
   if (imageUrl) { try { imageUrl = new URL(imageUrl, finalUrl).toString(); } catch { imageUrl = ""; } }
@@ -73,7 +73,7 @@ async function readListing(value) {
   }
   let structured = null;
   try {
-    const scripts = [...html.matchAll(/<script[^>]*type=["']application\\/ld\\+json["'][^>]*>([\\s\\S]*?)<\\/script>/gi)].slice(0, 12);
+    const scripts = [...html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].slice(0, 12);
     for (const match of scripts) {
       const parsed = JSON.parse(match[1].trim());
       const nodes = Array.isArray(parsed) ? parsed : [parsed];
@@ -97,7 +97,7 @@ async function readListing(value) {
   } catch { /* données structurées facultatives */ }
   const visible = html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&euro;/g, "€").replace(/&amp;/g, "&").replace(/\s+/g, " ").slice(0, 9000);
   const priceMatch = (title + " " + description + " " + visible).match(/(?:prix|price)?\s*[:\-]?\s*(\d{1,5}(?:[ ,.\u202f]\d{3})*(?:[,.]\d{1,2})?)\s*(?:€|EUR|euros)\b/i);
-  const askingPrice = priceMatch ? Number(priceMatch[1].replace(/[ \u202f]/g, "").replace(",", ".")) : null;
+  const askingPrice = structured && structured.price ? structured.price : (priceMatch ? Number(priceMatch[1].replace(/[ \u202f]/g, "").replace(",", ".")) : null);
   return { url: finalUrl.toString(), title, description, image, askingPrice: Number.isFinite(askingPrice) ? askingPrice : null, visible: visible.slice(0, 5000) };
 }
 
