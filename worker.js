@@ -290,7 +290,7 @@ Dans "details", fournis les faits observés, défauts à vérifier, risques et p
         { title: "Rechercher sur eBay France", url: "https://www.ebay.fr/sch/i.html?_nkw=" + encodeURIComponent(searchTerm) }
       );
       analysis.priceDisclaimer = "Fourchette indicative produite par l’IA, pas un prix de vente confirmé. Le lien a été lu uniquement si le serveur a pu accéder à la page.";
-      return json({ analysis, sources, searchGrounded: false, listingRead: !!listing, listingAskingPrice: listing ? listing.askingPrice : null, listingTitle: listing ? listing.title : null, provider: "Cloudflare Workers AI", model: "@cf/qwen/qwen3.8-27b" });
+      return json({ analysis, sources, searchGrounded: false, listingRead: !!listing, listingAskingPrice: listing ? listing.askingPrice : null, listingTitle: listing ? listing.title : null, provider, model });
     } catch (error) {
       const message = error && error.message ? String(error.message) : "";
       return json({ error: message && !message.includes("fetch failed") ? message.slice(0, 300) : "Analyse impossible : le site peut bloquer les robots ou être inaccessible. Essaie une capture d’écran de l’annonce." }, 502);
