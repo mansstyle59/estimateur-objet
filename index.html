@@ -2031,3 +2031,37 @@ body .wrap .top .pill{flex:0 0 auto!important;margin-left:auto!important;padding
 }
 @media(prefers-reduced-motion:reduce){#chatApp .chat-message{animation:none!important}}
 </style>
+
+<style id="valoria-home-panel-refine">
+/* Accueil du chat : une introduction claire, puis des actions de priorité décroissante */
+#chatApp #chatWelcome{width:100%!important;max-width:720px!important;margin:10px auto 0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}
+#chatApp .chat-welcome-intro{display:grid!important;grid-template-columns:44px minmax(0,1fr)!important;align-items:start!important;gap:13px!important;padding:18px!important;margin:0 0 18px!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:21px!important;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important}
+#chatApp .chat-welcome-mark{width:44px!important;height:44px!important;min-width:44px!important;border-radius:14px!important;background:rgba(223,152,125,.09)!important;border:1px solid rgba(223,152,125,.22)!important}
+#chatApp .chat-welcome-copy{min-width:0!important}
+#chatApp .chat-welcome-copy h1{margin:0 0 8px!important;font-size:clamp(20px,5vw,25px)!important;line-height:1.22!important;letter-spacing:-.55px!important;font-weight:760!important;color:#f4f0e9!important}
+#chatApp .chat-welcome-copy p{margin:0!important;font-size:13px!important;line-height:1.65!important;color:#c2bdb5!important;overflow-wrap:anywhere!important}
+#chatApp .chat-suggestions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin:0 0 20px!important}
+#chatApp .chat-suggestion{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:6px!important;min-width:0!important;min-height:92px!important;padding:14px!important;text-align:left!important;border:1px solid rgba(255,255,255,.105)!important;border-radius:16px!important;background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.018))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;color:#f0ece5!important;white-space:normal!important}
+#chatApp .chat-suggestion strong{font-size:13px!important;line-height:1.35!important;font-weight:720!important;color:#f0ece5!important}
+#chatApp .chat-suggestion span{font-size:11px!important;line-height:1.45!important;color:#aaa69f!important}
+#chatApp .chat-suggestion:active{transform:scale(.985)!important;background:rgba(223,152,125,.08)!important}
+#chatApp .chat-example-list{margin:0!important;padding:15px 0 2px!important;border-top:1px solid rgba(255,255,255,.085)!important;background:transparent!important}
+#chatApp .chat-example-heading{margin:0 0 9px!important;font-size:10px!important;line-height:1.4!important;letter-spacing:1px!important;text-transform:uppercase!important;font-weight:800!important;color:#dfa187!important}
+#chatApp .chat-example-list button{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;width:100%!important;min-height:44px!important;padding:10px 2px!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.065)!important;border-radius:0!important;background:transparent!important;text-align:left!important;color:#d7d2ca!important;font-size:12px!important;line-height:1.5!important}
+#chatApp .chat-example-list button:last-child{border-bottom:0!important}
+#chatApp .chat-example-list button span{flex:0 0 auto!important;color:#dfa187!important;font-size:20px!important;line-height:1!important}
+#chatApp .chat-example-list button:active{color:#fff!important;background:rgba(255,255,255,.025)!important}
+@media(max-width:480px){
+ #chatApp #chatWelcome{margin-top:5px!important}
+ #chatApp .chat-welcome-intro{grid-template-columns:38px minmax(0,1fr)!important;gap:11px!important;padding:15px!important;border-radius:18px!important;margin-bottom:15px!important}
+ #chatApp .chat-welcome-mark{width:38px!important;height:38px!important;min-width:38px!important;border-radius:12px!important}
+ #chatApp .chat-welcome-copy h1{font-size:21px!important}
+ #chatApp .chat-welcome-copy p{font-size:12px!important;line-height:1.62!important}
+ #chatApp .chat-suggestions{gap:8px!important;margin-bottom:17px!important}
+ #chatApp .chat-suggestion{min-height:88px!important;padding:12px 11px!important;border-radius:14px!important}
+ #chatApp .chat-suggestion strong{font-size:12px!important}
+ #chatApp .chat-suggestion span{font-size:10px!important}
+ #chatApp .chat-example-list{padding-top:13px!important}
+}
+@media(max-width:350px){#chatApp .chat-suggestions{grid-template-columns:minmax(0,1fr)!important}#chatApp .chat-suggestion{min-height:70px!important}}
+</style>
