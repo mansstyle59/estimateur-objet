@@ -398,6 +398,29 @@ body{line-height:1.5}
  #chatApp .chat-welcome-copy p{font-size:13px}
  #chatApp .chat-composer-wrap{padding-bottom:calc(6px + env(safe-area-inset-bottom))}
 }
+</style><style id="composer-controls-cleanup">
+/* Clean, compact composer controls: avoid duplicate pseudo-labels and wrapping */
+#chatApp .chat-composer{gap:9px;padding:12px 13px 11px}
+#chatApp .chat-composer-tools{display:flex;align-items:center;gap:9px;min-width:0}
+#chatApp .chat-tool,#chatApp #chatAttach,#chatApp #chatLink{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:0 0 auto;height:40px;min-height:40px;padding:0 14px;border:1px solid #494744;border-radius:22px;background:#3b3b39;color:#f0eee8;font-size:13px!important;font-weight:500;line-height:1;white-space:nowrap;box-shadow:none}
+#chatApp #chatAttach:before,#chatApp #chatLink:before{content:none!important;display:none!important}
+#chatApp #chatAttach{font-size:0!important;width:44px;min-width:44px;padding:0;border-radius:50%;position:relative}
+#chatApp #chatAttach:after{content:"＋";display:block!important;font-size:27px!important;font-weight:300;line-height:1}
+#chatApp #chatLink{font-size:12px!important;min-width:76px}
+#chatApp #chatLink:after{content:"↗";font-size:15px;line-height:1}
+#chatApp .chat-attach-name{flex:0 1 auto;min-width:0;max-width:90px;font-size:11px;color:#aaa69e}
+#chatApp #chatSend{display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:44px;min-width:44px;margin-left:auto;padding:0;border:0;border-radius:50%;background:#f0efeb;color:#1b1b1a;font-size:25px!important;font-weight:500;line-height:1;box-shadow:none}
+#chatApp #chatSend:after{content:none!important;display:none!important}
+#chatApp #chatInput{min-height:40px;max-height:130px;padding:4px 5px 8px;font-size:16px!important;line-height:1.5}
+#chatApp .chat-disclaimer{max-width:600px;padding:0 10px;font-size:10px;line-height:1.45;letter-spacing:0;text-wrap:pretty}
+@media(max-width:480px){
+ #chatApp .chat-composer{padding:11px 12px 10px;border-radius:23px}
+ #chatApp .chat-composer-tools{gap:8px}
+ #chatApp #chatAttach{width:42px;min-width:42px;height:42px;min-height:42px}
+ #chatApp #chatLink{min-width:72px;padding:0 13px}
+ #chatApp #chatSend{flex-basis:44px;width:44px;height:44px;min-width:44px}
+ #chatApp .chat-attach-name{max-width:60px}
+}
 </style></head><body><div id="appSplash" class="app-splash" role="status" aria-label="Chargement d’Estimateur Objet"><img class="app-splash-logo" src="./icon.svg" alt="Logo officiel Estimateur Objet"><div class="app-splash-name">Estimateur Objet</div><div class="app-splash-sub">Assistant achat-revente · IA</div><div class="app-splash-loader" aria-hidden="true"></div></div><div class="wrap">
 <header class="top"><div class="mark"><img src="./icon.svg" alt=""></div><div class="brand"><b>ESTIMATEUR D’OBJET</b><small>Le bon achat, au bon prix</small></div><span class="pill">GRATUIT</span></header>
 <section class="hero"><div class="eyebrow">ACHAT · RÉNOVATION · REVENTE</div><h1>Repère les bonnes affaires.</h1><p>Ajoute une photo ou un lien, indique ton prix d’achat et découvre le bénéfice potentiel.</p></section>
