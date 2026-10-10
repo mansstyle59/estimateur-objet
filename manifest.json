@@ -1,7 +1,7 @@
 {
-  "name": "Estimateur Objet — Achat-revente",
-  "short_name": "Estimateur Objet",
-  "description": "Identifie les objets, estime leur potentiel de revente et calcule la rentabilité.",
+  "name": "ValorIA — L’intelligence des bonnes affaires",
+  "short_name": "ValorIA",
+  "description": "L’intelligence des bonnes affaires. Estimation, achat-revente et rentabilité.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
