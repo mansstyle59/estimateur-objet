@@ -104,7 +104,7 @@ body{background:var(--chat-bg)!important;color:var(--chat-text)!important}
 body>.wrap{display:none!important}
 .chat-shell{min-height:100dvh;display:flex;flex-direction:column;max-width:920px;margin:auto;padding:0 18px env(safe-area-inset-bottom)}
 .chat-header{height:64px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--chat-border);position:sticky;top:0;background:#141413ed;backdrop-filter:blur(14px);z-index:5}
-.chat-brand-icon{width:34px;height:34px;border-radius:10px;background:#2c211d;color:#f1a184;display:grid;place-items:center;font-weight:850;border:1px solid #654235}
+.chat-brand-icon{width:34px;height:34px;border-radius:10px;overflow:hidden;background:#141413;display:grid;place-items:center;border:1px solid #654235}.chat-brand-icon img{width:100%;height:100%;display:block}
 .chat-head-name{font-weight:700;font-size:15px}.chat-head-sub{font-size:11px;color:var(--chat-muted)}
 .chat-header .new-chat{margin-left:auto;background:transparent;border:1px solid var(--chat-border);color:var(--chat-text);border-radius:10px;padding:8px 11px}
 .chat-scroll{flex:1;width:100%;max-width:760px;margin:0 auto;padding:32px 0 22px}
@@ -143,7 +143,7 @@ body>.wrap{display:none!important}
 @media(max-width:480px){.chat-shell{padding-left:13px;padding-right:13px}.chat-header{height:58px}.chat-welcome{padding-top:8vh}.chat-suggestions{grid-template-columns:1fr}.chat-suggestion:nth-child(n+3){display:none}.chat-scroll{padding-top:20px}.chat-composer{border-radius:17px}.chat-message{gap:9px}.chat-message-body{font-size:14px}}
 </style>
 <style>.chat-result-card{box-shadow:0 8px 24px #0002}.chat-result-title{letter-spacing:-.2px}.chat-result-meta{overflow-wrap:anywhere}.chat-result-actions button{cursor:pointer;transition:background .15s,border-color .15s}.chat-result-actions button:hover{background:#33251f;border-color:#8b5946}.chat-welcome-mark{font-size:0;position:relative}.chat-welcome-mark:after{content:'✳';font-size:30px}</style><div class="chat-shell" id="chatApp">
-<header class="chat-header"><div class="chat-brand-icon">E</div><div><div class="chat-head-name">Estimateur Objet</div><div class="chat-head-sub">Assistant achat-revente · IA</div></div><button class="new-chat" id="chatNew" type="button">＋ Nouveau</button></header>
+<header class="chat-header"><div class="chat-brand-icon"><img src="./icon.svg" alt="" /></div><div><div class="chat-head-name">Estimateur Objet</div><div class="chat-head-sub">Assistant achat-revente · IA</div></div><button class="new-chat" id="chatNew" type="button">＋ Nouveau</button></header>
 <main class="chat-scroll" id="chatScroll" aria-live="polite">
 <div class="chat-welcome" id="chatWelcome"><div class="chat-welcome-mark">✳</div><h1>Qu’est-ce qu’on estime aujourd’hui ?</h1><p>Envoie une photo, colle une annonce ou pose ta question. On identifie l’objet, on évalue son potentiel et on calcule ta rentabilité ensemble.</p>
 <div class="chat-suggestions">
