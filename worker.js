@@ -120,14 +120,20 @@ export default {
           return json({ error: "Écris un message pour démarrer la conversation." }, 400);
         }
         const system = "Tu es Estimateur Objet, conseiller expert en brocante, mobilier, objets d’occasion et achat-revente en France, avec la méthode d’un professionnel de terrain ayant 50 ans d’expérience. Tu combines le regard d’un acheteur exigeant et d’un vendeur qui sait présenter, négocier et vendre. Sois concret, franc, prudent et orienté rentabilité. Quand une personne donne une photo, un lien ou décrit un objet, avance autant que les preuves le permettent sans exiger de questions inutiles. Structure ton analyse selon le besoin : identification précise et indices visibles ; marque, modèle, époque et matériaux uniquement s’ils sont vérifiables ; état, défauts visibles et points à contrôler ; fourchette de revente réaliste en France en distinguant vente rapide, prix d’annonce et prix probable après négociation ; prix d’achat maximum conseillé ; frais de transport, nettoyage, pièces, rénovation, plateforme et temps de travail ; bénéfice net estimé et retour sur investissement si les montants sont connus ; demande probable, facilité de revente, risques et potentiel de valorisation ; stratégie de négociation ; verdict ACHETER / NÉGOCIER / PASSER ; si utile, titre et annonce de vente prêts à publier. Pour une photo, décris seulement ce que tu vois et distingue les faits des hypothèses. Pour un lien, dis clairement si le contenu a été lu ou si le site bloque l’accès. Ne prétends jamais avoir consulté des annonces, des prix actuels ou des ventes conclues sans données réellement fournies par un outil. Un prix d’annonce n’est pas un prix de vente conclu. N’invente jamais une marque, un designer, une matière noble, une rareté ou une provenance. Donne une fourchette plutôt qu’une fausse précision. Si des données essentielles manquent, donne une première analyse utile puis pose au maximum les deux questions les plus décisives. Réponds en français, avec des rubriques courtes, des chiffres clairement expliqués et une conclusion pratique.";
-        const result = await env.AI.run("@cf/qwen/qwen3.8-27b", {
-          messages: [{ role: "system", content: system }, ...messages],
-          reasoning_effort: "low",
-          max_tokens: 900
-        });
-        const answer = result?.response || result?.choices?.[0]?.message?.content || "";
+        let answer = "", provider = "Cloudflare Workers AI", model = "@cf/qwen/qwen3.8-27b";
+        try {
+          const result = await env.AI.run("@cf/qwen/qwen3.8-27b", { messages: [{ role: "system", content: system }, ...messages], reasoning_effort: "low", max_tokens: 900 });
+          answer = result?.response || result?.choices?.[0]?.message?.content || "";
+        } catch (e) {
+          if (!env.OPENROUTER_API_KEY) throw e;
+          const fallback = await fetch("https://openrouter.ai/api/v1/chat/completions", { method: "POST", headers: { "Authorization": "Bearer " + env.OPENROUTER_API_KEY, "Content-Type": "application/json", "HTTP-Referer": "https://mansstyle59.github.io/estimateur-objet/", "X-Title": "Estimateur Objet" }, body: JSON.stringify({ model: "openrouter/free", messages: [{ role: "system", content: system }, ...messages], max_tokens: 900 }), signal: AbortSignal.timeout(25000) });
+          const data = await fallback.json();
+          if (!fallback.ok) throw new Error("Qwen et le modèle de secours sont indisponibles.");
+          answer = data?.choices?.[0]?.message?.content || "";
+          provider = "OpenRouter Free"; model = data?.model || "openrouter/free";
+        }
         if (!String(answer).trim()) return json({ error: "L’IA n’a pas renvoyé de réponse. Réessaie dans un instant." }, 502);
-        return json({ answer: String(answer).slice(0, 12000), provider: "Cloudflare Workers AI", model: "@cf/qwen/qwen3.8-27b" });
+        return json({ answer: String(answer).slice(0, 12000), provider, model });
       }
       if (body.action === "expertAnalyze") {
         if (!env.AI) return json({ error: "Workers AI n’est pas activé." }, 503);
@@ -155,10 +161,22 @@ export default {
         const promptText = context.length ? context.join("\n\n") : "Analyse cet objet avec méthode, sans inventer les données absentes.";
         const options = {messages:[{role:"system",content:system},...history,{role:"user",content:promptText}], reasoning_effort:"low", max_tokens:1200};
         if (imageMatch) options.image = image;
-        const result = await env.AI.run("@cf/qwen/qwen3.8-27b", options);
-        const answer = result?.response || result?.choices?.[0]?.message?.content || "";
+        let result, answer = "", provider = "Cloudflare Workers AI", model = "@cf/qwen/qwen3.8-27b";
+        try {
+          result = await env.AI.run("@cf/qwen/qwen3.8-27b", options);
+          answer = result?.response || result?.choices?.[0]?.message?.content || "";
+        } catch (e) {
+          if (!env.OPENROUTER_API_KEY) throw e;
+          const userContent = [{type:"text",text:promptText}];
+          if (imageMatch) userContent.push({type:"image_url",image_url:{url:image}});
+          const fallback = await fetch("https://openrouter.ai/api/v1/chat/completions", {method:"POST",headers:{"Authorization":"Bearer "+env.OPENROUTER_API_KEY,"Content-Type":"application/json","HTTP-Referer":"https://mansstyle59.github.io/estimateur-objet/","X-Title":"Estimateur Objet"},body:JSON.stringify({model:"openrouter/free",messages:[{role:"system",content:system},...history,{role:"user",content:userContent}],max_tokens:1200}),signal:AbortSignal.timeout(25000)});
+          const data = await fallback.json();
+          if (!fallback.ok) throw new Error("Qwen et le modèle de secours sont indisponibles.");
+          answer = data?.choices?.[0]?.message?.content || "";
+          provider = "OpenRouter Free"; model = data?.model || "openrouter/free";
+        }
         if (!String(answer).trim()) return json({error:"L’IA n’a pas renvoyé de réponse."},502);
-        return json({answer:String(answer).slice(0,12000), listingTitle:listing?.title || null, listingAskingPrice:listing?.askingPrice ?? null, listingRead:!!listing, provider:"Cloudflare Workers AI", model:"@cf/qwen/qwen3.8-27b"});
+        return json({answer:String(answer).slice(0,12000), listingTitle:listing?.title || null, listingAskingPrice:listing?.askingPrice ?? null, listingRead:!!listing, provider, model});
       }
       if (body.action === "marketSearch") {
         const q = String(body.query || "").trim().slice(0, 180);
