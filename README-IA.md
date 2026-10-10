@@ -1,41 +1,29 @@
-# Activer l’analyse IA open source sur téléphone — Estimateur Objet
+# Analyse Google et estimation de prix — Estimateur Objet
 
-L’application web est prévue pour fonctionner sur iPhone et Android. Le modèle open source **Qwen2.5-VL-7B-Instruct** analyse les photos via Hugging Face Inference Providers, et la clé reste uniquement côté serveur. Le modèle est publié sous licence Apache 2.0 : https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct.
+L'application utilise Google Gemini pour analyser la photo et la fonction officielle Google Search grounding pour rechercher des objets comparables. La clé API doit rester dans les variables d'environnement côté serveur.
 
-**Important sur le gratuit :** l’accès hébergé n’est pas illimité. Hugging Face annonce actuellement 0,10 $ de crédits mensuels pour les comptes gratuits, susceptibles de changer. Après épuisement, des requêtes payantes peuvent être possibles ; n’active pas d’achat de crédits si tu veux rester à 0 €. Consulte la page officielle : https://huggingface.co/docs/inference-providers/pricing.
+## Activer le service
 
-## Étapes à faire une seule fois
+1. Ouvre https://aistudio.google.com/apikey et crée une clé Gemini.
+2. Ouvre https://vercel.com/new et importe le dépôt GitHub `mansstyle59/estimateur-objet`.
+3. Dans les paramètres Vercel du projet, ajoute `GEMINI_API_KEY` comme variable d'environnement secrète pour Production.
+4. Redéploie le projet après avoir ajouté la variable.
+5. Copie l'URL du serveur Vercel se terminant par `/api/analyze`.
+6. Dans le fichier `config.js` du dépôt, remplace la valeur vide de `window.ESTIMATEUR_API_URL` par cette URL complète, puis enregistre.
+7. Après publication GitHub Pages, ouvre https://mansstyle59.github.io/estimateur-objet/ sur le téléphone, ajoute une photo et touche **Analyser avec Google et l’IA**.
 
-### 1. Créer un jeton Hugging Face
+## Ce que fait la recherche
 
-1. Ouvre https://huggingface.co/settings/tokens
-2. Crée un jeton à permissions minimales permettant l’inférence si l’interface le propose.
-3. Ne colle jamais le jeton dans GitHub, dans `index.html`, dans `config.js` ou dans la conversation.
+- Gemini analyse la photo et utilise Google Search pour rechercher des objets comparables.
+- L'application affiche la fourchette estimée si le modèle renvoie des valeurs numériques, ainsi que les liens vers les sources de recherche et les comparables retournés.
+- Si les comparables sont insuffisants, les valeurs de marché restent absentes et l'application conserve seulement son repère générique, clairement identifié comme tel.
+- Les prix des annonces sont généralement des prix demandés. Ils ne prouvent pas le prix réellement payé lors d'une vente conclue.
+- Les résultats de recherche peuvent être incomplets, périmés ou peu comparables. Vérifie marque, modèle, dimensions, état et frais avant d'acheter.
 
-### 2. Déployer l’API serveur
+## Quotas et confidentialité
 
-1. Ouvre https://vercel.com/new et connecte ton compte GitHub.
-2. Importe le dépôt `mansstyle59/estimateur-objet`.
-3. Déploie le projet depuis sa racine.
-4. Dans Vercel, ouvre **Settings → Environment Variables** et ajoute `HF_TOKEN` avec ton jeton Hugging Face. Garde-le secret et ne le mets pas dans le code.
-5. Redéploie après l’ajout de la variable.
-6. L’API est prévue à l’adresse `https://TON-PROJET.vercel.app/api/analyze`.
+La disponibilité et le coût de Gemini et de Google Search grounding dépendent du modèle, du compte, du niveau d'utilisation et des tarifs en vigueur. Vérifie la page officielle https://ai.google.dev/gemini-api/docs/pricing et https://ai.google.dev/gemini-api/docs/google-search avant usage. Ne suppose pas que la recherche est illimitée ou toujours gratuite. N'active pas de facturation payante si tu veux absolument éviter les frais.
 
-### 3. Relier l’application au serveur
+Les photos sont envoyées au service Google pour l'analyse. N'envoie pas d'images contenant des visages, documents ou informations personnelles. Les clés API ne doivent jamais être ajoutées au code HTML, au fichier config.js ou à un commit GitHub.
 
-Dans GitHub, ouvre `config.js` et remplace la valeur vide par l’adresse exacte de ton API Vercel :
-
-```js
-window.ESTIMATEUR_API_URL = "https://TON-PROJET.vercel.app/api/analyze";
-```
-
-Enregistre le fichier. Après publication de GitHub Pages, ouvre https://mansstyle59.github.io/estimateur-objet/ sur ton téléphone. Choisis une photo, puis appuie sur **Analyser avec l’IA open source**.
-
-## Limites et confidentialité
-
-- Le modèle Qwen est open source, mais l’exécution via un fournisseur hébergé dépend de quotas, de disponibilité et de conditions qui peuvent changer. Ce n’est pas une IA hébergée gratuitement et sans limite.
-- La photo est envoyée à Hugging Face / au fournisseur d’inférence choisi pour être analysée. Évite les visages, documents personnels et informations sensibles.
-- Le serveur limite les photos à 3 Mo et applique une limitation de requêtes en mémoire, mais cette protection anti-abus reste basique.
-- L’IA peut se tromper sur les marques, matériaux, dimensions et défauts.
-- **Aucun prix de marché n’est vérifié automatiquement.** Les liens de comparaison restent des recherches manuelles d’annonces ; les prix affichés par les vendeurs ne sont pas nécessairement les prix de vente conclus.
-- L’API ne fonctionnera pas tant que Vercel et `config.js` ne seront pas configurés. Le code a été poussé sur GitHub, mais le déploiement et une analyse réelle restent à vérifier.
+Le serveur limite les photos à 3 Mo et applique une limitation de requêtes en mémoire, qui reste une protection anti-abus basique. Le code est enregistré dans GitHub, mais le déploiement et une analyse réelle doivent encore être testés après configuration de la clé et de l'URL.
