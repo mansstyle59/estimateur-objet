@@ -9,16 +9,11 @@
   "theme_color": "#141413",
   "icons": [
     {
-      "src": "./icon.svg",
+      "src": "./icon.svg?v=6",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
-    {
-      "src": "./apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
-    }
+
   ]
 }
