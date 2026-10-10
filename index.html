@@ -1176,3 +1176,28 @@ const splash=$('appSplash');if(splash){let splashHidden=false;const splashStarte
 }
 @media(max-width:380px){#chatApp .chat-suggestions{grid-template-columns:1fr!important}#chatApp .chat-suggestion{min-height:88px!important}}
 </style>
+<style id="valoria-spacing-and-duplicate-fix">
+/* Correction ciblée : supprimer le doublon et réduire le vide sous l’en-tête */
+#chatApp .chat-head-sub:after{content:none!important;display:none!important}
+#chatApp .chat-header{min-height:96px!important;padding-top:calc(8px + env(safe-area-inset-top))!important;padding-bottom:10px!important}
+#chatApp .chat-header-title{gap:0!important}
+#chatApp .chat-head-tagline{margin-top:3px!important}
+#chatApp .chat-scroll{padding-top:34px!important;padding-bottom:28px!important}
+#chatApp .chat-welcome-intro{margin-bottom:22px!important}
+#chatApp .chat-welcome-copy h1{margin-bottom:14px!important}
+#chatApp .chat-welcome-copy p{line-height:1.68!important}
+#chatApp .chat-suggestions{margin-top:22px!important;gap:10px!important}
+#chatApp .chat-suggestion{min-height:108px!important}
+#chatApp .chat-composer-wrap{background:linear-gradient(to bottom,rgba(16,16,16,0),rgba(16,16,16,.96) 14%,rgba(16,16,16,.99))!important}
+@media(max-width:600px){
+ #chatApp .chat-header{min-height:88px!important;padding-top:calc(6px + env(safe-area-inset-top))!important;padding-bottom:8px!important}
+ #chatApp .chat-head-sub{margin-top:4px!important}
+ #chatApp .chat-head-tagline{margin-top:2px!important}
+ #chatApp .chat-scroll{padding:28px 22px 24px!important}
+ #chatApp .chat-welcome-intro{margin-bottom:20px!important}
+ #chatApp .chat-welcome-copy h1{font-size:30px!important;margin-bottom:14px!important}
+ #chatApp .chat-welcome-copy p{font-size:14px!important;line-height:1.72!important}
+ #chatApp .chat-suggestions{margin-top:22px!important;gap:9px!important}
+ #chatApp .chat-suggestion{min-height:104px!important}
+}
+</style>
