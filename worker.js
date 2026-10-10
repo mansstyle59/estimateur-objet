@@ -52,7 +52,7 @@ Réponds en français, en JSON strict uniquement, avec ces clés:
 "title" (nom précis mais prudent), "category" (une catégorie courte), "details" (description visuelle), "condition" (bon, correct, à rénover ou inconnu), "renovation" (conseil court), "estimatedResaleLow" (nombre entier ou null), "estimatedResaleHigh" (nombre entier ou null), "priceBasis" (explique brièvement les limites), "comparables" (tableau vide).
 Pour les prix, donne seulement une fourchette indicative de revente d'occasion en France si l'objet est identifiable avec assez de confiance. Ne prétends pas avoir consulté Google, des annonces actuelles ou des prix de ventes conclues. Si la marque, le modèle, les dimensions ou l'état sont trop incertains, mets les deux prix à null. N'invente pas de marque ni de caractéristiques non visibles.`;
 
-      const result = await env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", {
+      const result = await env.AI.run("@cf/qwen/qwen3.8-27b", {
         messages: [{
           role: "user",
           content: prompt
