@@ -903,7 +903,34 @@ const splash=$('appSplash');if(splash){let splashHidden=false;const splashStarte
 })();
 </script>
 
-<style id="valoria-header-and-recent-polish">
+<style id="valoria-neutral-premium-composer">
+/* Finition neutre et premium, sans cadres cuivre/orange */
+#chatApp .chat-brand-icon{border-color:rgba(255,255,255,.12)!important;background:#20201f!important;box-shadow:0 0 0 1px rgba(255,255,255,.025)!important}
+#chatApp .chat-brand-icon img{padding:3px!important}
+#chatApp .chat-welcome-mark{border-color:rgba(255,255,255,.12)!important;background:#242321!important;color:#d7d3cc!important}
+#chatApp .chat-suggestion:before{display:none!important}
+#chatApp .chat-suggestion{border-color:rgba(255,255,255,.09)!important;background:rgba(255,255,255,.035)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important}
+#chatApp .chat-suggestion:hover{border-color:rgba(255,255,255,.16)!important;background:rgba(255,255,255,.06)!important}
+#chatApp .chat-menu-head .chat-menu-mark{border-color:rgba(255,255,255,.13)!important;background:#20201f!important;color:#e8e5df!important}
+#chatApp .chat-menu button>span:first-child{border-color:transparent!important;background:transparent!important;color:#d5d2cc!important}
+#chatApp .chat-menu button[data-menu-action="estimate"]>span:first-child,#chatApp .chat-menu button[data-menu-action="usage"]>span:first-child{color:#e8e5df!important}
+#chatApp .chat-recent-item.recent-pressing:after{color:#b9b5ae!important}
+#chatApp .chat-header{gap:12px!important}
+#chatApp .chat-head-sub{color:#a5a29c!important}
+#chatApp .chat-composer{border:1px solid rgba(255,255,255,.13)!important;background:rgba(43,43,43,.91)!important;border-radius:27px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 10px 28px rgba(0,0,0,.16)!important}
+#chatApp #chatInput{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif!important;font-size:18px!important;font-weight:400!important;line-height:1.55!important;letter-spacing:-.15px!important;min-height:68px!important;max-height:180px!important;padding:7px 8px 10px!important;color:#f4f2ee!important;caret-color:#f4f2ee!important}
+#chatApp #chatInput::placeholder{font-size:18px!important;font-weight:400!important;line-height:1.5!important;color:#aaa7a1!important;opacity:1!important}
+#chatApp .chat-tool{border:1px solid rgba(255,255,255,.09)!important;background:rgba(255,255,255,.065)!important;color:#eeeae4!important}
+#chatApp .chat-tool.send{background:#f1f0ed!important;border-color:rgba(255,255,255,.4)!important;color:#171716!important}
+#chatApp .chat-tool.link{border-radius:24px!important}
+#chatApp .new-chat,#chatApp .chat-menu-toggle{border-color:rgba(255,255,255,.14)!important;background:rgba(43,43,43,.78)!important}
+#chatApp .chat-menu-head button{border-color:rgba(255,255,255,.14)!important}
+@media(max-width:600px){
+ #chatApp #chatInput{font-size:18px!important;min-height:70px!important;max-height:180px!important}
+ #chatApp #chatInput::placeholder{font-size:18px!important}
+ #chatApp .chat-composer{border-radius:25px!important}
+}
+</style><style id="valoria-header-and-recent-polish">
 #chatApp .chat-brand-icon{width:52px!important;height:52px!important;flex:0 0 52px!important;border-radius:16px!important;overflow:hidden!important}
 #chatApp .chat-brand-icon img{width:100%!important;height:100%!important;object-fit:contain!important;padding:4px!important}
 #chatApp .chat-menu-head .chat-menu-mark{width:52px!important;height:52px!important;flex:0 0 52px!important}
