@@ -1,0 +1,18 @@
+{
+  "name": "Estimateur Objet — Achat-revente",
+  "short_name": "Estimateur Objet",
+  "description": "Estime la valeur d’un objet et calcule la rentabilité de ton achat-revente.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080d18",
+  "theme_color": "#080d18",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
