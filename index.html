@@ -142,7 +142,7 @@ body>.wrap{display:none!important}
 @keyframes chatIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:480px){.chat-shell{padding-left:13px;padding-right:13px}.chat-header{height:58px}.chat-welcome{padding-top:8vh}.chat-suggestions{grid-template-columns:1fr}.chat-suggestion:nth-child(n+3){display:none}.chat-scroll{padding-top:20px}.chat-composer{border-radius:17px}.chat-message{gap:9px}.chat-message-body{font-size:14px}}
 </style>
-<div class="chat-shell" id="chatApp">
+<style>.chat-result-card{box-shadow:0 8px 24px #0002}.chat-result-title{letter-spacing:-.2px}.chat-result-meta{overflow-wrap:anywhere}.chat-result-actions button{cursor:pointer;transition:background .15s,border-color .15s}.chat-result-actions button:hover{background:#33251f;border-color:#8b5946}.chat-welcome-mark{font-size:0;position:relative}.chat-welcome-mark:after{content:'✳';font-size:30px}</style><div class="chat-shell" id="chatApp">
 <header class="chat-header"><div class="chat-brand-icon">E</div><div><div class="chat-head-name">Estimateur Objet</div><div class="chat-head-sub">Assistant achat-revente · IA</div></div><button class="new-chat" id="chatNew" type="button">＋ Nouveau</button></header>
 <main class="chat-scroll" id="chatScroll" aria-live="polite">
 <div class="chat-welcome" id="chatWelcome"><div class="chat-welcome-mark">✳</div><h1>Qu’est-ce qu’on estime aujourd’hui ?</h1><p>Envoie une photo, colle une annonce ou pose ta question. On identifie l’objet, on évalue son potentiel et on calcule ta rentabilité ensemble.</p>
@@ -170,7 +170,37 @@ function send(){
  if(/photo|image|meuble|objet|annonce|identifier|prix|estimer|revente|achat-revente|bonne affaire|rénovation/i.test(text)){statusReply('D’accord. Pour analyser précisément un objet, ajoute sa photo avec « + Photo » ou colle le lien public de son annonce. Je pourrai ensuite t’aider à évaluer le prix et les frais.');return;}
  statusReply('Je peux t’aider pour l’achat-revente, l’identification, la rénovation et le calcul de bénéfice. Pour une estimation fiable, envoie aussi une photo ou le lien de l’annonce.');
 }
-function watchAnalysis(){let prior=$('aiStatus').textContent;let done=false;const observer=new MutationObserver(()=>{const t=$('aiStatus').textContent.trim();if(!t||t===prior)return;prior=t;if(/Analyse terminée|Objet analysé|Analyse impossible|Analyse trop longue|IA a répondu|serveur IA/i.test(t)){done=true;observer.disconnect();busy=false;$('chatSend').disabled=false;const estimate=$('range')?.textContent;const title=$('title')?.value;const confidence=$('marketEvidence')?.innerText||'';let summary=t;if(title)summary+='\nObjet : '+title;if(estimate&&estimate!=='À déterminer')summary+='\nFourchette indicative : '+estimate;else summary+='\nPrix : à confirmer avec des annonces comparables.';if(confidence)summary+='\n'+confidence.slice(0,1000);const actions=document.createElement('div');actions.className='chat-result-actions';const calc=document.createElement('button');calc.textContent='Calculer ma rentabilité →';calc.onclick=()=>{document.querySelector('body>.wrap').style.display='block';document.querySelector('body>.wrap').scrollIntoView({behavior:'smooth'});document.querySelector('[data-nav="2"]').click()};actions.append(calc);const retry=document.createElement('button');retry.textContent='Nouvelle analyse';retry.onclick=()=>{document.querySelector('body>.wrap').style.display='none';$('chatInput').focus();statusReply('Envoie une autre photo ou un autre lien pour recommencer.')};actions.append(retry);addMessage('assistant',summary,{node:actions});}});observer.observe($('aiStatus'),{childList:true,subtree:true,characterData:true});setTimeout(()=>{if(!done){observer.disconnect();busy=false;$('chatSend').disabled=false;statusReply('L’analyse n’a pas donné de réponse exploitable. Vérifie la connexion ou essaie avec une photo plus nette.')}} ,40000);}
+function watchAnalysis(){
+ let prior=$('aiStatus').textContent;let done=false;
+ const observer=new MutationObserver(()=>{
+  const t=$('aiStatus').textContent.trim();if(!t||t===prior)return;prior=t;
+  if(/Analyse terminée|Objet analysé|Analyse impossible|Analyse trop longue|IA a répondu|serveur IA/i.test(t)){
+   done=true;observer.disconnect();busy=false;$('chatSend').disabled=false;
+   const title=($('title').value||'').trim(), estimate=$('range')?.textContent||'À déterminer';
+   const detail=($('details').value||'').trim(), evidence=$('marketEvidence'), evidenceText=evidence?.innerText||'';
+   const uncertain=/Analyse impossible|Analyse trop longue|n’a pas fourni assez|pas fourni assez|aucune donnée exploitable|impossible d’estimer|non précisé/i.test(t+' '+detail+' '+evidenceText)||!title||title==='Objet à identifier';
+   const card=document.createElement('div');card.className='chat-result-card';
+   if(uncertain){
+    const h=document.createElement('div');h.className='chat-result-title';h.textContent='Identification à confirmer';card.append(h);
+    const p=document.createElement('div');p.className='chat-result-meta';p.textContent='Je ne peux pas encore reconnaître cet objet avec assez de certitude pour donner un prix sérieux. Essaie une photo nette de face montrant l’objet entier, ou ajoute sa marque, ses dimensions et sa matière.';card.append(p);
+    const note=document.createElement('div');note.className='chat-result-meta';note.style.marginTop='10px';note.textContent='Je préfère te demander une meilleure photo plutôt que d’inventer un modèle ou un prix.';card.append(note);
+   }else{
+    const h=document.createElement('div');h.className='chat-result-title';h.textContent=title;card.append(h);
+    const p=document.createElement('div');p.className='chat-result-meta';p.textContent='État indiqué : '+($('condition')?.selectedOptions?.[0]?.textContent||'à confirmer')+' · Estimation indicative';card.append(p);
+    if(estimate!=='À déterminer'){const price=document.createElement('div');price.style.cssText='font-size:25px;font-weight:750;color:#F09A78;margin-top:12px';price.textContent=estimate;card.append(price);const note=document.createElement('div');note.className='chat-result-meta';note.textContent='Fourchette indicative, à vérifier avec des annonces comparables.';card.append(note)}
+    if(detail&&!/impossible d’estimer|aucune donnée exploitable/i.test(detail)){const d=document.createElement('div');d.className='chat-result-meta';d.style.marginTop='10px';d.textContent=detail.slice(0,450);card.append(d)}
+    if($('workNotes')?.value){const ren=document.createElement('div');ren.className='chat-result-meta';ren.style.marginTop='10px';ren.textContent='Piste de rénovation : '+$('workNotes').value.slice(0,300);card.append(ren)}
+   }
+   const actions=document.createElement('div');actions.className='chat-result-actions';
+   const calc=document.createElement('button');calc.textContent='Calculer la rentabilité';calc.onclick=()=>{const wrap=document.querySelector('body>.wrap');wrap.style.display='block';wrap.scrollIntoView({behavior:'smooth'});document.querySelector('[data-nav="2"]').click()};actions.append(calc);
+   const compare=document.createElement('button');compare.textContent='Comparer les annonces';compare.onclick=()=>{const links=evidence?.querySelectorAll('a')||[];if(links.length){window.open(links[0].href,'_blank','noopener')}else{const q=encodeURIComponent(title||'objet occasion');window.open('https://www.google.com/search?q='+q+'+occasion+prix','_blank','noopener')}};actions.append(compare);
+   const retry=document.createElement('button');retry.textContent='Nouvelle analyse';retry.onclick=()=>{$('chatInput').focus();statusReply('Ajoute une autre photo ou un lien public. Je reprendrai l’analyse avec ces nouvelles informations.')};actions.append(retry);
+   card.append(actions);addMessage('assistant','',{node:card});
+  }
+ });
+ observer.observe($('aiStatus'),{childList:true,subtree:true,characterData:true});
+ setTimeout(()=>{if(!done){observer.disconnect();busy=false;$('chatSend').disabled=false;statusReply('L’analyse prend trop de temps. Réessaie avec une photo plus nette ou un lien public.')}},40000);
+}
 $('chatSend').addEventListener('click',send);input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,160)+'px'});$('chatAttach').addEventListener('click',()=>$('chatFile').click());$('chatFile').addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;selectedFile={file,preview:URL.createObjectURL(file)};$('chatFileName').textContent=file.name;input.placeholder='Ajoute une question sur la photo (facultatif)…';input.focus()});document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.prompt;input.focus()}));$('chatNew').addEventListener('click',()=>{messages.innerHTML='';$('chatWelcome').style.display='';input.value='';selectedFile=null;$('chatFileName').textContent='';lastStatus='';$('chatScroll').scrollTop=0}); 
 })();
 </script>
