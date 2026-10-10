@@ -1,24 +1,24 @@
 {
   "name": "Estimateur Objet — Achat-revente",
   "short_name": "Estimateur Objet",
-  "description": "Estime la valeur d’un objet et calcule la rentabilité de ton achat-revente.",
+  "description": "Identifie les objets, estime leur potentiel de revente et calcule la rentabilité.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#080d18",
-  "theme_color": "#080d18",
+  "background_color": "#141413",
+  "theme_color": "#141413",
   "icons": [
-    {
-      "src": "./apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
-    },
     {
       "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
