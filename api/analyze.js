@@ -1,5 +1,5 @@
 const ALLOWED_ORIGIN = "https://mansstyle59.github.io";
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
 
 module.exports = async function handler(req, res) {
   const origin = req.headers.origin || "";
