@@ -48,7 +48,7 @@ $('analyzePhoto').addEventListener('click',async()=>{
  const button=$('analyzePhoto');analysisInProgress=true;button.disabled=true;button.textContent='Analyse en cours…';$('aiStatus').textContent=listingUrl&&!photoData?'Lecture du lien public (8 s max) puis analyse IA…':'L’IA analyse la photo. Tu pourras ensuite vérifier les prix sur les sites comparables.';
  const controller=new AbortController();const timeoutId=setTimeout(()=>controller.abort(),35000);
  try{
-  const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json',signal:controller.signal},body:JSON.stringify({image:photoData||undefined,listingUrl:listingUrl||undefined,title:$('title').value,category:$('category').value,details:$('details').value})});
+  const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify({image:photoData||undefined,listingUrl:listingUrl||undefined,title:$('title').value,category:$('category').value,details:$('details').value})});
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.error||'Le serveur IA a renvoyé une erreur ('+response.status+').');
   const a=data.analysis||data;
