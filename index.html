@@ -1158,6 +1158,13 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 @media(prefers-reduced-motion:reduce){#chatApp .chat-message,#chatApp .chat-suggestion{animation:none!important;transition:none!important}}
 </style>
 
+
+<style id="valoria-fix-double-plus">
+/* Le bouton Photo contient déjà son icône + : ne pas ajouter de pseudo-élément */
+#chatApp #chatAttach:before,
+#chatApp #chatAttach:after{content:none!important;display:none!important}
+#chatApp #chatAttach .plus-icon{display:block!important;visibility:visible!important;opacity:1!important;font-size:25px!important;font-weight:300!important;line-height:1!important;color:#eeeae2!important}
+</style>
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
