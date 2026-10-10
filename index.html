@@ -75,6 +75,56 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   font-size:16px!important;
  }
 }
+</style><style id="claude-inspired-night-ui">
+:root{--night-bg:#141414;--night-panel:#30302f;--night-border:#454442;--night-text:#f0eee8;--night-muted:#aaa8a2}
+html,body{background:#141414!important;color:var(--night-text)}
+body{background:#141414!important}
+.chat-shell#chatApp{position:relative;display:flex;flex-direction:column;width:100%;max-width:100%;height:100dvh;min-height:100dvh;margin:0;border:0;border-radius:0;overflow:hidden;background:#141414;box-shadow:none}
+#chatApp .chat-header{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 28px 12px;background:transparent;border:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+#chatApp .chat-brand-icon,#chatApp .chat-head-sub{display:none!important}
+#chatApp .chat-header>div:not(.chat-brand-icon){display:none}
+#chatApp .new-chat,#chatApp .chat-menu-toggle{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:linear-gradient(145deg,#3a3a39,#252524);border:1px solid #494948;color:#e5e3dc;font-size:24px;box-shadow:0 2px 8px #0003}
+#chatApp .new-chat{order:0;font-size:0}
+#chatApp .new-chat:before{content:"";width:20px;height:16px;background:linear-gradient(#d4d2cb,#d4d2cb) 0 0/20px 2px no-repeat,linear-gradient(#d4d2cb,#d4d2cb) 0 7px/15px 2px no-repeat,linear-gradient(#d4d2cb,#d4d2cb) 0 14px/20px 2px no-repeat}
+#chatApp .chat-menu-toggle{order:2;font-size:0}
+#chatApp .chat-menu-toggle:before{content:"";width:20px;height:23px;border:2px solid #d4d2cb;border-radius:12px 12px 5px 5px;background:radial-gradient(circle,#d4d2cb 1.5px,transparent 2px) 4px 7px/8px 8px,radial-gradient(circle,#d4d2cb 1.5px,transparent 2px) 12px 7px/8px 8px no-repeat;position:relative}
+#chatApp .chat-scroll{flex:1;min-height:0;max-height:none;width:100%;padding:100px 20px 24px;overscroll-behavior:contain}
+#chatApp .chat-welcome{width:100%;max-width:700px;min-height:calc(100dvh - 300px);display:flex;flex-direction:column;justify-content:center;margin:0 auto}
+#chatApp .chat-welcome-intro{display:block;text-align:center;margin:0 auto 32px;max-width:660px}
+#chatApp .chat-welcome-mark{display:none}
+#chatApp .chat-welcome-copy h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(28px,6vw,42px);letter-spacing:-1px;line-height:1.18;margin:0 0 14px;color:#d9d6ce}
+#chatApp .chat-welcome-copy p{font-size:15px;line-height:1.65;color:#a8a69f;margin:0 auto;max-width:520px}
+#chatApp .chat-suggestions,#chatApp .chat-example-list{display:none!important}
+#chatApp #chatMessages{width:100%;max-width:760px;margin:0 auto}
+#chatApp .chat-message{gap:12px;margin:22px 0}
+#chatApp .chat-message-body{font-size:15px;line-height:1.7}
+#chatApp .chat-message.user .chat-message-body{background:#292928;border:1px solid #3a3938;border-radius:18px 18px 5px 18px;padding:13px 16px}
+#chatApp .chat-composer-wrap{position:relative;flex:0 0 auto;bottom:auto;z-index:30;padding:10px 24px calc(20px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(20,20,20,0),#141414 22%);border:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+#chatApp .chat-composer{position:relative;display:flex;flex-direction:column;gap:12px;width:100%;max-width:780px;margin:0 auto;padding:14px 16px 12px;border:1px solid #484846;border-radius:32px;background:linear-gradient(145deg,#30302f,#292928);box-shadow:0 10px 32px #0004}
+#chatApp #chatInput{order:0;display:block;width:100%;min-height:44px;max-height:140px;padding:3px 8px;border:0;outline:0;resize:none;background:transparent;color:#f1efe9;font-size:16px!important;line-height:1.5}
+#chatApp #chatInput::placeholder{color:#a4a29b}
+#chatApp .chat-composer-tools{order:1;display:flex;align-items:center;gap:9px;min-height:42px}
+#chatApp .chat-tool{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:42px;padding:0 13px;border-radius:24px;background:#414140;border:0;color:#e8e6df;font-size:13px}
+#chatApp #chatAttach{width:44px;min-width:44px;padding:0;font-size:0;border-radius:50%}
+#chatApp #chatAttach:before{content:"+";font-size:29px;font-weight:300;line-height:1}
+#chatApp #chatLink{border-radius:24px;background:#414140;color:#e9e7e0;font-size:12px}
+#chatApp #chatSend{margin-left:auto;width:48px;min-width:48px;height:48px;border-radius:50%;background:#f4f3ef;color:#1b1b1a;font-size:0;box-shadow:none}
+#chatApp #chatSend:after{content:"↑";font-size:26px;line-height:1}
+#chatApp .chat-disclaimer{max-width:780px;margin:8px auto 0;color:#85837d;font-size:10px;text-align:center}
+#chatApp .chat-menu{position:absolute;top:calc(78px + env(safe-area-inset-top));right:25px;z-index:50}
+@media(max-width:480px){
+ #chatApp .chat-header{padding:calc(14px + env(safe-area-inset-top)) 32px 12px}
+ #chatApp .new-chat,#chatApp .chat-menu-toggle{width:58px;height:58px}
+ #chatApp .chat-scroll{padding:95px 22px 18px}
+ #chatApp .chat-welcome{min-height:calc(100dvh - 300px)}
+ #chatApp .chat-welcome-copy h1{font-size:clamp(29px,7vw,38px)}
+ #chatApp .chat-welcome-copy p{font-size:14px}
+ #chatApp .chat-composer-wrap{padding:10px 32px calc(28px + env(safe-area-inset-bottom))}
+ #chatApp .chat-composer{padding:14px 15px 12px;border-radius:31px}
+ #chatApp .chat-composer-tools{gap:8px}
+ #chatApp #chatLink{padding:0 14px}
+}
+@media(prefers-reduced-motion:reduce){#chatApp *{transition:none!important}}
 </style></head><body><div id="appSplash" class="app-splash" role="status" aria-label="Chargement d’Estimateur Objet"><img class="app-splash-logo" src="./icon.svg" alt="Logo officiel Estimateur Objet"><div class="app-splash-name">Estimateur Objet</div><div class="app-splash-sub">Assistant achat-revente · IA</div><div class="app-splash-loader" aria-hidden="true"></div></div><div class="wrap">
 <header class="top"><div class="mark"><img src="./icon.svg" alt=""></div><div class="brand"><b>ESTIMATEUR D’OBJET</b><small>Le bon achat, au bon prix</small></div><span class="pill">GRATUIT</span></header>
 <section class="hero"><div class="eyebrow">ACHAT · RÉNOVATION · REVENTE</div><h1>Repère les bonnes affaires.</h1><p>Ajoute une photo ou un lien, indique ton prix d’achat et découvre le bénéfice potentiel.</p></section>
