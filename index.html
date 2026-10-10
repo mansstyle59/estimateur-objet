@@ -1213,6 +1213,143 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 #chatApp .valoria-plus-menu{border-radius:17px!important}
 @media(max-width:390px){#chatApp .chat-composer-wrap{padding-left:11px!important;padding-right:11px!important}#chatApp .chat-composer{padding:10px 11px 9px!important}#chatApp .chat-suggestion{min-height:74px!important;padding:10px!important}}
 </style>
+
+<style id="valoria-liquid-glass-system">
+/* Liquid Glass ValorIA — un langage visuel unique, sobre et lisible */
+:root{
+ --vg-line:rgba(255,255,255,.105);
+ --vg-line-soft:rgba(255,255,255,.075);
+ --vg-surface:rgba(255,255,255,.035);
+ --vg-surface-raised:rgba(255,255,255,.055);
+ --vg-glass-shadow:0 12px 32px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.055);
+ --vg-blur:18px;
+}
+/* Surfaces principales : profondeur légère, pas d'effet verre sur chaque élément */
+.hero,.search-intro,.panel,.estimate,.analysis-card,.upload{
+ border:1px solid var(--vg-line)!important;
+ box-shadow:var(--vg-glass-shadow)!important;
+}
+.hero{
+ background:radial-gradient(ellipse at 90% 0%,rgba(223,152,125,.095),transparent 48%),linear-gradient(145deg,rgba(42,39,37,.88),rgba(22,22,21,.94))!important;
+ backdrop-filter:blur(var(--vg-blur)) saturate(115%)!important;
+ -webkit-backdrop-filter:blur(var(--vg-blur)) saturate(115%)!important;
+}
+.search-intro,.estimate,.analysis-card{
+ background:linear-gradient(140deg,rgba(223,152,125,.07),rgba(255,255,255,.025) 55%,rgba(255,255,255,.015))!important;
+ backdrop-filter:blur(14px) saturate(112%)!important;
+ -webkit-backdrop-filter:blur(14px) saturate(112%)!important;
+}
+.panel{
+ background:linear-gradient(145deg,rgba(34,34,33,.82),rgba(23,23,22,.88))!important;
+ backdrop-filter:blur(16px) saturate(110%)!important;
+ -webkit-backdrop-filter:blur(16px) saturate(110%)!important;
+}
+.upload{
+ background:linear-gradient(145deg,rgba(223,152,125,.055),rgba(255,255,255,.018))!important;
+ border-style:solid!important;
+}
+.control,.choice{
+ border-color:rgba(255,255,255,.105)!important;
+}
+.control{background:rgba(255,255,255,.035)!important}
+.choice{background:rgba(255,255,255,.025)!important;transition:background .18s ease,border-color .18s ease!important}
+.choice.selected{background:rgba(223,152,125,.085)!important}
+/* Chat : en-tête discret, contenu libre, verre réservé aux éléments interactifs */
+#chatApp .chat-header{
+ background:rgba(19,19,18,.76)!important;
+ border-bottom:1px solid rgba(255,255,255,.065)!important;
+ box-shadow:0 6px 22px rgba(0,0,0,.08)!important;
+ backdrop-filter:blur(22px) saturate(120%)!important;
+ -webkit-backdrop-filter:blur(22px) saturate(120%)!important;
+}
+#chatApp .chat-brand-icon,#chatApp .chat-welcome-mark{
+ border:1px solid rgba(255,255,255,.11)!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+#chatApp .chat-menu-toggle,#chatApp .new-chat{
+ border:1px solid var(--vg-line)!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.07)!important;
+ backdrop-filter:blur(14px)!important;
+ -webkit-backdrop-filter:blur(14px)!important;
+}
+#chatApp .chat-suggestion{
+ border:1px solid rgba(255,255,255,.09)!important;
+ border-radius:20px!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018))!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important;
+ backdrop-filter:blur(14px) saturate(110%)!important;
+ -webkit-backdrop-filter:blur(14px) saturate(110%)!important;
+ transition:transform .18s ease,border-color .18s ease,background .18s ease!important;
+}
+#chatApp .chat-suggestion:hover{
+ transform:translateY(-1px)!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025))!important;
+ border-color:rgba(223,152,125,.22)!important;
+}
+#chatApp .chat-message-body{
+ border-radius:20px!important;
+}
+#chatApp .chat-message.user .chat-message-body{
+ background:linear-gradient(145deg,rgba(223,152,125,.15),rgba(223,152,125,.075))!important;
+ border:1px solid rgba(223,152,125,.16)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+#chatApp .chat-result-card{
+ border:1px solid rgba(255,255,255,.095)!important;
+ border-radius:20px!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.018))!important;
+ box-shadow:var(--vg-glass-shadow)!important;
+ backdrop-filter:blur(16px) saturate(110%)!important;
+ -webkit-backdrop-filter:blur(16px) saturate(110%)!important;
+}
+#chatApp .chat-composer{
+ background:linear-gradient(145deg,rgba(48,48,47,.88),rgba(29,29,28,.91))!important;
+ border:1px solid rgba(255,255,255,.14)!important;
+ border-radius:26px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.085),0 12px 30px rgba(0,0,0,.2)!important;
+ backdrop-filter:blur(22px) saturate(118%)!important;
+ -webkit-backdrop-filter:blur(22px) saturate(118%)!important;
+}
+#chatApp .chat-composer:focus-within{border-color:rgba(223,152,125,.3)!important}
+#chatApp .chat-tool:not(.send),#chatApp #chatLink{
+ border:1px solid rgba(255,255,255,.09)!important;
+ background:rgba(255,255,255,.035)!important;
+}
+#chatApp .chat-tool.send{
+ border:1px solid rgba(255,255,255,.65)!important;
+ background:linear-gradient(145deg,#fffaf5,#e9e2db)!important;
+ box-shadow:0 4px 12px rgba(0,0,0,.16),inset 0 1px 0 #fff!important;
+}
+#chatApp .chat-menu{
+ background:rgba(23,23,22,.88)!important;
+ border-color:rgba(255,255,255,.12)!important;
+ box-shadow:0 24px 64px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.06)!important;
+ backdrop-filter:blur(26px) saturate(125%)!important;
+ -webkit-backdrop-filter:blur(26px) saturate(125%)!important;
+}
+#chatApp .chat-menu>button[role="menuitem"]:hover,#chatApp .chat-menu>button[role="menuitem"]:focus-visible{
+ background:rgba(255,255,255,.055)!important;
+ border-color:rgba(255,255,255,.075)!important;
+}
+@media(max-width:600px){
+ #chatApp .chat-suggestion{border-radius:17px!important}
+ #chatApp .chat-composer{border-radius:24px!important}
+}
+@media(prefers-reduced-transparency:reduce){
+ .hero,.search-intro,.panel,.estimate,.analysis-card,.upload,
+ #chatApp .chat-header,#chatApp .chat-suggestion,#chatApp .chat-result-card,#chatApp .chat-composer,#chatApp .chat-menu{
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+ }
+ .hero,.panel,#chatApp .chat-menu{background:#1b1b1a!important}
+ #chatApp .chat-suggestion,#chatApp .chat-result-card{background:#242423!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #chatApp .chat-suggestion{transition:none!important;transform:none!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
