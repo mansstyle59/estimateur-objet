@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#183b32">
+<meta name="description" content="Estimez un objet pour l'achat-revente et calculez votre bénéfice potentiel.">
+<title>Estimateur d’objet — Achat-revente</title>
+<style>
+:root{--ink:#182b25;--muted:#6c7c74;--green:#183b32;--mint:#dcebe1;--cream:#f6f5ef;--line:#e1e6df;--white:#fff;--orange:#e9a35b;--red:#a94a3b;--shadow:0 12px 34px #1c38200c}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.45}button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1080px;margin:auto;padding:20px 16px 50px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}.brand{display:flex;gap:11px;align-items:center}.mark{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--green);color:#fff;font-size:22px}.brand b{display:block;font-size:16px;letter-spacing:-.3px}.brand small{color:var(--muted)}.pill{font-size:12px;background:var(--mint);color:var(--green);padding:7px 10px;border-radius:99px;font-weight:700}.hero{padding:27px 24px;border-radius:24px;background:var(--green);color:white;position:relative;overflow:hidden;margin-bottom:20px}.hero:after{content:"";position:absolute;width:190px;height:190px;border:1px solid #ffffff25;border-radius:50%;right:-55px;top:-78px;box-shadow:0 0 0 25px #ffffff0a,0 0 0 52px #ffffff08}.eyebrow{text-transform:uppercase;letter-spacing:1.8px;font-size:11px;color:#c2d8ca;font-weight:800}.hero h1{font-size:clamp(28px,5vw,42px);letter-spacing:-1.6px;line-height:1.07;margin:10px 0 10px;max-width:600px}.hero p{color:#d6e4db;max-width:540px;margin:0;font-size:15px}.layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:20px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:21px;box-shadow:var(--shadow);margin-bottom:18px}.panel h2{font-size:18px;margin:0 0 5px;letter-spacing:-.5px}.sub{font-size:13px;color:var(--muted);margin:0 0 18px}.upload{border:1.5px dashed #b7c8bc;border-radius:16px;min-height:165px;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;background:#f9fbf8;position:relative;overflow:hidden}.upload input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}.upload .camera{font-size:28px;margin-bottom:5px}.upload strong{display:block;font-size:14px}.upload span{display:block;color:var(--muted);font-size:12px;margin-top:4px}.upload img{max-height:260px;max-width:100%;object-fit:contain;border-radius:10px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{min-width:0}.field.full{grid-column:1/-1}label{display:block;font-size:12px;font-weight:750;margin:0 0 6px;color:#35463e}.control{width:100%;border:1px solid #dce3dc;border-radius:11px;padding:11px 12px;background:#fff;color:var(--ink);outline:none;min-width:0}.control:focus{border-color:#658e73;box-shadow:0 0 0 3px #dcebe1}.help{font-size:11px;color:var(--muted);margin-top:5px}.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:800;background:var(--green);color:white}.btn:hover{filter:brightness(1.08)}.btn.secondary{background:var(--mint);color:var(--green)}.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.result{position:sticky;top:12px}.estimate{background:var(--mint);border-radius:16px;padding:18px;margin:14px 0}.estimate small{font-weight:750;color:#4b6956}.estimate .range{font-size:clamp(28px,4vw,36px);font-weight:850;letter-spacing:-1.3px;margin:3px 0;color:var(--green)}.estimate p{font-size:12px;color:#4e6958;margin:0}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px;border:1px solid var(--line);border-radius:14px}.stat span{font-size:11px;color:var(--muted);display:block}.stat strong{font-size:21px;letter-spacing:-.5px;display:block;margin-top:3px}.stat.good strong{color:#26734a}.stat.bad strong{color:var(--red)}.bar{height:7px;border-radius:10px;background:#e8eee8;overflow:hidden;margin-top:13px}.bar div{height:100%;width:0;background:#4b8960;transition:width .2s}.note{font-size:12px;color:var(--muted);background:#fbf6eb;border:1px solid #efe2c7;padding:12px;border-radius:12px;margin-top:14px}.note b{color:#7e5b2c}.history-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.history-item:last-child{border:0}.history-item small{display:block;color:var(--muted)}.history-item strong{white-space:nowrap}.empty{font-size:13px;color:var(--muted);padding:12px 0}.footer{text-align:center;font-size:11px;color:var(--muted);margin:20px 0}.hide{display:none!important}
+@media(max-width:760px){.wrap{padding:13px 12px 35px}.layout{grid-template-columns:1fr}.result{position:static}.hero{padding:24px 20px}.panel{padding:17px}.top{margin-bottom:17px}.pill{font-size:10px}.brand small{font-size:11px}}
+@media(max-width:390px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.stats{gap:8px}.stat{padding:11px}.stat strong{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand"><div class="mark">↗</div><div><b>ESTIMATEUR D’OBJET</b><small>Le bon achat, au bon prix</small></div></div><span class="pill">ACHAT · REVENTE</span></header>
+<section class="hero"><div class="eyebrow">Ton assistant de bonnes affaires</div><h1>Une trouvaille ?<br>Voyons si elle vaut le coup.</h1><p>Ajoute une photo, renseigne les frais et estime le prix de revente ainsi que ton bénéfice potentiel.</p></section>
+<div class="layout">
+<main>
+<section class="panel"><h2>01 · L’objet</h2><p class="sub">Photo et informations de l’annonce</p>
+<div class="upload" id="dropzone"><div id="uploadPrompt"><div class="camera">📷</div><strong>Ajouter une photo de l’objet</strong><span>Prends une photo ou choisis une image</span></div><img id="preview" class="hide" alt="Aperçu de l’objet"><input id="photo" type="file" accept="image/*" aria-label="Choisir une photo"></div>
+<div class="fields" style="margin-top:15px">
+<div class="field full"><label for="title">Nom de l’objet</label><input class="control" id="title" placeholder="Ex. commode vintage en bois"></div>
+<div class="field"><label for="category">Catégorie</label><select class="control" id="category"><option value="meuble">Meuble / décoration</option><option value="outil">Outillage / bricolage</option><option value="electronique">Électronique</option><option value="collection">Collection / vintage</option><option value="mode">Mode / chaussures</option><option value="jardin">Jardin / extérieur</option><option value="jouet">Jouets / jeux</option><option value="autre">Autre objet</option></select></div>
+<div class="field"><label for="condition">État constaté</label><select class="control" id="condition"><option value="excellent">Excellent / comme neuf</option><option value="bon" selected>Bon état</option><option value="moyen">Usagé / à rafraîchir</option><option value="mauvais">À réparer</option></select></div>
+<div class="field full"><label for="url">Lien de l’annonce (facultatif)</label><input class="control" id="url" type="url" placeholder="https://www.leboncoin.fr/..."><div class="help">Le lien est conservé avec ta fiche, mais son contenu n’est pas importé automatiquement.</div></div>
+<div class="field full"><label for="details">Marque, dimensions, défauts, détails</label><textarea class="control" id="details" rows="2" placeholder="Ex. chêne massif, charnière à remplacer…"></textarea></div>
+</div></section>
+<section class="panel"><h2>02 · Les chiffres</h2><p class="sub">Entre les prix et les frais pour calculer ta marge</p>
+<div class="fields">
+<div class="field"><label for="buy">Prix d’achat (€)</label><input class="control money" id="buy" type="number" min="0" step="0.01" value="20"></div>
+<div class="field"><label for="sell">Revente envisagée (€)</label><input class="control money" id="sell" type="number" min="0" step="0.01" value="80"></div>
+<div class="field"><label for="repair">Réparation / peinture (€)</label><input class="control money" id="repair" type="number" min="0" step="0.01" value="0"></div>
+<div class="field"><label for="transport">Transport (€)</label><input class="control money" id="transport" type="number" min="0" step="0.01" value="0"></div>
+<div class="field"><label for="other">Autres frais (€)</label><input class="control money" id="other" type="number" min="0" step="0.01" value="0"></div>
+<div class="field"><label for="target">Bénéfice net minimum (€)</label><input class="control money" id="target" type="number" min="0" step="0.01" value="30"></div>
+</div><div class="actions"><button class="btn" id="save">Enregistrer l’estimation</button><button class="btn secondary" id="reset" type="button">Nouvel objet</button></div></section>
+</main>
+<aside class="result">
+<section class="panel"><h2>03 · Résultat estimé</h2><p class="sub">Une aide à la décision, pas une cote garantie</p>
+<div class="estimate"><small>FOURCHETTE INDICATIVE DE REVENTE</small><div class="range" id="range">—</div><p id="rangeLabel">Choisis une catégorie et un état</p></div>
+<div class="stats"><div class="stat" id="profitCard"><span>Bénéfice estimé</span><strong id="profit">—</strong></div><div class="stat"><span>Marge sur revente</span><strong id="margin">—</strong></div><div class="stat"><span>Prix d’achat max.</span><strong id="maxBuy">—</strong></div><div class="stat"><span>Retour sur achat</span><strong id="roi">—</strong></div></div>
+<div class="bar"><div id="barFill"></div></div><div class="help" id="barLabel">Renseigne les frais pour calculer la rentabilité.</div>
+<div class="note"><b>À savoir :</b> la fourchette est calculée à partir de repères génériques par catégorie et de l’état sélectionné. Elle ne compare pas encore les ventes réelles ni les annonces locales. Vérifie les objets similaires vendus avant d’acheter.</div>
+</section>
+<section class="panel"><h2>Mes estimations</h2><p class="sub">Historique enregistré sur cet appareil</p><div id="history"><div class="empty">Tes estimations enregistrées apparaîtront ici.</div></div><div class="actions"><button class="btn ghost" id="clearHistory" type="button">Effacer l’historique</button></div></section>
+</aside>
+</div>
+<div class="footer">Les calculs sont indicatifs. Les données restent dans ce navigateur et ne sont pas envoyées à un serveur.</div>
+</div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const eur=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(Number.isFinite(n)?n:0);
+const bases={meuble:90,outil:55,electronique:75,collection:65,mode:35,jardin:45,jouet:30,autre:40};
+const factors={excellent:1.35,bon:1,moyen:.65,mauvais:.35};
+let photoData='';
+function num(id){return Math.max(0,Number($(id).value)||0)}
+function calc(){
+const base=bases[$('category').value]||40, f=factors[$('condition').value]||1;
+const low=Math.round(base*f*.65/5)*5, high=Math.round(base*f*1.4/5)*5;
+$('range').textContent=eur(low)+' – '+eur(Math.max(low,high));
+$('rangeLabel').textContent='Repère générique · '+$('condition').selectedOptions[0].text.toLowerCase();
+const buy=num('buy'), sell=num('sell'), costs=num('repair')+num('transport')+num('other');
+const profit=sell-buy-costs, margin=sell>0?profit/sell*100:0, maxBuy=sell-costs-num('target'), roi=buy>0?profit/buy*100:0;
+$('profit').textContent=eur(profit);$('margin').textContent=(Number.isFinite(margin)?margin:0).toLocaleString('fr-FR',{maximumFractionDigits:1})+' %';
+$('maxBuy').textContent=eur(Math.max(0,maxBuy));$('roi').textContent=(Number.isFinite(roi)?roi:0).toLocaleString('fr-FR',{maximumFractionDigits:1})+' %';
+$('profitCard').className='stat '+(profit>=num('target')?'good':'bad');
+const pct=buy+costs+num('target')>0?Math.max(0,Math.min(100,(profit/Math.max(1,sell))*100)):0;
+$('barFill').style.width=pct+'%';
+$('barLabel').textContent=profit>=num('target')?'Objectif de bénéfice atteint (hors fiscalité et temps passé).':'Objectif non atteint : négocie le prix ou revois les frais.';
+}
+function getRecord(){return {id:Date.now(),title:$('title').value.trim()||'Objet sans nom',category:$('category').selectedOptions[0].text,condition:$('condition').selectedOptions[0].text,buy:num('buy'),sell:num('sell'),costs:num('repair')+num('transport')+num('other'),profit:num('sell')-num('buy')-num('repair')-num('transport')-num('other'),url:$('url').value.trim(),date:new Date().toLocaleDateString('fr-FR')}}
+function loadHistory(){try{return JSON.parse(localStorage.getItem('estimateurObjetHistory')||'[]')}catch(e){return []}}
+function renderHistory(){const h=loadHistory(), root=$('history');root.innerHTML='';if(!h.length){root.innerHTML='<div class="empty">Tes estimations enregistrées apparaîtront ici.</div>';return}
+h.slice(0,8).forEach(r=>{const div=document.createElement('div');div.className='history-item';const left=document.createElement('div'),right=document.createElement('div');const b=document.createElement('b');b.textContent=r.title;const sm=document.createElement('small');sm.textContent=r.date+' · Achat '+eur(r.buy)+' · Revente '+eur(r.sell);left.append(b,sm);const val=document.createElement('strong');val.textContent=(r.profit>=0?'+':'')+eur(r.profit);val.style.color=r.profit>=0?'#26734a':'#a94a3b';right.append(val);div.append(left,right);root.append(div)})}
+$('photo').addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{photoData=reader.result;$('preview').src=photoData;$('preview').classList.remove('hide');$('uploadPrompt').classList.add('hide')};reader.readAsDataURL(file)});
+document.querySelectorAll('.money').forEach(el=>el.addEventListener('input',calc));['category','condition'].forEach(id=>$(id).addEventListener('change',calc));
+$('save').addEventListener('click',()=>{const r=getRecord();try{const h=loadHistory();h.unshift(r);localStorage.setItem('estimateurObjetHistory',JSON.stringify(h.slice(0,30)));renderHistory();$('save').textContent='✓ Estimation enregistrée';setTimeout(()=>$('save').textContent='Enregistrer l’estimation',1800)}catch(e){alert('Impossible d’enregistrer sur cet appareil. Vérifie les réglages de stockage du navigateur.')}});
+$('reset').addEventListener('click',()=>{['title','url','details'].forEach(id=>$(id).value='');$('category').value='meuble';$('condition').value='bon';$('buy').value='20';$('sell').value='80';$('repair').value='0';$('transport').value='0';$('other').value='0';$('target').value='30';$('photo').value='';photoData='';$('preview').src='';$('preview').classList.add('hide');$('uploadPrompt').classList.remove('hide');calc();window.scrollTo({top:0,behavior:'smooth'})});
+$('clearHistory').addEventListener('click',()=>{if(confirm('Effacer toutes les estimations enregistrées sur cet appareil ?')){localStorage.removeItem('estimateurObjetHistory');renderHistory()}});
+calc();renderHistory();
+})();
+</script>
+</body>
+</html>
