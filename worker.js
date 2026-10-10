@@ -71,7 +71,6 @@ async function readListing(value) {
       }
     } catch { /* text-only listing analysis remains possible */ }
   }
-  let structured = null;
   try {
     const scripts = [...html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].slice(0, 12);
     for (const match of scripts) {
