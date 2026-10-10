@@ -26,7 +26,7 @@ function showAnalysisOverlay(mode){
  analysisStartedAt=Date.now();overlay.classList.add('visible');document.body.style.overflow='hidden';
  $('analysisTitle').textContent='Analyse en cours…';
  $('analysisDescription').textContent=mode==='listing'?'Lecture de l’annonce puis identification du meuble.':'Identification du meuble et préparation de l’estimation.';
- const stages=['Identification du meuble','Analyse de l’état et des détails','Préparation de la fourchette de prix','Finalisation de l’estimation'];
+ const stages=['Étape 1/4 · Identification du meuble','Étape 2/4 · Vérification de l’état','Étape 3/4 · Estimation indicative','Étape 4/4 · Préparation des résultats'];
  const paint=(n)=>{const pct=Math.min(92,8+Math.floor((Date.now()-analysisStartedAt)/35000*84));$('analysisFill').style.width=pct+'%';$('analysisPercent').textContent=pct+' %';$('analysisProgress').setAttribute('aria-valuenow',String(pct));$('analysisStage').textContent=stages[Math.min(stages.length-1,Math.floor(pct/25))];};
  paint();clearInterval(analysisProgressTimer);analysisProgressTimer=setInterval(paint,450);
 }
@@ -84,7 +84,7 @@ $('analyzePhoto').addEventListener('click',async()=>{
   if(a.renovation)$('workNotes').value=a.renovation;
   if(a.renovationType&&document.querySelector('[data-work="'+a.renovationType+'"]'))document.querySelector('[data-work="'+a.renovationType+'"]').click();
   if(marketEstimate){$('aiStatus').textContent=data.searchGrounded?'Analyse terminée : une fourchette indicative a été calculée. Les comparables et les prix doivent être vérifiés manuellement.':'Analyse terminée : les sources de marché n’ont pas été vérifiées automatiquement. Vérifie les comparables.';}else{$('aiStatus').textContent='Objet analysé, mais Google n’a pas fourni assez de comparables pour estimer un prix de marché fiable.'}
-  if(Number.isFinite(data.listingAskingPrice)&&data.listingAskingPrice>0){$('buy').value=data.listingAskingPrice;}if(data.listingTitle&&!$('title').value.trim())$('title').value=data.listingTitle;$('aiStatus').textContent+=' Calcul de rentabilité prêt : ouverture automatique des résultats.';updateQuota(true);calc();hideAnalysisOverlay(true);go(4);
+  if(Number.isFinite(data.listingAskingPrice)&&data.listingAskingPrice>0){$('buy').value=data.listingAskingPrice;}if(data.listingTitle&&!$('title').value.trim())$('title').value=data.listingTitle;$('aiStatus').textContent+=' Calcul de rentabilité prêt : ouverture automatique des résultats.';updateQuota(true);calc();hideAnalysisOverlay(true);$('aiStatus').textContent+=' Passe maintenant à l’étape 2 pour saisir le prix d’achat, puis à l’étape 3 pour la rénovation. L’estimation finale apparaîtra à l’étape 4.';go(2);
  }catch(e){$('aiStatus').textContent=e.name==='AbortError'?'Analyse trop longue : le serveur a dépassé 35 secondes. Réessaie ou ajoute directement une photo.':'Analyse impossible : '+e.message+' Si le site bloque le lien, essaie une capture d’écran ou ajoute la photo directement.'}
  finally{clearTimeout(timeoutId);if(analysisInProgress)hideAnalysisOverlay(false);analysisInProgress=false;button.disabled=false;button.innerHTML='<span class="search-symbol" aria-hidden="true">⌕</span><span>Identifier le meuble et rechercher son prix</span>'}
 });
