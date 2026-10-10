@@ -151,11 +151,11 @@ export default {
         const context = [];
         if (listing) context.push("LIEN ANALYSÉ : " + listing.url + "\nTitre : " + listing.title + "\nDescription : " + listing.description + "\nPrix demandé détecté : " + (listing.askingPrice ?? "non détecté") + "\nTexte de page : " + (listing.visible || "").slice(0,3500));
         if (userContent) context.push("MESSAGE UTILISATEUR : " + userContent);
-        const content = [];
-        if (context.length) content.push({type:"text",text:context.join("\n\n")});
-        if (imageMatch) content.push({type:"image",image_url:{url:image}});
         const history = messages.map(m=>({role:m && m.role==="assistant"?"assistant":"user",content:String(m && m.content || "").slice(0,2500)})).filter(m=>m.content.trim());
-        const result = await env.AI.run("@cf/qwen/qwen3.8-27b", {messages:[{role:"system",content:system},...history,{role:"user",content:content.length?content:[{type:"text",text:"Analyse cet objet."}]}], reasoning_effort:"low", max_tokens:1200});
+        const promptText = context.length ? context.join("\n\n") : "Analyse cet objet avec méthode, sans inventer les données absentes.";
+        const options = {messages:[{role:"system",content:system},...history,{role:"user",content:promptText}], reasoning_effort:"low", max_tokens:1200};
+        if (imageMatch) options.image = image;
+        const result = await env.AI.run("@cf/qwen/qwen3.8-27b", options);
         const answer = result?.response || result?.choices?.[0]?.message?.content || "";
         if (!String(answer).trim()) return json({error:"L’IA n’a pas renvoyé de réponse."},502);
         return json({answer:String(answer).slice(0,12000), listingTitle:listing?.title || null, listingAskingPrice:listing?.askingPrice ?? null, listingRead:!!listing, provider:"Cloudflare Workers AI", model:"@cf/qwen/qwen3.8-27b"});
