@@ -65,7 +65,7 @@ $('analyzePhoto').addEventListener('click',async()=>{
   if(a.renovation)$('workNotes').value=a.renovation;
   if(a.renovationType&&document.querySelector('[data-work="'+a.renovationType+'"]'))document.querySelector('[data-work="'+a.renovationType+'"]').click();
   if(marketEstimate){$('aiStatus').textContent=data.searchGrounded?'Analyse terminée : une fourchette indicative a été calculée avec des sources issues de la recherche Google. Vérifie les comparables.':'Analyse terminée, mais les sources de recherche n’ont pas pu être confirmées. Vérifie les comparables.';}else{$('aiStatus').textContent='Objet analysé, mais Google n’a pas fourni assez de comparables pour estimer un prix de marché fiable.'}
-  updateQuota(true);calc();
+  if(Number.isFinite(data.listingAskingPrice)&&data.listingAskingPrice>0){$('buy').value=data.listingAskingPrice;}if(data.listingTitle&&!$('title').value.trim())$('title').value=data.listingTitle;$('aiStatus').textContent+=' Calcul de rentabilité prêt : ouverture automatique des résultats.';updateQuota(true);calc();go(4);
  }catch(e){$('aiStatus').textContent='Analyse impossible : '+e.message+' Vérifie l’URL du serveur et sa configuration.'}
  finally{button.disabled=false;button.textContent='✨ Analyser avec l’IA gratuite'}
 });
