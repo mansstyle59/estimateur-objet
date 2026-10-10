@@ -513,6 +513,27 @@ body{line-height:1.5}
  #chatApp .chat-head-sub{font-size:9px!important}
  #chatApp .new-chat,#chatApp .chat-menu-toggle{flex-basis:36px!important;width:36px!important;height:36px!important;min-width:36px!important}
 }
+</style><style id="burger-menu-refinement">
+#chatApp .chat-menu-toggle{position:relative;display:grid;place-items:center;font-size:0!important;gap:0;width:42px;height:42px;flex:0 0 42px;border:1px solid #3d3935;border-radius:14px;background:#211f1d;color:#f0eee8;box-shadow:none}
+#chatApp .chat-menu-toggle:before{content:"";width:18px;height:13px;display:block;background:linear-gradient(#e8e4dc,#e8e4dc) top left/18px 1.7px no-repeat,linear-gradient(#e8e4dc,#e8e4dc) center left/13px 1.7px no-repeat,linear-gradient(#e8e4dc,#e8e4dc) bottom left/18px 1.7px no-repeat}
+#chatApp .chat-menu-toggle[aria-expanded="true"]{background:#30251f;border-color:#775441}
+#chatApp .chat-menu-toggle[aria-expanded="true"]:before{width:17px;height:17px;background:linear-gradient(45deg,transparent calc(50% - .8px),#e8e4dc calc(50% - .8px),#e8e4dc calc(50% + .8px),transparent calc(50% + .8px)),linear-gradient(-45deg,transparent calc(50% - .8px),#e8e4dc calc(50% - .8px),#e8e4dc calc(50% + .8px),transparent calc(50% + .8px))}
+#chatApp .chat-menu{position:fixed;top:calc(76px + env(safe-area-inset-top));right:max(14px,calc((100vw - 860px)/2));width:min(300px,calc(100vw - 28px));max-height:min(68dvh,520px);overflow-y:auto;overscroll-behavior:contain;padding:8px;border:1px solid #403a34;border-radius:18px;background:rgba(29,28,26,.98);box-shadow:0 18px 46px #0009;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+#chatApp .chat-menu-label{padding:10px 11px 8px;color:#9a938b;font-size:10px;font-weight:750;letter-spacing:1.1px}
+#chatApp .chat-menu button{display:flex;align-items:center;gap:11px;width:100%;min-height:54px;padding:9px 10px;border:0;border-radius:12px;background:transparent;color:#eeeae2;text-align:left;transition:background .15s}
+#chatApp .chat-menu button>span:first-child{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid #49382e;border-radius:11px;background:#2c231e;color:#e99a7b;font-size:17px}
+#chatApp .chat-menu button>span:nth-child(2){min-width:0;flex:1}
+#chatApp .chat-menu button b{display:block;font-size:12px;font-weight:650;line-height:1.35;color:#f1eee8}
+#chatApp .chat-menu button small{display:block;margin-top:3px;font-size:10px;line-height:1.4;color:#aaa49b}
+#chatApp .chat-menu button:hover,#chatApp .chat-menu button:focus-visible{background:#302a25;outline:none}
+#chatApp .chat-menu button:active{background:#382b23}
+#chatApp .chat-menu-divider{height:1px;margin:7px 9px;background:#3a3631}
+#chatApp .chat-menu[hidden]{display:none!important}
+@media(max-width:480px){
+ #chatApp .chat-menu{top:calc(72px + env(safe-area-inset-top));right:12px;width:min(310px,calc(100vw - 24px));max-height:68dvh;border-radius:16px}
+ #chatApp .chat-menu button{min-height:52px;padding:8px 9px}
+ #chatApp .chat-menu button b{font-size:12px}
+}
 </style></head><body><div id="appSplash" class="app-splash" role="status" aria-label="Chargement d’Estimateur Objet"><img class="app-splash-logo" src="./icon.svg" alt="Logo officiel Estimateur Objet"><div class="app-splash-name">Estimateur Objet</div><div class="app-splash-sub">Assistant achat-revente · IA</div><div class="app-splash-loader" aria-hidden="true"></div></div><div class="wrap">
 <header class="top"><div class="mark"><img src="./icon.svg" alt=""></div><div class="brand"><b>ESTIMATEUR D’OBJET</b><small>Le bon achat, au bon prix</small></div><span class="pill">GRATUIT</span></header>
 <section class="hero"><div class="eyebrow">ACHAT · RÉNOVATION · REVENTE</div><h1>Repère les bonnes affaires.</h1><p>Ajoute une photo ou un lien, indique ton prix d’achat et découvre le bénéfice potentiel.</p></section>
