@@ -1462,6 +1462,23 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 }
 </style>
 
+
+<style id="valoria-fix-welcome-text-overflow">
+/* Correctif mobile : empêcher la colonne du texte d'être réduite à quelques caractères */
+#chatApp #chatWelcome,
+#chatApp #chatWelcome .chat-welcome-intro{box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:100%!important}
+#chatApp #chatWelcome .chat-welcome-intro{display:flex!important;align-items:flex-start!important;gap:0!important;padding:18px!important}
+#chatApp #chatWelcome .chat-welcome-mark{display:none!important}
+#chatApp #chatWelcome .chat-welcome-copy{display:block!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;max-width:100%!important;inline-size:100%!important}
+#chatApp #chatWelcome .chat-welcome-copy h1{display:block!important;width:100%!important;max-width:100%!important;white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important}
+#chatApp #chatWelcome .chat-welcome-copy p{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;white-space:normal!important;overflow-wrap:break-word!important;word-break:normal!important}
+@media(max-width:480px){
+ #chatApp #chatWelcome .chat-welcome-intro{padding:18px!important}
+ #chatApp #chatWelcome .chat-welcome-copy h1{font-size:25px!important;line-height:1.2!important;margin-bottom:10px!important}
+ #chatApp #chatWelcome .chat-welcome-copy p{font-size:15px!important;line-height:1.65!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
