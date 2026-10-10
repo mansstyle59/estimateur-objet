@@ -125,6 +125,66 @@ body{background:#141414!important}
  #chatApp #chatLink{padding:0 14px}
 }
 @media(prefers-reduced-motion:reduce){#chatApp *{transition:none!important}}
+</style><style id="hybrid-chat-home">
+/* Hybrid: Claude-like header/composer + Estimateur Objet useful shortcuts */
+#chatApp .chat-header{justify-content:space-between}
+#chatApp .chat-brand-icon{display:block!important;width:43px;height:43px;flex:0 0 43px;border-radius:14px}
+#chatApp .chat-header>div:not(.chat-brand-icon){display:block!important;flex:1;min-width:0}
+#chatApp .chat-head-name{font-size:15px;font-weight:750;color:#f2efe9}
+#chatApp .chat-head-sub{display:block!important;font-size:11px;color:#aaa69e}
+#chatApp .new-chat{order:1;font-size:24px}
+#chatApp .new-chat:before{content:none}
+#chatApp .chat-menu-toggle{order:2;font-size:22px}
+#chatApp .chat-menu-toggle:before{content:none}
+#chatApp .chat-welcome{justify-content:flex-start;min-height:0;padding-top:28px}
+#chatApp .chat-welcome-intro{display:flex;align-items:flex-start;gap:13px;text-align:left;margin:0 0 25px;max-width:100%;padding:17px 16px;border:1px solid #302f2d;border-radius:24px;background:linear-gradient(145deg,#201f1e,#191918)}
+#chatApp .chat-welcome-mark{display:grid!important;flex:0 0 48px;width:48px;height:48px;border-radius:50%;background:#302522;border-color:#624334}
+#chatApp .chat-welcome-mark:before{inset:11px;border-color:#df8869}
+#chatApp .chat-welcome-mark:after{border-color:#df8869}
+#chatApp .chat-welcome-copy h1{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:20px;font-weight:700;letter-spacing:-.4px;color:#f0eee8;margin:0 0 8px}
+#chatApp .chat-welcome-copy p{font-size:14px;line-height:1.55;text-align:left;color:#b8b5ae}
+#chatApp .chat-suggestions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#chatApp .chat-suggestion{min-height:104px;padding:13px;border-radius:17px;background:linear-gradient(145deg,#211c19,#1b1a19);border-color:#3b302a}
+#chatApp .chat-suggestion:before{width:30px;height:30px;border-radius:10px;background:#3a2922;opacity:1}
+#chatApp .chat-suggestion strong{font-size:12px;line-height:1.35}
+#chatApp .chat-suggestion span{font-size:11px;line-height:1.4}
+#chatApp .chat-example-list{display:block!important;margin-top:23px;padding-top:16px}
+#chatApp .chat-example-heading{font-size:11px;color:#aaa69e;letter-spacing:.2px;text-transform:none}
+#chatApp .chat-example-list button{padding:12px 13px;margin:7px 0;border:1px solid #343331;border-radius:15px;background:#20201f;font-size:12px}
+#chatApp .chat-example-list button span{font-size:19px}
+#chatApp .chat-scroll{padding-top:105px;padding-bottom:18px}
+#chatApp .chat-composer-wrap{padding-left:14px;padding-right:14px}
+#chatApp .chat-composer{max-width:780px}
+#chatApp #chatAttach{font-size:0}
+#chatApp #chatAttach:before{content:"▧";font-size:20px;font-weight:400}
+#chatApp #chatLink{font-size:12px}
+#chatApp #chatLink:before{content:"↗ ";font-size:14px}
+#chatApp .chat-disclaimer{font-size:10px;line-height:1.4;max-width:600px}
+@media(max-width:480px){
+ #chatApp .chat-header{padding:calc(10px + env(safe-area-inset-top)) 16px 10px;gap:9px}
+ #chatApp .chat-brand-icon{width:40px;height:40px;flex-basis:40px}
+ #chatApp .chat-head-name{font-size:14px}
+ #chatApp .chat-head-sub{font-size:10px}
+ #chatApp .new-chat,#chatApp .chat-menu-toggle{width:48px;height:48px}
+ #chatApp .chat-scroll{padding:82px 14px 15px}
+ #chatApp .chat-welcome{min-height:0;padding-top:12px}
+ #chatApp .chat-welcome-intro{padding:15px 13px;gap:11px;margin-bottom:16px;border-radius:20px}
+ #chatApp .chat-welcome-mark{display:none!important}
+ #chatApp .chat-welcome-copy h1{font-size:20px}
+ #chatApp .chat-welcome-copy p{font-size:13px;line-height:1.55}
+ #chatApp .chat-suggestions{gap:8px}
+ #chatApp .chat-suggestion{min-height:106px;padding:11px;border-radius:15px}
+ #chatApp .chat-suggestion strong{font-size:11px}
+ #chatApp .chat-suggestion span{font-size:10px}
+ #chatApp .chat-example-list{margin-top:17px;padding-top:12px}
+ #chatApp .chat-example-list button{font-size:12px;padding:11px}
+ #chatApp .chat-composer-wrap{padding:8px 12px calc(10px + env(safe-area-inset-bottom))}
+ #chatApp .chat-composer{gap:8px;padding:12px 12px 10px;border-radius:27px}
+ #chatApp #chatInput{min-height:36px;font-size:16px!important}
+ #chatApp .chat-composer-tools{min-height:40px}
+ #chatApp .chat-tool{height:40px}
+ #chatApp #chatSend{height:44px;width:44px;min-width:44px}
+}
 </style></head><body><div id="appSplash" class="app-splash" role="status" aria-label="Chargement d’Estimateur Objet"><img class="app-splash-logo" src="./icon.svg" alt="Logo officiel Estimateur Objet"><div class="app-splash-name">Estimateur Objet</div><div class="app-splash-sub">Assistant achat-revente · IA</div><div class="app-splash-loader" aria-hidden="true"></div></div><div class="wrap">
 <header class="top"><div class="mark"><img src="./icon.svg" alt=""></div><div class="brand"><b>ESTIMATEUR D’OBJET</b><small>Le bon achat, au bon prix</small></div><span class="pill">GRATUIT</span></header>
 <section class="hero"><div class="eyebrow">ACHAT · RÉNOVATION · REVENTE</div><h1>Repère les bonnes affaires.</h1><p>Ajoute une photo ou un lien, indique ton prix d’achat et découvre le bénéfice potentiel.</p></section>
