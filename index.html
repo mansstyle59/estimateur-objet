@@ -455,6 +455,26 @@ body{line-height:1.5}
  #chatApp #chatLink{height:40px;min-height:40px;padding:0 13px}
  #chatApp .chat-composer-tools{gap:8px}
 }
+</style><style id="composer-layout-final-fix">
+/* Final composer layout: one plus, one link icon, one send arrow */
+#chatApp .chat-composer-tools{display:flex!important;align-items:center!important;gap:10px!important}
+#chatApp #chatAttach{display:inline-flex!important;align-items:center!important;justify-content:center!important;position:relative!important;flex:0 0 44px!important;width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;padding:0!important;border-radius:50%!important;font-size:0!important;line-height:0!important;overflow:hidden}
+#chatApp #chatAttach:before,#chatApp #chatAttach:after{content:none!important;display:none!important}
+#chatApp #chatAttach{font-size:27px!important;line-height:1!important}
+#chatApp #chatAttach{color:transparent!important}
+#chatApp #chatAttach .plus-icon{display:block!important;color:#eeeae2!important;font-size:27px!important;font-weight:300!important;line-height:1!important}
+#chatApp #chatLink{display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:7px!important;flex:0 0 auto!important;width:auto!important;min-width:76px!important;height:40px!important;min-height:40px!important;padding:0 14px!important;border-radius:22px!important;font-size:13px!important;line-height:1!important;white-space:nowrap!important}
+#chatApp #chatLink:before,#chatApp #chatLink:after{content:none!important;display:none!important}
+#chatApp #chatLink .link-icon{display:inline-block!important;font-size:15px!important;line-height:1!important}
+#chatApp #chatLink .link-label{display:inline-block!important;font-size:13px!important;line-height:1!important}
+#chatApp #chatSend{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 44px!important;width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;margin-left:auto!important;padding:0!important;font-size:25px!important;line-height:1!important}
+#chatApp #chatSend:before,#chatApp #chatSend:after{content:none!important;display:none!important}
+@media(max-width:480px){
+ #chatApp .chat-composer-tools{gap:9px!important}
+ #chatApp #chatAttach{flex-basis:44px!important;width:44px!important;min-width:44px!important}
+ #chatApp #chatLink{min-width:76px!important;padding:0 13px!important}
+ #chatApp #chatSend{flex-basis:44px!important;width:44px!important;min-width:44px!important}
+}
 </style></head><body><div id="appSplash" class="app-splash" role="status" aria-label="Chargement d’Estimateur Objet"><img class="app-splash-logo" src="./icon.svg" alt="Logo officiel Estimateur Objet"><div class="app-splash-name">Estimateur Objet</div><div class="app-splash-sub">Assistant achat-revente · IA</div><div class="app-splash-loader" aria-hidden="true"></div></div><div class="wrap">
 <header class="top"><div class="mark"><img src="./icon.svg" alt=""></div><div class="brand"><b>ESTIMATEUR D’OBJET</b><small>Le bon achat, au bon prix</small></div><span class="pill">GRATUIT</span></header>
 <section class="hero"><div class="eyebrow">ACHAT · RÉNOVATION · REVENTE</div><h1>Repère les bonnes affaires.</h1><p>Ajoute une photo ou un lien, indique ton prix d’achat et découvre le bénéfice potentiel.</p></section>
@@ -706,7 +726,7 @@ body>.wrap{display:none!important}
 .market-tool-link b{display:block;font-size:12px}.market-tool-link small{display:block;font-size:10px;color:#aaa69e;margin-top:2px}
 .market-tools-note{font-size:10px;line-height:1.5;color:#aaa69e;margin:10px 0 0}
 @media(max-width:420px){.market-tools-grid{grid-template-columns:1fr}}
-</style><div class="chat-composer-wrap"><div class="chat-composer"><textarea id="chatInput" rows="1" placeholder="Écris un message ou décris ton objet…" aria-label="Message"></textarea><div class="chat-composer-tools"><button class="chat-tool" id="chatAttach" type="button" aria-label="Ajouter une photo">▧ Photo</button><button class="chat-tool" id="chatLink" type="button" aria-label="Coller un lien"><span class="link-icon" aria-hidden="true">↗</span><span class="link-label">Lien</span></button><input class="chat-hidden-file" id="chatFile" type="file" accept="image/*"><span class="chat-attach-name" id="chatFileName"></span><button class="chat-tool send" id="chatSend" type="button" aria-label="Envoyer">↑</button></div></div><div class="chat-disclaimer">Les estimations sont indicatives. Vérifie les annonces réelles et l’état de l’objet avant d’acheter.</div></div>
+</style><div class="chat-composer-wrap"><div class="chat-composer"><textarea id="chatInput" rows="1" placeholder="Écris un message ou décris ton objet…" aria-label="Message"></textarea><div class="chat-composer-tools"><button class="chat-tool" id="chatAttach" type="button" aria-label="Ajouter une photo"><span class="plus-icon" aria-hidden="true">＋</span></button><button class="chat-tool" id="chatLink" type="button" aria-label="Coller un lien"><span class="link-icon" aria-hidden="true">↗</span><span class="link-label">Lien</span></button><input class="chat-hidden-file" id="chatFile" type="file" accept="image/*"><span class="chat-attach-name" id="chatFileName"></span><button class="chat-tool send" id="chatSend" type="button" aria-label="Envoyer">↑</button></div></div><div class="chat-disclaimer">Les estimations sont indicatives. Vérifie les annonces réelles et l’état de l’objet avant d’acheter.</div></div>
 </div>
 <script>
 (function(){
