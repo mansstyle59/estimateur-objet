@@ -107,9 +107,48 @@ export default {
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: { "Access-Control-Allow-Origin": ALLOWED_ORIGIN, "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Max-Age": "86400" } });
     if (origin !== ALLOWED_ORIGIN) return json({ error: "Origine non autorisée." }, 403);
     if (request.method !== "POST") return json({ error: "Utilise une requête POST." }, 405);
-    if (!env.AI) return json({ error: "Le service Workers AI n'est pas activé." }, 503);
     try {
       const body = await request.json();
+      if (body.action === "marketSearch") {
+        const q = String(body.query || "").trim().slice(0, 180);
+        if (q.length < 2) return json({ error: "Ajoute un nom d’objet plus précis pour rechercher des annonces." }, 400);
+        if (!env.EBAY_CLIENT_ID || !env.EBAY_CLIENT_SECRET) {
+          return json({ error: "La recherche eBay nécessite les clés gratuites du compte développeur eBay. Ajoute EBAY_CLIENT_ID et EBAY_CLIENT_SECRET dans les secrets du Worker Cloudflare." }, 503);
+        }
+        const credentials = btoa(env.EBAY_CLIENT_ID + ":" + env.EBAY_CLIENT_SECRET);
+        const tokenResponse = await fetch("https://api.ebay.com/identity/v1/oauth2/token", {
+          method: "POST",
+          headers: { "Authorization": "Basic " + credentials, "Content-Type": "application/x-www-form-urlencoded" },
+          body: "grant_type=client_credentials&scope=" + encodeURIComponent("https://api.ebay.com/oauth/api_scope"),
+          signal: AbortSignal.timeout(9000)
+        });
+        const tokenData = await tokenResponse.json();
+        if (!tokenResponse.ok || !tokenData.access_token) return json({ error: "eBay n’a pas autorisé la recherche. Vérifie les clés développeur et leur accès à la production." }, 502);
+        const endpoint = new URL("https://api.ebay.com/buy/browse/v1/item_summary/search");
+        endpoint.searchParams.set("q", q);
+        endpoint.searchParams.set("limit", "20");
+        endpoint.searchParams.set("sort", "price");
+        endpoint.searchParams.set("filter", "buyingOptions:{FIXED_PRICE}");
+        const marketResponse = await fetch(endpoint.toString(), {
+          headers: { "Authorization": "Bearer " + tokenData.access_token, "X-EBAY-C-MARKETPLACE-ID": "EBAY_FR", "Accept": "application/json" },
+          signal: AbortSignal.timeout(10000)
+        });
+        const marketData = await marketResponse.json();
+        if (!marketResponse.ok) return json({ error: "La recherche eBay a échoué (HTTP " + marketResponse.status + "). Réessaie plus tard." }, 502);
+        const listings = (marketData.itemSummaries || []).map(item => ({
+          title: String(item.title || "Annonce eBay").slice(0, 180),
+          price: Number(item.price && item.price.value),
+          currency: item.price && item.price.currency || "EUR",
+          condition: String(item.condition || item.conditionId || "État non précisé").slice(0, 80),
+          url: item.itemWebUrl || "",
+          image: item.image && item.image.imageUrl || "",
+          shipping: item.shippingOptions && item.shippingOptions[0] && item.shippingOptions[0].shippingCost ? Number(item.shippingOptions[0].shippingCost.value) : 0
+        })).filter(item => item.url && Number.isFinite(item.price) && item.price > 0 && item.currency === "EUR");
+        const prices = listings.map(item => item.price).sort((a,b)=>a-b);
+        const median = prices.length ? (prices.length % 2 ? prices[(prices.length-1)/2] : (prices[prices.length/2-1]+prices[prices.length/2])/2) : null;
+        return json({ query: q, count: listings.length, median, min: prices.length ? prices[0] : null, max: prices.length ? prices[prices.length-1] : null, listings: listings.slice(0, 12), source: "eBay Browse API", priceType: "prix demandés des annonces actives, pas ventes conclues" });
+      }
+      if (!env.AI) return json({ error: "Le service Workers AI n'est pas activé." }, 503);
       let image = typeof body.image === "string" ? body.image : "";
       let listing = null;
       if (body.listingUrl) {
