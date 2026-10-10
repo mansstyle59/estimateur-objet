@@ -142,7 +142,17 @@ body>.wrap{display:none!important}
 @keyframes chatIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:480px){.chat-shell{padding-left:13px;padding-right:13px}.chat-header{height:58px}.chat-welcome{padding-top:8vh}.chat-suggestions{grid-template-columns:1fr}.chat-suggestion:nth-child(n+3){display:none}.chat-scroll{padding-top:20px}.chat-composer{border-radius:17px}.chat-message{gap:9px}.chat-message-body{font-size:14px}}
 </style>
-<style>.chat-result-card{box-shadow:0 8px 24px #0002}.chat-result-title{letter-spacing:-.2px}.chat-result-meta{overflow-wrap:anywhere}.chat-result-actions button{cursor:pointer;transition:background .15s,border-color .15s}.chat-result-actions button:hover{background:#33251f;border-color:#8b5946}.chat-welcome-mark{font-size:0;position:relative}.chat-welcome-mark:after{content:'⌕';font-size:43px;font-weight:400;line-height:1;color:#F0A083;transform:translateY(-2px)}</style><style id="chat-controls-fix">
+<style>.chat-result-card{box-shadow:0 8px 24px #0002}.chat-result-title{letter-spacing:-.2px}.chat-result-meta{overflow-wrap:anywhere}.chat-result-actions button{cursor:pointer;transition:background .15s,border-color .15s}.chat-result-actions button:hover{background:#33251f;border-color:#8b5946}.chat-welcome-mark{font-size:0;position:relative}.chat-welcome-mark:after{content:'⌕';font-size:43px;font-weight:400;line-height:1;color:#F0A083;transform:translateY(-2px)}</style><style id="chat-menu-consistency">
+.chat-head-sub{display:flex;align-items:center;gap:6px}.chat-status-dot{width:7px;height:7px;border-radius:50%;background:#8ac59b;box-shadow:0 0 0 3px #8ac59b18;display:inline-block;flex:0 0 7px}
+.chat-menu{padding:8px}.chat-menu-label{padding:9px 10px 7px;color:#8f8a82;font-size:10px;font-weight:800;letter-spacing:1.2px}
+.chat-menu button{display:flex;align-items:center;gap:11px;padding:11px 10px;text-align:left}.chat-menu button>span:first-child{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border:1px solid #45362e;background:#2b211d;color:#f4b39a;border-radius:10px;font-size:17px}
+.chat-menu button>span:nth-child(2){min-width:0}.chat-menu button b{display:block;font-size:12px;font-weight:700}.chat-menu button small{display:block;margin-top:3px;font-size:10px;color:#aaa69e;line-height:1.4}
+.chat-menu-divider{height:1px;background:#393631;margin:6px 8px}
+.chat-typing .chat-message-body>div:last-child{color:#c9a28f;animation:typingPulse 1.2s ease-in-out infinite}
+@keyframes typingPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.chat-menu button:focus-visible,.chat-tool:focus-visible,.chat-header button:focus-visible{outline:2px solid #d97757;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.chat-typing .chat-message-body>div:last-child{animation:none}}
+</style><style id="chat-controls-fix">
 .chat-header{display:flex;gap:9px;min-width:0}.chat-header>div:nth-child(2){min-width:0;flex:1}.chat-head-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chat-header .new-chat,.chat-menu-toggle{flex-shrink:0;transition:background .16s,border-color .16s,transform .16s}.chat-header .new-chat:hover,.chat-menu-toggle:hover{background:#30211d;border-color:#76503f}.chat-header .new-chat:active,.chat-menu-toggle:active{transform:scale(.96)}
 .chat-menu[hidden]{display:none!important}.chat-menu{max-width:calc(100vw - 28px);max-height:min(60vh,420px);overflow:auto}
@@ -213,7 +223,7 @@ body>.wrap{display:none!important}
 .chat-composer{border-radius:23px}
 }
 </style><div class="chat-shell" id="chatApp">
-<header class="chat-header"><div class="chat-brand-icon"><img src="./icon.svg" alt="" /></div><div><div class="chat-head-name">Estimateur Objet</div><div class="chat-head-sub">Assistant achat-revente · IA</div></div><button class="new-chat" id="chatNew" type="button" aria-label="Nouvelle conversation" title="Nouvelle conversation">＋</button><button class="chat-menu-toggle" id="chatMenuToggle" type="button" aria-label="Afficher le menu" aria-expanded="false">☰</button></header><div class="chat-menu" id="chatMenu" hidden><button type="button" data-menu-action="examples">Exemples de questions</button><button type="button" data-menu-action="new">Nouvelle conversation</button><button type="button" data-menu-action="help">Comment estimer un objet</button></div>
+<header class="chat-header"><div class="chat-brand-icon"><img src="./icon.svg" alt="" /></div><div><div class="chat-head-name">Estimateur Objet</div><div class="chat-head-sub"><span class="chat-status-dot"></span> IA Qwen · accès gratuit limité</div></div><button class="new-chat" id="chatNew" type="button" aria-label="Nouvelle conversation" title="Nouvelle conversation">＋</button><button class="chat-menu-toggle" id="chatMenuToggle" type="button" aria-label="Afficher le menu" aria-expanded="false">☰</button></header><div class="chat-menu" id="chatMenu" hidden><div class="chat-menu-label">VOTRE ASSISTANT</div><button type="button" data-menu-action="new"><span>＋</span><span><b>Nouvelle conversation</b><small>Repartir de zéro</small></span></button><button type="button" data-menu-action="estimate"><span>⌕</span><span><b>Nouvelle estimation</b><small>Photo, objet et rentabilité</small></span></button><button type="button" data-menu-action="examples"><span>▦</span><span><b>Exemples de questions</b><small>Pour démarrer rapidement</small></span></button><button type="button" data-menu-action="prices"><span>↗</span><span><b>Rechercher les prix</b><small>Comparer les annonces</small></span></button><div class="chat-menu-divider"></div><button type="button" data-menu-action="model"><span>✳</span><span><b>IA utilisée</b><small>Qwen · Cloudflare Workers AI</small></span></button><button type="button" data-menu-action="help"><span>ⓘ</span><span><b>Comment ça marche</b><small>Conseils et limites</small></span></button></div>
 <main class="chat-scroll" id="chatScroll" aria-live="polite">
 <div class="chat-welcome" id="chatWelcome"><div class="chat-welcome-intro"><div class="chat-welcome-mark" role="img" aria-label="Assistant IA"></div><div class="chat-welcome-copy"><h1>Bonjour ! 👋</h1><p>Je suis votre assistant pour estimer la valeur des objets et calculer leur rentabilité. Envoyez une photo, collez une annonce ou posez votre question.</p></div></div>
 <div class="chat-suggestions">
@@ -241,14 +251,50 @@ const $=id=>document.getElementById(id);const messages=$('chatMessages');const i
 function scrollBottom(){requestAnimationFrame(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}))}
 function addMessage(role,text,extra){$('chatWelcome').style.display='none';const row=document.createElement('div');row.className='chat-message '+role;const avatar=document.createElement('div');avatar.className='chat-avatar';if(role==='user'){avatar.textContent='Vous'}else{avatar.classList.add('chat-avatar-brand');const logo=document.createElement('img');logo.src='./assistant-avatar.svg';logo.alt='';avatar.append(logo)}const body=document.createElement('div');body.className='chat-message-body';const author=document.createElement('span');author.className='chat-author';author.textContent=role==='user'?'Vous':'Estimateur Objet';body.append(author);const p=document.createElement('div');p.textContent=text;body.append(p);if(extra&&extra.image){const im=document.createElement('img');im.src=extra.image;im.alt='Photo envoyée';body.append(im)}if(extra&&extra.node)body.append(extra.node);row.append(avatar,body);messages.append(row);scrollBottom();return {row,body}}
 function statusReply(text){if(!text||text===lastStatus)return;lastStatus=text;addMessage('assistant',text)}
-function send(){
- if(busy)return;const text=input.value.trim();if(!text&&!selectedFile)return;
- addMessage('user',text||'Peux-tu identifier cette photo ?',selectedFile&&selectedFile.preview?{image:selectedFile.preview}:null);
- if(text){const titleMatch=text.match(/(?:c['’]est|objet|meuble|commode|buffet|table|chaise|armoire)\s+(?:un|une|des|du|de la)?\s*([^,.!?]{2,100})/i);if(titleMatch&&!$('title').value.trim())$('title').value=titleMatch[1].trim();const buyMatch=text.match(/(?:acheté|achat|prix d'achat|à|pour)\s*(?:à\s*)?(\d+(?:[.,]\d{1,2})?)\s*(?:€|euros?)/i);if(buyMatch){$('buy').value=buyMatch[1].replace(',','.');} $('details').value=[$('details').value,text].filter(Boolean).join(' · ').slice(0,800);}
- input.value='';input.style.height='auto';const file=selectedFile&&selectedFile.file;selectedFile=null;$('chatFileName').textContent='';if(file){const dt=new DataTransfer();dt.items.add(file);$('photo').files=dt.files;$('photo').dispatchEvent(new Event('change',{bubbles:true}));busy=true;$('chatSend').disabled=true;watchAnalysis();return;}
- const url=text.match(/https?:\/\/[^\s]+/i);if(url){$('listingUrl').value=url[0].replace(/[),.]+$/,'');$('analyzePhoto').click();busy=true;$('chatSend').disabled=true;watchAnalysis();return;}
- if(/photo|image|meuble|objet|annonce|identifier|prix|estimer|revente|achat-revente|bonne affaire|rénovation/i.test(text)){statusReply('D’accord. Pour analyser précisément un objet, ajoute sa photo avec « + Photo » ou colle le lien public de son annonce. Je pourrai ensuite t’aider à évaluer le prix et les frais.');return;}
- statusReply('Je peux t’aider pour l’achat-revente, l’identification, la rénovation et le calcul de bénéfice. Pour une estimation fiable, envoie aussi une photo ou le lien de l’annonce.');
+async function send(){
+ if(busy)return;
+ const text=input.value.trim();
+ if(!text&&!selectedFile)return;
+ const attached=selectedFile&&selectedFile.preview?{image:selectedFile.preview}:null;
+ addMessage('user',text||(attached?'Peux-tu identifier cette photo ?':''),attached);
+ if(text){
+  const titleMatch=text.match(/(?:c['’]est|objet|meuble|commode|buffet|table|chaise|armoire)\\s+(?:un|une|des|du|de la)?\\s*([^,.!?]{2,100})/i);
+  if(titleMatch&&!$('title').value.trim())$('title').value=titleMatch[1].trim();
+  const buyMatch=text.match(/(?:acheté|achat|prix d'achat|à|pour)\\s*(?:à\\s*)?(\\d+(?:[.,]\\d{1,2})?)\\s*(?:€|euros?)/i);
+  if(buyMatch)$('buy').value=buyMatch[1].replace(',','.');
+  $('details').value=[$('details').value,text].filter(Boolean).join(' · ').slice(0,800);
+ }
+ input.value='';input.style.height='auto';
+ const file=selectedFile&&selectedFile.file;selectedFile=null;$('chatFileName').textContent='';
+ if(file){
+  const dt=new DataTransfer();dt.items.add(file);$('photo').files=dt.files;
+  $('photo').dispatchEvent(new Event('change',{bubbles:true}));
+  busy=true;$('chatSend').disabled=true;watchAnalysis();return;
+ }
+ const url=text.match(/https?:\\/\\/[^\\s]+/i);
+ if(url){$('listingUrl').value=url[0].replace(/[),.]+$/,'');$('analyzePhoto').click();busy=true;$('chatSend').disabled=true;watchAnalysis();return;}
+ if(!text)return;
+ conversation.push({role:'user',content:text});
+ busy=true;$('chatSend').disabled=true;$('chatAttach').disabled=true;$('chatLink').disabled=true;
+ const typing=addMessage('assistant','Je réfléchis…');
+ typing.row.classList.add('chat-typing');
+ try{
+  const response=await fetch('https://estimateur-objet-api.dewulf-denis.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'chat',messages:conversation.slice(-12)})});
+  const data=await response.json();
+  if(!response.ok||!data.answer)throw new Error(data.error||'Le service IA est momentanément indisponible.');
+  typing.body.querySelector('div')?.remove();
+  typing.body.lastChild.textContent=data.answer;
+  typing.row.classList.remove('chat-typing');
+  conversation.push({role:'assistant',content:data.answer});
+  scrollBottom();
+ }catch(err){
+  typing.body.querySelector('div')?.remove();
+  typing.body.lastChild.textContent=(err.message||'Connexion IA impossible.')+' Tu peux réessayer dans un instant.';
+  typing.row.classList.remove('chat-typing');
+  conversation.pop();
+ }finally{
+  busy=false;$('chatSend').disabled=false;$('chatAttach').disabled=false;$('chatLink').disabled=false;input.focus();
+ }
 }
 function watchAnalysis(){
  let prior=$('aiStatus').textContent;let done=false;
@@ -285,7 +331,7 @@ const sites=[['L','Leboncoin','Annonces en France','https://www.leboncoin.fr/rec
  observer.observe($('aiStatus'),{childList:true,subtree:true,characterData:true});
  setTimeout(()=>{if(!done){observer.disconnect();busy=false;$('chatSend').disabled=false;statusReply('L’analyse prend trop de temps. Réessaie avec une photo plus nette ou un lien public.')}},40000);
 }
-$('chatLink').addEventListener('click',async()=>{input.placeholder='Colle le lien public de ton annonce ici…';input.focus();try{if(navigator.clipboard&&navigator.clipboard.readText){const clip=(await navigator.clipboard.readText()).trim();if(/^https?:\/\//i.test(clip)){input.value=clip;input.dispatchEvent(new Event('input',{bubbles:true}));input.focus()}}}catch(e){} });$('chatMenuToggle').addEventListener('click',()=>{const menu=$('chatMenu');const open=menu.hidden;menu.hidden=!open;$('chatMenuToggle').setAttribute('aria-expanded',String(open))});$('chatMenu').addEventListener('click',e=>{const action=e.target.closest('[data-menu-action]')?.dataset.menuAction;if(!action)return;$('chatMenu').hidden=true;$('chatMenuToggle').setAttribute('aria-expanded','false');if(action==='new')$('chatNew').click();if(action==='examples')document.querySelector('.chat-example-list')?.scrollIntoView({behavior:'smooth',block:'center'});if(action==='help'){input.value='Explique-moi comment estimer un objet d’occasion et calculer sa rentabilité.';input.focus()}});document.addEventListener('click',e=>{if(!$('chatMenu').contains(e.target)&&e.target!==$('chatMenuToggle')){$('chatMenu').hidden=true;$('chatMenuToggle').setAttribute('aria-expanded','false')}});$('chatSend').addEventListener('click',send);input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,160)+'px'});$('chatAttach').addEventListener('click',()=>$('chatFile').click());$('chatFile').addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;if(selectedFile&&selectedFile.preview)URL.revokeObjectURL(selectedFile.preview);selectedFile={file,preview:URL.createObjectURL(file)};$('chatFileName').textContent=file.name;input.placeholder='Ajoute une question sur la photo (facultatif)…';input.focus()});document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.prompt;input.focus()}));$('chatNew').addEventListener('click',()=>{if(busy)return;messages.innerHTML='';$('chatWelcome').style.display='';input.value='';input.style.height='auto';selectedFile=null;$('chatFile').value='';$('chatFileName').textContent='';input.placeholder='Écris un message ou décris ton objet…';lastStatus='';$('chatScroll').scrollTop=0;window.scrollTo({top:0,behavior:'smooth'})}); 
+$('chatLink').addEventListener('click',async()=>{input.placeholder='Colle le lien public de ton annonce ici…';input.focus();try{if(navigator.clipboard&&navigator.clipboard.readText){const clip=(await navigator.clipboard.readText()).trim();if(/^https?:\/\//i.test(clip)){input.value=clip;input.dispatchEvent(new Event('input',{bubbles:true}));input.focus()}}}catch(e){} });$('chatMenuToggle').addEventListener('click',()=>{const menu=$('chatMenu');const open=menu.hidden;menu.hidden=!open;$('chatMenuToggle').setAttribute('aria-expanded',String(open))});$('chatMenu').addEventListener('click',e=>{const action=e.target.closest('[data-menu-action]')?.dataset.menuAction;if(!action)return;$('chatMenu').hidden=true;$('chatMenuToggle').setAttribute('aria-expanded','false');if(action==='new')$('chatNew').click();if(action==='examples')document.querySelector('.chat-example-list')?.scrollIntoView({behavior:'smooth',block:'center'});if(action==='estimate'){const wrap=document.querySelector('body>.wrap');wrap.style.display='block';wrap.scrollIntoView({behavior:'smooth'});document.querySelector('[data-nav="1"]')?.click();}if(action==='prices'){input.value='Aide-moi à comparer les prix de revente. Je vais te donner le nom de l’objet.';input.focus()}if(action==='help'||action==='model'){const card=document.createElement('div');card.className='chat-result-card';const title=document.createElement('div');title.className='chat-result-title';title.textContent=action==='model'?'Modèle IA utilisé':'Comment fonctionne Estimateur Objet';card.append(title);const p=document.createElement('div');p.className='chat-result-meta';p.textContent=action==='model'?'Le chat utilise Qwen via Cloudflare Workers AI, un modèle à poids ouverts. L’accès dépend des limites gratuites du fournisseur : il n’est pas garanti illimité. Les estimations restent indicatives.':'Le chat répond aux questions avec l’IA Qwen. Pour une estimation visuelle, joins une photo ; pour une annonce, colle son lien. Les prix doivent être comparés à des annonces réellement similaires.';card.append(p);const link=document.createElement('a');link.href='https://openrouter.ai/collections/free-models';link.target='_blank';link.rel='noopener noreferrer';link.textContent='Découvrir d’autres modèles IA gratuits ↗';link.style.cssText='display:inline-block;margin-top:12px;color:#f4b39a;font-size:13px';card.append(link);addMessage('assistant','',{node:card})}});document.addEventListener('click',e=>{if(!$('chatMenu').contains(e.target)&&e.target!==$('chatMenuToggle')){$('chatMenu').hidden=true;$('chatMenuToggle').setAttribute('aria-expanded','false')}});$('chatSend').addEventListener('click',send);input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,160)+'px'});$('chatAttach').addEventListener('click',()=>$('chatFile').click());$('chatFile').addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;if(selectedFile&&selectedFile.preview)URL.revokeObjectURL(selectedFile.preview);selectedFile={file,preview:URL.createObjectURL(file)};$('chatFileName').textContent=file.name;input.placeholder='Ajoute une question sur la photo (facultatif)…';input.focus()});document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.prompt;input.focus()}));$('chatNew').addEventListener('click',()=>{if(busy)return;messages.innerHTML='';conversation=[];$('chatWelcome').style.display='';input.value='';input.style.height='auto';selectedFile=null;$('chatFile').value='';$('chatFileName').textContent='';input.placeholder='Écris un message ou décris ton objet…';lastStatus='';$('chatScroll').scrollTop=0;window.scrollTo({top:0,behavior:'smooth'})}); 
 const splash=$('appSplash');if(splash){const hideSplash=()=>setTimeout(()=>splash.classList.add('is-hidden'),950);if(document.readyState==='complete')hideSplash();else window.addEventListener('load',hideSplash,{once:true});setTimeout(()=>splash.classList.add('is-hidden'),2600)}
 })();
 </script>
