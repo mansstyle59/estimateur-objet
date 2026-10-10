@@ -1479,6 +1479,22 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 }
 </style>
 
+
+<style id="valoria-content-icons-premium">
+/* Icônes du panneau d'accueil : homogènes, lisibles et alignées sur mobile */
+#chatApp .chat-welcome-mark{display:none!important}
+#chatApp .chat-welcome-intro{gap:0!important}
+#chatApp .chat-suggestion{position:relative!important;grid-template-columns:38px minmax(0,1fr)!important;grid-template-rows:auto auto!important;column-gap:11px!important;row-gap:4px!important;align-items:center!important;align-content:center!important;min-width:0!important}
+#chatApp .chat-suggestion:before{grid-column:1!important;grid-row:1 / span 2!important;display:grid!important;place-items:center!important;width:36px!important;height:36px!important;min-width:36px!important;margin:0!important;border:1px solid rgba(223,152,125,.22)!important;border-radius:12px!important;background:rgba(223,152,125,.075)!important;color:#e4a187!important;font-family:system-ui,sans-serif!important;font-size:19px!important;font-weight:500!important;line-height:1!important;box-shadow:inset 0 1px rgba(255,255,255,.04)!important}
+#chatApp .chat-suggestion strong{grid-column:2!important;grid-row:1!important;min-width:0!important;overflow-wrap:normal!important;word-break:normal!important}
+#chatApp .chat-suggestion span{grid-column:2!important;grid-row:2!important;min-width:0!important;overflow-wrap:break-word!important}
+#chatApp .chat-suggestion:active:before{background:rgba(223,152,125,.14)!important;border-color:rgba(223,152,125,.4)!important}
+@media(max-width:480px){
+ #chatApp .chat-suggestion{grid-template-columns:32px minmax(0,1fr)!important;column-gap:9px!important;padding:12px 10px!important}
+ #chatApp .chat-suggestion:before{width:31px!important;height:31px!important;min-width:31px!important;border-radius:10px!important;font-size:17px!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
