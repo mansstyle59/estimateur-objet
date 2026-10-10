@@ -33,3 +33,32 @@ Le serveur utilise `gemini-2.5-flash-lite`. Les modèles, quotas et conditions d
 - Elle peut se tromper : vérifie les marques, matériaux et défauts.
 - Elle ne retourne volontairement **aucun prix de marché**. Les prix de revente doivent être vérifiés en comparant des annonces comparables ; les liens de recherche de l'application ne récupèrent pas automatiquement les prix.
 - Le code limite les images à 3 Mo et applique une limitation simple par adresse IP. Cette limitation en mémoire n'est pas une protection anti-abus complète sur un service serverless : surveille les quotas et n'utilise pas une clé liée à un compte payant sans protection supplémentaire.
+
+
+## Option gratuite open source : Ollama sur ton Mac
+
+Cette option utilise le modèle open source `llava:7b` directement sur ton Mac. Elle ne nécessite pas de clé API et envoie la photo à aucun service IA externe. **Elle fonctionne uniquement dans le navigateur du Mac où Ollama tourne** : le bouton ne peut pas utiliser le `localhost` du Mac depuis un iPhone.
+
+1. Installe Ollama pour macOS depuis https://ollama.com/download.
+2. Ouvre l’app Terminal sur le Mac et lance :
+   ```bash
+   ollama pull llava:7b
+   ```
+   Le téléchargement peut prendre plusieurs Go.
+3. Autorise l’origine GitHub Pages dans Ollama. Si Ollama est installé comme application macOS, quitte-le complètement, puis dans Terminal exécute :
+   ```bash
+   launchctl setenv OLLAMA_ORIGINS "https://mansstyle59.github.io"
+   ```
+   Rouvre ensuite Ollama. Cette variable autorise les requêtes du site à Ollama depuis ce navigateur. Si tu utilises un autre mode d’installation, consulte la documentation Ollama sur les variables d’environnement.
+4. Vérifie dans Terminal que le modèle est présent avec `ollama list` et que le serveur local tourne.
+5. Sur le Mac, ouvre https://mansstyle59.github.io/estimateur-objet/ dans un navigateur, puis choisis une photo et clique **IA open source sur mon Mac**.
+
+Documentation officielle Ollama : https://docs.ollama.com/ et modèle vision : https://ollama.com/library/llava.
+
+### Limites de l’option locale
+
+- Le Mac doit être allumé, Ollama lancé et le modèle téléchargé.
+- L’analyse peut être lente sur un Mac Intel, selon le processeur et la mémoire disponibles.
+- Si le navigateur bloque la connexion HTTP locale depuis la page HTTPS, la requête peut échouer ; dans ce cas il faudra servir l’interface localement ou configurer une passerelle locale, plutôt que désactiver les protections du navigateur.
+- Le bouton IA en ligne reste séparé et nécessite le serveur Gemini décrit plus haut.
+- Cette option identifie et décrit l’objet, mais ne vérifie pas les prix de vente réels.
