@@ -124,11 +124,11 @@ export default {
         try {
           const result = await env.AI.run("@cf/qwen/qwen3.8-27b", { messages: [{ role: "system", content: system }, ...messages], reasoning_effort: "low", max_tokens: 900 });
           answer = result?.response || result?.choices?.[0]?.message?.content || "";
-        } catch (e) {
-          if (!env.OPENROUTER_API_KEY) throw e;
+        } catch (e) { answer = ""; }
+        if (!String(answer).trim() && env.OPENROUTER_API_KEY) {
           const fallback = await fetch("https://openrouter.ai/api/v1/chat/completions", { method: "POST", headers: { "Authorization": "Bearer " + env.OPENROUTER_API_KEY, "Content-Type": "application/json", "HTTP-Referer": "https://mansstyle59.github.io/estimateur-objet/", "X-Title": "Estimateur Objet" }, body: JSON.stringify({ model: "openrouter/free", messages: [{ role: "system", content: system }, ...messages], max_tokens: 900 }), signal: AbortSignal.timeout(25000) });
           const data = await fallback.json();
-          if (!fallback.ok) throw new Error("Qwen et le modèle de secours sont indisponibles.");
+          if (!fallback.ok) throw new Error("Qwen et les modèles gratuits de secours sont indisponibles.");
           answer = data?.choices?.[0]?.message?.content || "";
           provider = "OpenRouter Free"; model = data?.model || "openrouter/free";
         }
@@ -165,13 +165,13 @@ export default {
         try {
           result = await env.AI.run("@cf/qwen/qwen3.8-27b", options);
           answer = result?.response || result?.choices?.[0]?.message?.content || "";
-        } catch (e) {
-          if (!env.OPENROUTER_API_KEY) throw e;
+        } catch (e) { answer = ""; }
+        if (!String(answer).trim() && env.OPENROUTER_API_KEY) {
           const userContent = [{type:"text",text:promptText}];
           if (imageMatch) userContent.push({type:"image_url",image_url:{url:image}});
           const fallback = await fetch("https://openrouter.ai/api/v1/chat/completions", {method:"POST",headers:{"Authorization":"Bearer "+env.OPENROUTER_API_KEY,"Content-Type":"application/json","HTTP-Referer":"https://mansstyle59.github.io/estimateur-objet/","X-Title":"Estimateur Objet"},body:JSON.stringify({model:"openrouter/free",messages:[{role:"system",content:system},...history,{role:"user",content:userContent}],max_tokens:1200}),signal:AbortSignal.timeout(25000)});
           const data = await fallback.json();
-          if (!fallback.ok) throw new Error("Qwen et le modèle de secours sont indisponibles.");
+          if (!fallback.ok) throw new Error("Qwen et les modèles gratuits de secours sont indisponibles.");
           answer = data?.choices?.[0]?.message?.content || "";
           provider = "OpenRouter Free"; model = data?.model || "openrouter/free";
         }
