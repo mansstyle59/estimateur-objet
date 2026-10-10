@@ -1,64 +1,41 @@
-# Activer l’analyse IA — Estimateur Objet
+# Activer l’analyse IA open source sur téléphone — Estimateur Objet
 
-L'application GitHub Pages est statique. Pour analyser une photo en gardant la clé secrète, la fonction `api/analyze.js` doit être déployée sur un serveur (Vercel est prévu dans ce dépôt). **L'analyse ne fonctionnera pas tant que ces étapes ne sont pas terminées.**
+L’application web est prévue pour fonctionner sur iPhone et Android. Le modèle open source **Qwen2.5-VL-7B-Instruct** analyse les photos via Hugging Face Inference Providers, et la clé reste uniquement côté serveur. Le modèle est publié sous licence Apache 2.0 : https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct.
 
-## 1. Créer une clé Gemini
+**Important sur le gratuit :** l’accès hébergé n’est pas illimité. Hugging Face annonce actuellement 0,10 $ de crédits mensuels pour les comptes gratuits, susceptibles de changer. Après épuisement, des requêtes payantes peuvent être possibles ; n’active pas d’achat de crédits si tu veux rester à 0 €. Consulte la page officielle : https://huggingface.co/docs/inference-providers/pricing.
 
-1. Ouvre https://aistudio.google.com/apikey
-2. Crée une clé API pour un projet en mode gratuit si l'option est disponible.
-3. Ne partage jamais la clé dans le chat et ne la colle jamais dans `index.html`, `config.js` ou un fichier GitHub.
+## Étapes à faire une seule fois
 
-Le serveur utilise `gemini-2.5-flash-lite`. Les modèles, quotas et conditions du niveau gratuit peuvent changer : vérifie les limites affichées dans Google AI Studio avant de l'utiliser. Avec le niveau gratuit, Google indique que les contenus peuvent être utilisés pour améliorer ses produits : évite les photos contenant des visages, documents personnels ou informations privées.
+### 1. Créer un jeton Hugging Face
 
-## 2. Déployer le serveur
+1. Ouvre https://huggingface.co/settings/tokens
+2. Crée un jeton à permissions minimales permettant l’inférence si l’interface le propose.
+3. Ne colle jamais le jeton dans GitHub, dans `index.html`, dans `config.js` ou dans la conversation.
+
+### 2. Déployer l’API serveur
 
 1. Ouvre https://vercel.com/new et connecte ton compte GitHub.
 2. Importe le dépôt `mansstyle59/estimateur-objet`.
-3. Garde le répertoire racine du projet et déploie-le.
-4. Dans le projet Vercel, ouvre **Settings → Environment Variables**.
-5. Ajoute `GEMINI_API_KEY` avec la clé Gemini, en environnement **Production** (et Preview si tu en as besoin). Choisis un type secret/sensible si l'interface le propose.
-6. Redéploie après avoir ajouté la variable.
-7. Vérifie que l'URL de déploiement répond sur `https://TON-PROJET.vercel.app/api/analyze` avec une erreur de méthode quand on l'ouvre en GET. C'est normal : l'API attend une requête POST.
+3. Déploie le projet depuis sa racine.
+4. Dans Vercel, ouvre **Settings → Environment Variables** et ajoute `HF_TOKEN` avec ton jeton Hugging Face. Garde-le secret et ne le mets pas dans le code.
+5. Redéploie après l’ajout de la variable.
+6. L’API est prévue à l’adresse `https://TON-PROJET.vercel.app/api/analyze`.
 
-## 3. Relier GitHub Pages au serveur
+### 3. Relier l’application au serveur
 
-1. Ouvre `config.js` dans ce dépôt.
-2. Remplace la valeur vide par l'URL complète de l'API Vercel, par exemple :
-   `window.ESTIMATEUR_API_URL = "https://TON-PROJET.vercel.app/api/analyze";`
-3. Enregistre le changement sur `main`. GitHub Pages se mettra à jour après la publication.
+Dans GitHub, ouvre `config.js` et remplace la valeur vide par l’adresse exacte de ton API Vercel :
 
-## Ce que l'IA fait (et ne fait pas)
+```js
+window.ESTIMATEUR_API_URL = "https://TON-PROJET.vercel.app/api/analyze";
+```
 
-- Elle décrit ce qu'elle pense voir sur la photo, suggère une catégorie et des pistes de rénovation.
-- Elle peut se tromper : vérifie les marques, matériaux et défauts.
-- Elle ne retourne volontairement **aucun prix de marché**. Les prix de revente doivent être vérifiés en comparant des annonces comparables ; les liens de recherche de l'application ne récupèrent pas automatiquement les prix.
-- Le code limite les images à 3 Mo et applique une limitation simple par adresse IP. Cette limitation en mémoire n'est pas une protection anti-abus complète sur un service serverless : surveille les quotas et n'utilise pas une clé liée à un compte payant sans protection supplémentaire.
+Enregistre le fichier. Après publication de GitHub Pages, ouvre https://mansstyle59.github.io/estimateur-objet/ sur ton téléphone. Choisis une photo, puis appuie sur **Analyser avec l’IA open source**.
 
+## Limites et confidentialité
 
-## Option gratuite open source : Ollama sur ton Mac
-
-Cette option utilise le modèle open source `llava:7b` directement sur ton Mac. Elle ne nécessite pas de clé API et envoie la photo à aucun service IA externe. **Elle fonctionne uniquement dans le navigateur du Mac où Ollama tourne** : le bouton ne peut pas utiliser le `localhost` du Mac depuis un iPhone.
-
-1. Installe Ollama pour macOS depuis https://ollama.com/download.
-2. Ouvre l’app Terminal sur le Mac et lance :
-   ```bash
-   ollama pull llava:7b
-   ```
-   Le téléchargement peut prendre plusieurs Go.
-3. Autorise l’origine GitHub Pages dans Ollama. Si Ollama est installé comme application macOS, quitte-le complètement, puis dans Terminal exécute :
-   ```bash
-   launchctl setenv OLLAMA_ORIGINS "https://mansstyle59.github.io"
-   ```
-   Rouvre ensuite Ollama. Cette variable autorise les requêtes du site à Ollama depuis ce navigateur. Si tu utilises un autre mode d’installation, consulte la documentation Ollama sur les variables d’environnement.
-4. Vérifie dans Terminal que le modèle est présent avec `ollama list` et que le serveur local tourne.
-5. Sur le Mac, ouvre https://mansstyle59.github.io/estimateur-objet/ dans un navigateur, puis choisis une photo et clique **IA open source sur mon Mac**.
-
-Documentation officielle Ollama : https://docs.ollama.com/ et modèle vision : https://ollama.com/library/llava.
-
-### Limites de l’option locale
-
-- Le Mac doit être allumé, Ollama lancé et le modèle téléchargé.
-- L’analyse peut être lente sur un Mac Intel, selon le processeur et la mémoire disponibles.
-- Si le navigateur bloque la connexion HTTP locale depuis la page HTTPS, la requête peut échouer ; dans ce cas il faudra servir l’interface localement ou configurer une passerelle locale, plutôt que désactiver les protections du navigateur.
-- Le bouton IA en ligne reste séparé et nécessite le serveur Gemini décrit plus haut.
-- Cette option identifie et décrit l’objet, mais ne vérifie pas les prix de vente réels.
+- Le modèle Qwen est open source, mais l’exécution via un fournisseur hébergé dépend de quotas, de disponibilité et de conditions qui peuvent changer. Ce n’est pas une IA hébergée gratuitement et sans limite.
+- La photo est envoyée à Hugging Face / au fournisseur d’inférence choisi pour être analysée. Évite les visages, documents personnels et informations sensibles.
+- Le serveur limite les photos à 3 Mo et applique une limitation de requêtes en mémoire, mais cette protection anti-abus reste basique.
+- L’IA peut se tromper sur les marques, matériaux, dimensions et défauts.
+- **Aucun prix de marché n’est vérifié automatiquement.** Les liens de comparaison restent des recherches manuelles d’annonces ; les prix affichés par les vendeurs ne sont pas nécessairement les prix de vente conclus.
+- L’API ne fonctionnera pas tant que Vercel et `config.js` ne seront pas configurés. Le code a été poussé sur GitHub, mais le déploiement et une analyse réelle restent à vérifier.
