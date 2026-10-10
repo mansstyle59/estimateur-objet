@@ -96,4 +96,82 @@ $('save').addEventListener('click',()=>{try{const h=load();h.unshift(record());l
 $('reset').addEventListener('click',()=>{['title','details','workNotes','listingUrl'].forEach(id=>$(id).value='');$('category').value='meuble';$('condition').value='bon';$('buy').value=20;$('sell').value=80;$('repair').value=0;$('transport').value=0;$('other').value=0;$('target').value=30;$('photo').value='';photoData='';marketEstimate=null;sellManuallyEdited=false;$('preview').removeAttribute('src');$('preview').classList.add('hidden');$('uploadPrompt').classList.remove('hidden');work='none';document.querySelectorAll('[data-work]').forEach(x=>x.classList.toggle('selected',x.dataset.work==='none'));$('workHint').textContent='Tu as choisi de garder l’objet tel quel. Tu peux modifier le budget à tout moment.';$('savedMessage').textContent='';calc();go(1)});
 $('clearHistory').addEventListener('click',()=>{if(confirm('Effacer toutes les estimations enregistrées sur cet appareil ?')){localStorage.removeItem('estimateurObjetHistory');renderHistory()}});calc();renderHistory();updateQuota();
 })();
-</script></body></html>
+</script>
+<style>
+/* Interface conversationnelle inspirée des assistants de code */
+:root{--chat-bg:#141413;--chat-panel:#1d1c1a;--chat-border:#393733;--chat-accent:#D97757;--chat-text:#eee9df;--chat-muted:#aaa69e}
+body{background:var(--chat-bg)!important;color:var(--chat-text)!important}
+body>.wrap{display:none!important}
+.chat-shell{min-height:100dvh;display:flex;flex-direction:column;max-width:920px;margin:auto;padding:0 18px env(safe-area-inset-bottom)}
+.chat-header{height:64px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--chat-border);position:sticky;top:0;background:#141413ed;backdrop-filter:blur(14px);z-index:5}
+.chat-brand-icon{width:34px;height:34px;border-radius:10px;background:#2c211d;color:#f1a184;display:grid;place-items:center;font-weight:850;border:1px solid #654235}
+.chat-head-name{font-weight:700;font-size:15px}.chat-head-sub{font-size:11px;color:var(--chat-muted)}
+.chat-header .new-chat{margin-left:auto;background:transparent;border:1px solid var(--chat-border);color:var(--chat-text);border-radius:10px;padding:8px 11px}
+.chat-scroll{flex:1;width:100%;max-width:760px;margin:0 auto;padding:32px 0 22px}
+.chat-welcome{text-align:center;padding:clamp(35px,12vh,110px) 8px 30px}
+.chat-welcome-mark{width:58px;height:58px;margin:0 auto 20px;border-radius:19px;display:grid;place-items:center;background:#2d211d;border:1px solid #6a4032;color:#f0a083;font-size:29px}
+.chat-welcome h1{font-size:clamp(25px,5vw,36px);letter-spacing:-.8px;margin:0 0 12px;font-weight:650}
+.chat-welcome p{color:var(--chat-muted);max-width:470px;margin:0 auto;line-height:1.65;font-size:14px}
+.chat-suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:28px auto 0;max-width:600px}
+.chat-suggestion{background:#1b1a18;border:1px solid var(--chat-border);border-radius:14px;padding:14px;text-align:left;color:var(--chat-text);font-size:13px;line-height:1.4}
+.chat-suggestion strong{display:block;margin-bottom:5px;font-size:13px}.chat-suggestion span{color:var(--chat-muted)}
+.chat-message{display:flex;gap:12px;margin:22px 0;align-items:flex-start;animation:chatIn .18s ease-out}
+.chat-avatar{flex:0 0 30px;height:30px;border-radius:10px;background:#2d211d;color:#f0a083;display:grid;place-items:center;font-size:12px;font-weight:800}
+.chat-message.user .chat-avatar{background:#33312d;color:#eee9df}
+.chat-message-body{flex:1;min-width:0;padding-top:4px;font-size:14px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}
+.chat-message-body .chat-author{display:block;font-size:12px;font-weight:750;margin-bottom:5px;color:#f1a184}
+.chat-message.user .chat-message-body .chat-author{color:#e8e2d8}
+.chat-message-body .chat-status{margin-top:10px;color:var(--chat-muted);font-size:12px}
+.chat-message-body img{max-width:min(100%,360px);max-height:300px;object-fit:contain;border-radius:12px;border:1px solid var(--chat-border);display:block;margin-top:10px}
+.chat-result-card{margin-top:13px;background:#1d1c1a;border:1px solid #494039;border-radius:14px;padding:15px}
+.chat-result-title{font-size:16px;font-weight:750;margin-bottom:8px}.chat-result-meta{font-size:12px;color:var(--chat-muted);line-height:1.6}
+.chat-result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chat-result-actions button,.chat-result-actions a{border:1px solid var(--chat-border);border-radius:9px;background:#282622;color:var(--chat-text);padding:8px 11px;text-decoration:none;font-size:12px}
+.chat-composer-wrap{position:sticky;bottom:0;background:linear-gradient(transparent,var(--chat-bg) 18%);padding:16px 0 calc(12px + env(safe-area-inset-bottom));z-index:4}
+.chat-composer{max-width:760px;margin:auto;border:1px solid #514d46;border-radius:20px;background:#201f1c;box-shadow:0 10px 35px #0003;padding:10px 12px 9px}
+.chat-composer:focus-within{border-color:#8a5947;box-shadow:0 0 0 2px #d977571c}
+.chat-composer textarea{width:100%;display:block;resize:none;min-height:42px;max-height:160px;border:0;outline:0;background:transparent;color:var(--chat-text);padding:8px 5px;font:inherit;font-size:14px;line-height:1.5}
+.chat-composer textarea::placeholder{color:#928e86}
+.chat-composer-tools{display:flex;align-items:center;gap:8px}
+.chat-tool{height:36px;min-width:36px;border:1px solid var(--chat-border);background:#292824;color:#d9d3c9;border-radius:11px;display:grid;place-items:center;padding:0 10px;font-size:13px}
+.chat-tool.send{margin-left:auto;background:var(--chat-accent);border-color:var(--chat-accent);color:#211511;font-weight:850}
+.chat-tool:disabled{opacity:.45}
+.chat-attach-name{color:var(--chat-muted);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
+.chat-disclaimer{text-align:center;font-size:10px;color:#817d75;margin:9px auto 0;max-width:720px}
+.chat-hidden-file{display:none}
+@keyframes chatIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){.chat-shell{padding-left:13px;padding-right:13px}.chat-header{height:58px}.chat-welcome{padding-top:8vh}.chat-suggestions{grid-template-columns:1fr}.chat-suggestion:nth-child(n+3){display:none}.chat-scroll{padding-top:20px}.chat-composer{border-radius:17px}.chat-message{gap:9px}.chat-message-body{font-size:14px}}
+</style>
+<div class="chat-shell" id="chatApp">
+<header class="chat-header"><div class="chat-brand-icon">E</div><div><div class="chat-head-name">Estimateur Objet</div><div class="chat-head-sub">Assistant achat-revente · IA</div></div><button class="new-chat" id="chatNew" type="button">＋ Nouveau</button></header>
+<main class="chat-scroll" id="chatScroll" aria-live="polite">
+<div class="chat-welcome" id="chatWelcome"><div class="chat-welcome-mark">✳</div><h1>Qu’est-ce qu’on estime aujourd’hui ?</h1><p>Envoie une photo, colle une annonce ou pose ta question. On identifie l’objet, on évalue son potentiel et on calcule ta rentabilité ensemble.</p>
+<div class="chat-suggestions">
+<button class="chat-suggestion" data-prompt="Je veux identifier un meuble et estimer son prix de revente."><strong>⌕ Identifier un meuble</strong><span>Photo, modèle et valeur possible</span></button>
+<button class="chat-suggestion" data-prompt="Aide-moi à vérifier si cet objet est une bonne affaire pour l’achat-revente."><strong>↗ Trouver une bonne affaire</strong><span>Prix d’achat et marge potentielle</span></button>
+<button class="chat-suggestion" data-prompt="Propose-moi une rénovation rentable pour un meuble d’occasion."><strong>✳ Idée de rénovation</strong><span>Moderniser sans trop dépenser</span></button>
+<button class="chat-suggestion" data-prompt="Comment comparer correctement les prix de revente de cet objet ?"><strong>€ Comparer les prix</strong><span>Annonces comparables et prudence</span></button>
+</div></div><div id="chatMessages"></div>
+</main>
+<div class="chat-composer-wrap"><div class="chat-composer"><textarea id="chatInput" rows="1" placeholder="Écris un message ou décris ton objet…" aria-label="Message"></textarea><div class="chat-composer-tools"><button class="chat-tool" id="chatAttach" type="button" aria-label="Ajouter une photo">＋ Photo</button><input class="chat-hidden-file" id="chatFile" type="file" accept="image/*"><span class="chat-attach-name" id="chatFileName"></span><button class="chat-tool" id="chatSend" type="button" aria-label="Envoyer">↑ Envoyer</button></div></div><div class="chat-disclaimer">Les estimations sont indicatives. Vérifie les annonces réelles et l’état de l’objet avant d’acheter.</div></div>
+</div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);const messages=$('chatMessages');const input=$('chatInput');let selectedFile=null;let busy=false;let lastStatus='';
+function scrollBottom(){requestAnimationFrame(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}))}
+function addMessage(role,text,extra){$('chatWelcome').style.display='none';const row=document.createElement('div');row.className='chat-message '+role;const avatar=document.createElement('div');avatar.className='chat-avatar';avatar.textContent=role==='user'?'Vous':'E';const body=document.createElement('div');body.className='chat-message-body';const author=document.createElement('span');author.className='chat-author';author.textContent=role==='user'?'Vous':'Estimateur Objet';body.append(author);const p=document.createElement('div');p.textContent=text;body.append(p);if(extra&&extra.image){const im=document.createElement('img');im.src=extra.image;im.alt='Photo envoyée';body.append(im)}if(extra&&extra.node)body.append(extra.node);row.append(avatar,body);messages.append(row);scrollBottom();return {row,body}}
+function statusReply(text){if(!text||text===lastStatus)return;lastStatus=text;addMessage('assistant',text)}
+function send(){
+ if(busy)return;const text=input.value.trim();if(!text&&!selectedFile)return;
+ addMessage('user',text||'Peux-tu identifier cette photo ?',selectedFile&&selectedFile.preview?{image:selectedFile.preview}:null);
+ if(text){const titleMatch=text.match(/(?:c['’]est|objet|meuble|commode|buffet|table|chaise|armoire)s+(?:un|une|des|du|de la)?s*([^,.!?]{2,100})/i);if(titleMatch&&!$('title').value.trim())$('title').value=titleMatch[1].trim();const buyMatch=text.match(/(?:acheté|achat|prix d'achat|à|pour)s*(?:à)?s*(d+(?:[.,]d{1,2})?)s*(?:€|euros?)/i);if(buyMatch){$('buy').value=buyMatch[1].replace(',','.');} $('details').value=[$('details').value,text].filter(Boolean).join(' · ').slice(0,800);}
+ input.value='';input.style.height='auto';const file=selectedFile&&selectedFile.file;selectedFile=null;$('chatFileName').textContent='';if(file){const dt=new DataTransfer();dt.items.add(file);$('photo').files=dt.files;$('photo').dispatchEvent(new Event('change',{bubbles:true}));busy=true;$('chatSend').disabled=true;watchAnalysis();return;}
+ const url=text.match(/https?:\/\/[^\s]+/i);if(url){$('listingUrl').value=url[0].replace(/[),.]+$/,'');$('analyzePhoto').click();busy=true;$('chatSend').disabled=true;watchAnalysis();return;}
+ if(/photo|image|meuble|objet|annonce|identifier|prix|estimer|revente|achat-revente|bonne affaire|rénovation/i.test(text)){statusReply('D’accord. Pour analyser précisément un objet, ajoute sa photo avec « + Photo » ou colle le lien public de son annonce. Je pourrai ensuite t’aider à évaluer le prix et les frais.');return;}
+ statusReply('Je peux t’aider pour l’achat-revente, l’identification, la rénovation et le calcul de bénéfice. Pour une estimation fiable, envoie aussi une photo ou le lien de l’annonce.');
+}
+function watchAnalysis(){let prior=$('aiStatus').textContent;let done=false;const observer=new MutationObserver(()=>{const t=$('aiStatus').textContent.trim();if(!t||t===prior)return;prior=t;if(/Analyse terminée|Objet analysé|Analyse impossible|Analyse trop longue|IA a répondu|serveur IA/i.test(t)){done=true;observer.disconnect();busy=false;$('chatSend').disabled=false;const estimate=$('range')?.textContent;const title=$('title')?.value;const confidence=$('marketEvidence')?.innerText||'';let summary=t;if(title)summary+='\nObjet : '+title;if(estimate&&estimate!=='À déterminer')summary+='\nFourchette indicative : '+estimate;else summary+='\nPrix : à confirmer avec des annonces comparables.';if(confidence)summary+='\n'+confidence.slice(0,1000);const actions=document.createElement('div');actions.className='chat-result-actions';const calc=document.createElement('button');calc.textContent='Calculer ma rentabilité →';calc.onclick=()=>{document.querySelector('body>.wrap').style.display='block';document.querySelector('body>.wrap').scrollIntoView({behavior:'smooth'});document.querySelector('[data-nav="2"]').click()};actions.append(calc);const retry=document.createElement('button');retry.textContent='Nouvelle analyse';retry.onclick=()=>{document.querySelector('body>.wrap').style.display='none';$('chatInput').focus();statusReply('Envoie une autre photo ou un autre lien pour recommencer.')};actions.append(retry);addMessage('assistant',summary,{node:actions});}});observer.observe($('aiStatus'),{childList:true,subtree:true,characterData:true});setTimeout(()=>{if(!done){observer.disconnect();busy=false;$('chatSend').disabled=false;statusReply('L’analyse n’a pas donné de réponse exploitable. Vérifie la connexion ou essaie avec une photo plus nette.')}} ,40000);}
+$('chatSend').addEventListener('click',send);input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,160)+'px'});$('chatAttach').addEventListener('click',()=>$('chatFile').click());$('chatFile').addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;selectedFile={file,preview:URL.createObjectURL(file)};$('chatFileName').textContent=file.name;input.placeholder='Ajoute une question sur la photo (facultatif)…';input.focus()});document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.prompt;input.focus()}));$('chatNew').addEventListener('click',()=>{messages.innerHTML='';$('chatWelcome').style.display='';input.value='';selectedFile=null;$('chatFileName').textContent='';lastStatus='';$('chatScroll').scrollTop=0}); 
+})();
+</script>
+</body></html>
