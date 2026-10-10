@@ -58,7 +58,7 @@ Pour les prix, donne seulement une fourchette indicative de revente d'occasion e
           content: prompt
         }],
         image,
-        max_tokens: 700
+        reasoning_effort: "low"
       });
 
       const raw = result?.response || result?.choices?.[0]?.message?.content || "";
