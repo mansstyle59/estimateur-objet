@@ -35,3 +35,28 @@ Le fichier `wrangler.toml` déclare le binding AI.
 - Les liens de recherche ouvrent des résultats actuels, mais l'application ne lit pas automatiquement les prix de ces pages.
 - Vérifie les annonces comparables, l'état, la marque, les dimensions et les frais avant d'acheter.
 - Le quota gratuit est limité et peut évoluer.
+
+## Studios créatifs MuAPI (ValorIA)
+
+La branche `feature/valoria-generative-studios` ajoute un espace Studio responsive dans le menu ValorIA : Image, Vidéo, Lip Sync et Cinéma. Le catalogue de modèles et les générations passent par le Worker Cloudflare : la clé MuAPI ne doit jamais être ajoutée au code HTML ou à `config.js`.
+
+### Activer la fonction
+
+1. Ouvre [Cloudflare Dashboard](https://dash.cloudflare.com/) puis Workers & Pages → le Worker `estimateur-objet-api`.
+2. Dans **Settings → Variables and Secrets**, ajoute un secret nommé exactement `MUAPI_API_KEY` et colle ta clé MuAPI. Ne colle pas la clé dans GitHub, `worker.js`, `config.js`, une capture d’écran ou le chat.
+3. Déploie le Worker en utilisant le `worker.js` de cette branche (copie tout son contenu dans l’éditeur Cloudflare, ou déploie avec Wrangler).
+4. Ouvre le [Playground MuAPI](https://muapi.ai/playground) et vérifie le coût et les paramètres du modèle choisi.
+5. Teste le site sur une branche de prévisualisation avant de fusionner cette branche vers `main`.
+
+### Ce qui est pris en charge
+
+- Charge le catalogue depuis `GET /api/v1/models` via le Worker et affiche prix/catégorie lorsqu’ils sont fournis par MuAPI.
+- Envoie la génération à l’endpoint exact du modèle et interroge ensuite le statut avec son `request_id`.
+- Les champs optionnels (URL d’image/vidéo/audio, format et durée) sont transmis pour les modèles compatibles. Tous les modèles n’acceptent pas les mêmes paramètres.
+- Les générations vidéo peuvent coûter davantage selon la durée, la résolution et le modèle. Les prix montrés dans l’interface proviennent du catalogue et ne remplacent pas le prix final renvoyé par MuAPI.
+
+### Limites actuelles
+
+- Lip Sync, vidéo à partir d’une image et certains modèles cinéma ont besoin d’URL publiques pour leurs médias de référence. Le formulaire n’héberge pas encore automatiquement les fichiers locaux dans MuAPI.
+- Le studio utilise des champs génériques. Pour un modèle à schéma particulier, ses paramètres peuvent devoir être ajoutés au formulaire.
+- Le code doit être testé avec une clé sandbox MuAPI avant d’utiliser des crédits réels.
