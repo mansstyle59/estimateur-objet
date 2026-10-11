@@ -2166,6 +2166,42 @@ body{
 }
 </style>
 
+
+<style id="valoria-header-right-icon-fix">
+/* Le bouton en haut à droite doit représenter une nouvelle conversation, pas une image déformée */
+#chatApp button#chatNew{
+ display:grid!important;place-items:center!important;
+ width:44px!important;height:44px!important;min-width:44px!important;
+ padding:0!important;border-radius:14px!important;
+ background:linear-gradient(145deg,#302925,#211f1d)!important;
+ border:1px solid rgba(223,136,105,.52)!important;
+ overflow:hidden!important;
+ font-size:0!important;line-height:1!important;
+}
+#chatApp button#chatNew:before{
+ content:""!important;display:block!important;
+ width:17px!important;height:21px!important;
+ border:2px solid #f3c0a7!important;border-radius:3px!important;
+ background:linear-gradient(#f3c0a7,#f3c0a7) 4px 6px/8px 1.5px no-repeat,
+            linear-gradient(#f3c0a7,#f3c0a7) 4px 11px/8px 1.5px no-repeat!important;
+ transform:none!important;
+}
+#chatApp button#chatNew:after{
+ content:"+"!important;position:absolute!important;
+ right:7px!important;bottom:5px!important;
+ display:grid!important;place-items:center!important;
+ width:17px!important;height:17px!important;border-radius:50%!important;
+ background:#df8869!important;color:#211714!important;
+ font-family:Arial,sans-serif!important;font-size:15px!important;
+ line-height:1!important;font-weight:700!important;
+ border:2px solid #211f1d!important;
+}
+@media(max-width:480px){
+ #chatApp button#chatNew{width:42px!important;height:42px!important;min-width:42px!important}
+ #chatApp button#chatNew:after{right:5px!important;bottom:4px!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
