@@ -1780,6 +1780,26 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 }
 </style>
 
+
+<style id="valoria-home-icons-duplicate-hard-stop">
+/* Neutralise tous les anciens pseudo-éléments : un seul filigrane via :after */
+#chatApp .chat-suggestions .chat-suggestion:before{content:none!important;display:none!important;background:none!important}
+#chatApp .chat-suggestions .chat-suggestion:after{
+ content:""!important;display:block!important;position:absolute!important;
+ top:auto!important;left:auto!important;right:8px!important;bottom:5px!important;
+ width:94px!important;height:94px!important;min-width:0!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ background-color:transparent!important;background-repeat:no-repeat!important;
+ background-position:center!important;background-size:contain!important;
+ opacity:.10!important;transform:none!important;pointer-events:none!important;
+}
+#chatApp .chat-suggestions .chat-suggestion:nth-child(1):after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f09b78' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10.8' cy='10.8' r='6.5'/%3E%3Cpath d='m16 16 4.2 4.2'/%3E%3C/svg%3E")!important}
+#chatApp .chat-suggestions .chat-suggestion:nth-child(2):after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f09b78' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 18 18 5M8 5h10v10'/%3E%3C/svg%3E")!important}
+#chatApp .chat-suggestions .chat-suggestion:nth-child(3):after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f09b78' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 11 9-7 9 7'/%3E%3Cpath d='M5.5 10v10h13V10M9 20v-6h6v6'/%3E%3C/svg%3E")!important}
+#chatApp .chat-suggestions .chat-suggestion:nth-child(4):after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f09b78' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16.8 5.5a5 5 0 0 0-7.5 3.7H6.5m2.8 0H17M6.5 13h11M9.3 13.2a5 5 0 0 0 7.5 3.8'/%3E%3C/svg%3E")!important}
+#chatApp .chat-suggestions .chat-suggestion strong,#chatApp .chat-suggestions .chat-suggestion span{position:relative!important;z-index:1!important}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
