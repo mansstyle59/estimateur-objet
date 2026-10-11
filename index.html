@@ -1890,6 +1890,25 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 #chatApp .chat-ai-gauge{margin-top:8px!important;margin-bottom:8px!important;padding:10px!important}
 #chatApp .chat-menu>button[role="menuitem"]{margin-top:2px!important;margin-bottom:2px!important}
 </style>
+<style id="valoria-chatgpt-claude-response-layout">
+/* Réponses ValorIA : présentation épurée, proche des fils ChatGPT et Claude */
+#chatApp .chat-message.assistant{align-items:flex-start!important;margin:22px 0 26px!important;gap:10px!important}
+#chatApp .chat-message.assistant .chat-avatar{width:27px!important;height:27px!important;flex-basis:27px!important;border-radius:9px!important;margin-top:1px!important}
+#chatApp .chat-message.assistant .chat-message-body{max-width:calc(100% - 37px)!important;font-size:15px!important;line-height:1.78!important;color:#e9e6df!important}
+#chatApp .chat-message.assistant .chat-author{font-size:10px!important;letter-spacing:.45px!important;text-transform:none!important;font-weight:650!important;color:#a9a39b!important;margin:0 0 8px!important}
+#chatApp .chat-message.assistant .chat-message-body>div:not(.chat-author):not(.chat-result-card){margin-top:0!important}
+#chatApp .chat-message.assistant .chat-message-body p{margin:0 0 13px!important;line-height:1.78!important;white-space:pre-wrap!important}
+#chatApp .chat-message.assistant .chat-message-body p:last-child{margin-bottom:0!important}
+#chatApp .chat-message.assistant .chat-result-card{padding:16px!important;margin:14px 0!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:14px!important;background:rgba(255,255,255,.025)!important;box-shadow:none!important}
+#chatApp .chat-message.assistant .chat-result-card .chat-result-title{font-size:16px!important;line-height:1.4!important;font-weight:700!important;color:#f1eee8!important;margin:0 0 12px!important}
+#chatApp .chat-message.assistant .chat-result-card p{line-height:1.65!important}
+#chatApp .chat-message.assistant .chat-result-meta{color:#aaa49c!important;font-size:12px!important}
+@media(max-width:480px){
+ #chatApp .chat-message.assistant{margin:19px 0 23px!important}
+ #chatApp .chat-message.assistant .chat-message-body{font-size:14px!important;line-height:1.75!important}
+ #chatApp .chat-message.assistant .chat-result-card{padding:13px!important;border-radius:12px!important}
+}
+</style>
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
