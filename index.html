@@ -2092,6 +2092,36 @@ body{
 #chatApp button#chatNew{position:relative!important}
 #chatApp button#chatNew:hover{background:linear-gradient(145deg,#4a382f,#302925)!important;border-color:rgba(244,174,143,.65)!important}
 
+
+<style id="valoria-menu-button-top-left">
+/* Le menu hamburger passe à gauche ; le crayon de nouvelle conversation reste à droite */
+#chatApp .chat-header{
+ display:grid!important;
+ grid-template-columns:48px minmax(0,1fr) 48px!important;
+ align-items:center!important;
+ column-gap:12px!important;
+}
+#chatApp .chat-menu-toggle{
+ grid-column:1!important;grid-row:1!important;
+ justify-self:start!important;order:0!important;
+}
+#chatApp .chat-header-title{
+ grid-column:2!important;grid-row:1!important;
+ min-width:0!important;text-align:center!important;
+}
+#chatApp button#chatNew{
+ grid-column:3!important;grid-row:1!important;
+ justify-self:end!important;order:2!important;
+}
+#chatApp .chat-menu{
+ left:12px!important;right:auto!important;
+}
+@media(max-width:480px){
+ #chatApp .chat-header{grid-template-columns:44px minmax(0,1fr) 44px!important;column-gap:8px!important}
+ #chatApp .chat-menu{left:8px!important;right:auto!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
