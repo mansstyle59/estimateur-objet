@@ -109,6 +109,20 @@ export default {
     if (request.method !== "POST") return json({ error: "Utilise une requête POST." }, 405);
     try {
       const body = await request.json();
+      if (body.action === "generateImage") {
+        if (!env.AI) return json({ error: "La génération d’images IA n’est pas activée sur ce Worker." }, 503);
+        const prompt = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 1800) : "";
+        if (!prompt) return json({ error: "Décris l’image que tu veux créer." }, 400);
+        const result = await env.AI.run("@cf/black-forest-labs/flux-1-schnell", {
+          prompt: prompt + ". High quality, coherent composition, no watermark.",
+          steps: 4,
+          seed: Math.floor(Math.random() * 2147483647)
+        });
+        if (!result || typeof result.image !== "string" || !result.image.length) {
+          return json({ error: "Le modèle n’a pas retourné d’image. Réessaie avec une description plus simple." }, 502);
+        }
+        return json({ image: "data:image/jpeg;base64," + result.image, model: "@cf/black-forest-labs/flux-1-schnell" });
+      }
       if (body.action === "chat") {
         if (!env.AI) return json({ error: "L’assistant IA n’est pas activé sur le Worker. Active Workers AI dans Cloudflare." }, 503);
         const incoming = Array.isArray(body.messages) ? body.messages.filter(m => m && (m.role === "user" || m.role === "assistant")).slice(-12) : [];
