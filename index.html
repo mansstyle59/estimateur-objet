@@ -2077,6 +2077,21 @@ body{
 @media(prefers-contrast:more){body,#chatApp{color:#fff!important}.control{border-color:#888!important}}
 </style>
 
+
+<style id="valoria-new-chat-pencil-icon">
+/* Icône explicite pour démarrer une nouvelle conversation — pas de silhouette utilisateur */
+#chatApp button#chatNew{
+ font-size:0!important;display:grid!important;place-items:center!important;
+}
+#chatApp button#chatNew:before{
+ content:"✎"!important;display:block!important;font-family:Arial,sans-serif!important;
+ font-size:29px!important;line-height:1!important;font-weight:400!important;
+ color:#f3c0a7!important;transform:rotate(-8deg)!important;
+}
+#chatApp button#chatNew:after{content:none!important}
+#chatApp button#chatNew{position:relative!important}
+#chatApp button#chatNew:hover{background:linear-gradient(145deg,#4a382f,#302925)!important;border-color:rgba(244,174,143,.65)!important}
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
