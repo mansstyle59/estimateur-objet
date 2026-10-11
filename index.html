@@ -2268,6 +2268,40 @@ body{
   #chatApp .valoria-plus-menu{width:min(258px,calc(100vw - 56px))!important;max-height:54vh!important}
   #chatApp .valoria-plus-menu button{min-height:40px!important}
 }
+</style>\n
+<style id="valoria-burger-compact-sections">
+/* Menu burger mobile : compacter les sections Outils, Récents et Application */
+#chatApp .chat-menu{gap:0!important}
+#chatApp .chat-menu-head{padding-bottom:10px!important;margin-bottom:8px!important}
+#chatApp .chat-menu-label{
+ margin:10px 8px 4px!important;
+ font-size:10px!important;letter-spacing:.17em!important;line-height:1.2!important;
+}
+#chatApp .chat-menu-divider{margin:8px 8px!important}
+#chatApp .chat-menu>button[role="menuitem"]{
+ min-height:43px!important;padding:6px 7px!important;gap:8px!important;
+ border-radius:11px!important;
+}
+#chatApp .chat-menu>button[role="menuitem"]>span:first-child{
+ width:34px!important;height:34px!important;min-width:34px!important;
+ flex:0 0 34px!important;border-radius:10px!important;font-size:16px!important;
+}
+#chatApp .chat-menu>button[role="menuitem"] b{font-size:12px!important;line-height:1.25!important}
+#chatApp .chat-menu>button[role="menuitem"] small{margin-top:2px!important;font-size:10px!important;line-height:1.25!important}
+#chatApp .chat-recent-list{gap:3px!important;margin-top:0!important}
+#chatApp .chat-recent-list button{min-height:34px!important;padding:6px 8px!important;font-size:11px!important}
+#chatApp .chat-recent-empty{padding:8px 8px!important;font-size:11px!important;line-height:1.35!important}
+#chatApp .chat-ai-gauge{margin-top:8px!important;margin-bottom:8px!important}
+@media(max-width:600px){
+ #chatApp .chat-menu{
+  padding:calc(12px + env(safe-area-inset-top)) 10px calc(12px + env(safe-area-inset-bottom))!important;
+  overflow-y:auto!important;
+ }
+ #chatApp .chat-menu-label{margin-top:8px!important;margin-bottom:3px!important}
+ #chatApp .chat-menu-divider{margin:6px 7px!important}
+ #chatApp .chat-menu>button[role="menuitem"]{min-height:40px!important;padding:5px 6px!important}
+ #chatApp .chat-menu>button[role="menuitem"]>span:first-child{width:31px!important;height:31px!important;min-width:31px!important;flex-basis:31px!important}
+}
 </style>\n</body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
