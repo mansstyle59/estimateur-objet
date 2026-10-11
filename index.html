@@ -1677,6 +1677,47 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
 }
 </style>
 
+
+<style id="valoria-home-corner-watermarks">
+/* Accueil : grand pictogramme orange en filigrane, ancré dans le coin supérieur droit */
+#chatApp .chat-suggestion{
+ position:relative!important;isolation:isolate!important;overflow:hidden!important;
+ display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-end!important;
+ min-height:150px!important;padding:17px!important;gap:7px!important;
+}
+#chatApp .chat-suggestion:before{
+ content:""!important;position:absolute!important;z-index:0!important;
+ top:-7px!important;right:-5px!important;bottom:auto!important;left:auto!important;
+ display:block!important;width:116px!important;height:116px!important;min-width:0!important;
+ margin:0!important;border:0!important;border-radius:0!important;
+ background-color:transparent!important;background-repeat:no-repeat!important;
+ background-position:center!important;background-size:contain!important;
+ opacity:.19!important;box-shadow:none!important;transform:none!important;pointer-events:none!important;
+}
+#chatApp .chat-suggestion:after{content:none!important;display:none!important}
+#chatApp .chat-suggestion:nth-child(1):before{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f09b78' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10.8' cy='10.8' r='6.5'/%3E%3Cpath d='m16 16 4.2 4.2'/%3E%3C/svg%3E")!important
+}
+#chatApp .chat-suggestion:nth-child(2):before{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f09b78' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 18 18 5M8 5h10v10'/%3E%3Cpath d='M4 21h16' opacity='.5'/%3E%3C/svg%3E")!important
+}
+#chatApp .chat-suggestion:nth-child(3):before{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f09b78' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 11 9-7 9 7'/%3E%3Cpath d='M5.5 10v10h13V10M9 20v-6h6v6'/%3E%3C/svg%3E")!important
+}
+#chatApp .chat-suggestion:nth-child(4):before{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f09b78' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16.8 5.5a5 5 0 0 0-7.5 3.7H6.5m2.8 0H17M6.5 13h11M9.3 13.2a5 5 0 0 0 7.5 3.8'/%3E%3C/svg%3E")!important
+}
+#chatApp .chat-suggestion strong,#chatApp .chat-suggestion span{position:relative!important;z-index:1!important}
+#chatApp .chat-suggestion strong{font-size:13px!important;line-height:1.35!important}
+#chatApp .chat-suggestion span{font-size:11px!important;line-height:1.45!important;max-width:100%!important}
+@media(max-width:480px){
+ #chatApp .chat-suggestion{min-height:132px!important;padding:13px!important;gap:7px!important}
+ #chatApp .chat-suggestion:before{width:98px!important;height:98px!important;top:-5px!important;right:-4px!important;opacity:.2!important}
+ #chatApp .chat-suggestion strong{font-size:12px!important}
+ #chatApp .chat-suggestion span{font-size:10px!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
