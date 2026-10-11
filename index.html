@@ -1966,6 +1966,64 @@ body>.wrap>.top>.pill{flex:0 0 auto!important;align-self:center!important}
  #chatApp .chat-menu button[data-menu-action]{min-height:36px!important}
 }
 </style>
+
+<style id="valoria-global-soft-luminosity">
+/* Éclaircir légèrement toute l’application sans perdre son identité graphite/cuivre */
+:root{
+ --ink:#fbf8f2!important;
+ --muted:#c4beb5!important;
+ --line:#49443e!important;
+ --surface:#262421!important;
+ --surface2:#211f1c!important;
+}
+body{
+ background:radial-gradient(ellipse at 50% -8%,rgba(223,136,105,.17),transparent 43%),radial-gradient(ellipse at 85% 30%,rgba(255,255,255,.025),transparent 38%),#191817!important;
+ color:#f7f2ea!important;
+}
+.wrap{color:#f7f2ea!important}
+.mark{background:#1d1b19!important;box-shadow:0 0 0 2px rgba(223,136,105,.16),0 6px 18px rgba(0,0,0,.42)!important}
+.hero{background:radial-gradient(ellipse at 90% 0%,rgba(174,100,73,.34),transparent 50%),linear-gradient(135deg,#242c38,#1b1917 78%)!important;border-color:rgba(223,136,105,.55)!important}
+.panel{background:linear-gradient(145deg,#202630,#201e1b)!important;border-color:#48433d!important}
+.control{background:#22211f!important;border-color:#555047!important}
+.stepnav{background:#282622!important}
+.stepnav b{background:#302f2c!important}
+.choice{background:#262421!important;border-color:#49443e!important}
+.choice.selected{background:linear-gradient(145deg,#3a2923,#2b2420)!important}
+.upload{background:radial-gradient(ellipse at top,#29313b,#211f1c 76%)!important}
+.stat{background:#201f1d!important;border-color:#49443e!important}
+.estimate{background:linear-gradient(135deg,#3a2923,#262320)!important;border-color:#80503d!important}
+.note{background:#352923!important;border-color:#80503d!important;color:#f0c0a9!important}
+#chatApp{
+ background:radial-gradient(ellipse at 50% -20%,rgba(223,136,105,.16),transparent 48%),linear-gradient(180deg,#211f1d,#191817)!important;
+ border-color:rgba(223,160,135,.28)!important;
+}
+#chatApp .chat-header{background:rgba(31,29,27,.95)!important}
+#chatApp .chat-brand-icon{background:linear-gradient(145deg,#342a25,#211f1d)!important}
+#chatApp .chat-welcome-intro{background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.03))!important;border-color:rgba(255,255,255,.15)!important}
+#chatApp .chat-welcome-copy p{color:#d0c9c0!important}
+#chatApp .chat-suggestion{background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.03))!important;border-color:rgba(255,255,255,.14)!important}
+#chatApp .chat-suggestion span{color:#c0b8ae!important}
+#chatApp .chat-example-list button{color:#e8e0d6!important}
+#chatApp .chat-composer-wrap{background:linear-gradient(180deg,rgba(31,29,27,.88),#191817 30%)!important}
+#chatApp .chat-composer{background:#292623!important;border-color:#5a4b42!important}
+#chatApp #chatInput{color:#fff9f2!important}
+#chatApp #chatInput::placeholder{color:#b1a79c!important}
+#chatApp .chat-tool{background:#34302b!important;border-color:#51473e!important;color:#eee1d6!important}
+#chatApp .chat-menu{background:rgba(35,32,29,.99)!important;border-color:#5a4b42!important}
+#chatApp .chat-menu button>span:first-child{background:#332923!important;border-color:#5a4337!important}
+#chatApp .chat-message.assistant .chat-message-body{color:#f0e9df!important}
+#chatApp .chat-message.user .chat-message-body{background:linear-gradient(145deg,rgba(223,152,125,.19),rgba(255,255,255,.055))!important}
+#chatApp .ai-usage-card{background:linear-gradient(145deg,#2b2926,#211f1d)!important;border-color:rgba(255,255,255,.16)!important}
+#chatApp .ai-usage-stat{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.13)!important}
+#chatApp .chat-result-card{color:#f5efe6!important}
+.app-splash{background:radial-gradient(ellipse at 50% 35%,rgba(223,136,105,.12),transparent 45%),#191817!important}
+.analysis-card{background:radial-gradient(ellipse at top,#303744 0%,#242220 72%)!important}
+@media(prefers-contrast:more){
+ body,#chatApp{color:#fff!important}
+ .control{border-color:#777!important}
+}
+</style>
+
 </body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
