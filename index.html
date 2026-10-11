@@ -2217,7 +2217,58 @@ body{
 @media(max-width:480px){#chatApp .chat-header{grid-template-columns:48px minmax(0,1fr) 48px!important;gap:9px!important;padding:12px 14px!important}#chatApp .chat-menu-toggle,#chatApp button#chatNew{width:46px!important;height:46px!important;min-width:46px!important;border-radius:15px!important}#chatApp button#chatNew:before{left:11px!important;top:9px!important}#chatApp button#chatNew:after{right:4px!important;bottom:4px!important}}
 </style>
 <style id="valoria-renovation-image-ui">@media(max-width:420px){#chatApp .chat-message-body img{max-width:100%}#chatApp .chat-message-body div[style*="grid-template-columns:repeat(2"]{gap:6px!important}#chatApp .chat-message-body div[style*="grid-template-columns:repeat(2"] div div{font-size:9px!important;padding:7px 3px!important}}</style>
-</body></html>
+
+<style id="valoria-compact-mobile-menu-usage">
+/* Menu + : réduire la hauteur et garder les libellés lisibles sur téléphone */
+#chatApp .valoria-plus-menu{
+  width:min(270px,calc(100vw - 64px))!important;
+  max-height:min(58vh,440px)!important;
+  overflow-y:auto!important;
+  padding:6px!important;
+  border-radius:16px!important;
+}
+#chatApp .valoria-plus-menu button{
+  min-height:43px!important;
+  gap:8px!important;
+  padding:6px 7px!important;
+  border-radius:10px!important;
+}
+#chatApp .plus-menu-icon{
+  flex-basis:29px!important;width:29px!important;height:29px!important;
+  border-radius:9px!important;font-size:15px!important;
+}
+#chatApp .valoria-plus-menu b{font-size:11px!important;line-height:1.25!important}
+#chatApp .valoria-plus-menu small{font-size:9px!important;line-height:1.25!important;margin-top:2px!important}
+#chatApp .chat-ai-gauge{
+  margin:8px 4px 8px!important;padding:10px!important;border-radius:12px!important;
+}
+#chatApp .chat-ai-gauge-top{gap:6px!important;flex-wrap:nowrap!important}
+#chatApp .chat-ai-gauge-title{font-size:10px!important;line-height:1.25!important}
+#chatApp #chatAIRemaining{font-size:20px!important;min-width:22px!important;text-align:right!important}
+#chatApp .chat-ai-gauge-foot{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  gap:8px!important;margin-top:7px!important;font-size:10px!important;line-height:1.4!important;
+}
+#chatApp #chatAIUsageText{display:block!important;min-width:0!important;overflow-wrap:anywhere!important}
+#chatApp .chat-ai-gauge-actions{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  flex-wrap:wrap!important;gap:7px!important;min-width:0!important;
+}
+#chatApp #chatAIReset{
+  min-height:29px!important;width:auto!important;max-width:100%!important;
+  padding:5px 8px!important;font-size:10px!important;line-height:1.2!important;
+  border-radius:8px!important;white-space:normal!important;
+}
+#chatApp .chat-ai-gauge-actions a{
+  display:inline-flex!important;align-items:center!important;gap:4px!important;
+  max-width:100%!important;font-size:10px!important;line-height:1.3!important;
+  overflow-wrap:anywhere!important;
+}
+@media(max-width:420px){
+  #chatApp .valoria-plus-menu{width:min(258px,calc(100vw - 56px))!important;max-height:54vh!important}
+  #chatApp .valoria-plus-menu button{min-height:40px!important}
+}
+</style>\n</body></html>
 <style id="valoria-reference-header-composer">
 /* En-tête centré, sans logo, avec commandes latérales équilibrées */
 #chatApp .chat-header{display:grid!important;grid-template-columns:48px minmax(0,1fr) 48px!important;align-items:center!important;column-gap:12px!important;min-height:100px!important;padding:calc(12px + env(safe-area-inset-top)) 18px 14px!important;background:rgba(18,18,18,.82)!important;border-bottom:1px solid rgba(255,255,255,.075)!important;backdrop-filter:blur(14px) saturate(115%)!important;-webkit-backdrop-filter:blur(14px) saturate(115%)!important}
