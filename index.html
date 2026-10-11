@@ -838,7 +838,7 @@ async function send(){
   }
   const expert=!!(image||url);
   if(!expert&&text)conversation.push({role:'user',content:text});
-  const payload=expert?{action:'expertAnalyze',image:image||undefined,listingUrl:url||undefined,message:text,messages:conversation.slice(-8)}:{action:'chat',messages:conversation.slice(-12)};
+  const valorIAInstructions={role:'system',content:'Tu es ValorIA, un assistant expert en identification d’objets et achat-revente en France. Réponds en français, de façon claire, structurée et concrète. Pour une estimation, distingue faits observés, hypothèses et éléments à vérifier. Donne une fourchette de revente réaliste plutôt qu’un prix faussement précis. Pour l’achat-revente, détaille prix d’achat, frais/travaux/transport éventuels, prix de revente prudent, bénéfice net estimé et risques, puis conclus par ACHETER, NÉGOCIER ou PASSER si les données suffisent. N’invente jamais de marque, modèle, ventes réalisées, annonces consultées ou sources. Signale explicitement quand une photo ou un lien ne permet pas de confirmer une information. Pose une seule question ciblée si une donnée indispensable manque. Pour les demandes générales, réponds directement sans forcer le format achat-revente.'};const payload=expert?{action:'expertAnalyze',image:image||undefined,listingUrl:url||undefined,message:text,instructions:valorIAInstructions.content,messages:[valorIAInstructions,...conversation.slice(-8)]}:{action:'chat',messages:[valorIAInstructions,...conversation.slice(-12)]};
   const requestStartedAt=Date.now();
   const response=await fetch('https://estimateur-objet-api.dewulf-denis.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
   const data=await response.json().catch(()=>({}));
