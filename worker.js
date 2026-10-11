@@ -109,6 +109,30 @@ export default {
     if (request.method !== "POST") return json({ error: "Utilise une requête POST." }, 405);
     try {
       const body = await request.json();
+      if (body.action === "renovateImage") {
+        if (!env.AI) return json({ error: "La génération d’images IA n’est pas activée sur ce Worker." }, 503);
+        const prompt = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 1400) : "";
+        const imageData = typeof body.image === "string" ? body.image : "";
+        if (!prompt) return json({ error: "Choisis un style de rénovation." }, 400);
+        if (!imageData.startsWith("data:image/") || !imageData.includes(";base64,")) return json({ error: "Ajoute d’abord une photo JPG ou PNG du meuble." }, 400);
+        const imageB64 = imageData.slice(imageData.indexOf(";base64,") + 8);
+        if (imageB64.length > 6_500_000) return json({ error: "La photo est trop volumineuse. Choisis une photo plus légère." }, 413);
+        const result = await env.AI.run("@cf/runwayml/stable-diffusion-v1-5-img2img", {
+          prompt: prompt + ". Photorealistic furniture makeover, preserve the exact original furniture silhouette, dimensions, doors, carved details and camera angle. Realistic materials, no text, no watermark.",
+          negative_prompt: "different furniture, extra doors, changed proportions, distorted woodwork, cartoon, illustration, text, watermark, blurry",
+          image_b64: imageB64,
+          strength: 0.58,
+          num_steps: 20,
+          guidance: 7.5,
+          width: 768,
+          height: 768,
+          seed: Math.floor(Math.random() * 2147483647)
+        });
+        if (!result || typeof result.image !== "string" || !result.image.length) {
+          return json({ error: "Le modèle n’a pas retourné d’image. Réessaie avec une photo plus simple." }, 502);
+        }
+        return json({ image: "data:image/png;base64," + result.image, model: "@cf/runwayml/stable-diffusion-v1-5-img2img" });
+      }
       if (body.action === "generateImage") {
         if (!env.AI) return json({ error: "La génération d’images IA n’est pas activée sur ce Worker." }, 503);
         const prompt = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 1800) : "";
