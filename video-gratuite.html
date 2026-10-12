@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111318"><title>ValorIA — Vidéo gratuite</title>
+<style>
+:root{color-scheme:dark;--bg:#111318;--panel:#1b1e26;--line:#303541;--text:#f5f6fa;--muted:#aeb4c2;--accent:#b9f27c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#252a35,var(--bg) 55%);color:var(--text);font:16px/1.5 system-ui,-apple-system,sans-serif}main{width:min(760px,100%);margin:auto;padding:24px 16px 48px}.top{display:flex;align-items:center;gap:10px;margin-bottom:20px}.mark{width:42px;height:42px;border-radius:14px;background:var(--accent);color:#171a1f;display:grid;place-items:center;font-weight:900;font-size:20px}h1{font-size:clamp(27px,7vw,40px);line-height:1.1;margin:12px 0}p{color:var(--muted)}.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin:16px 0}.field{display:block;font-weight:650;margin:14px 0 7px}input[type=file],input[type=text],select{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;background:#111318;color:var(--text);font:inherit}input[type=range]{width:100%;accent-color:var(--accent)}button,.btn{border:0;border-radius:13px;padding:14px 17px;font:inherit;font-weight:750;cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;gap:8px}.primary{background:var(--accent);color:#161a14;width:100%;margin-top:12px}.secondary{background:#303541;color:var(--text);width:100%;margin-top:8px}.primary:disabled{opacity:.45;cursor:not-allowed}.preview{width:100%;max-height:55vh;object-fit:contain;border-radius:14px;background:#0c0d10;display:block}.hint{font-size:13px}.status{min-height:24px;color:var(--accent);overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid>div{min-width:0}.badge{font-size:12px;background:#303541;padding:5px 9px;border-radius:99px;color:#e6e9f0}@media(max-width:430px){main{padding:18px 12px 32px}.card{padding:14px}.grid{grid-template-columns:1fr}}
+</style></head>
+<body><main>
+<div class="top"><div class="mark">V</div><div><strong>ValorIA</strong><div class="hint">Studio créatif · gratuit</div></div><span style="margin-left:auto" class="badge">Sans API payante</span></div>
+<h1>Transforme une photo en vidéo</h1>
+<p>Crée un petit clip de présentation avec un zoom fluide et un mouvement de caméra. Le rendu est fabriqué dans ton navigateur : ta photo n’est envoyée à aucun serveur.</p>
+<section class="card">
+<label class="field" for="photo">1. Choisis une photo de ton objet</label><input id="photo" type="file" accept="image/*">
+<div style="margin-top:14px"><img id="preview" class="preview" alt="Aperçu de la photo sélectionnée" hidden></div>
+<div class="grid"><div><label class="field" for="duration">Durée du clip</label><select id="duration"><option value="6">6 secondes</option><option value="10" selected>10 secondes</option><option value="15">15 secondes</option></select></div><div><label class="field" for="motion">Mouvement</label><select id="motion"><option value="zoom">Zoom avant doux</option><option value="back">Zoom arrière</option><option value="pan">Déplacement latéral</option><option value="cinema">Zoom + déplacement</option></select></div></div>
+<label class="field" for="caption">Texte sur la vidéo (facultatif)</label><input id="caption" type="text" maxlength="70" placeholder="Ex. Jolie commode vintage">
+<label class="field" for="scale">Intensité du mouvement <span id="scaleLabel">modérée</span></label><input id="scale" type="range" min="3" max="18" value="9">
+<button class="primary" id="make" disabled>Créer ma vidéo gratuitement</button>
+<button class="secondary" id="save" hidden>Enregistrer la vidéo</button>
+<p id="status" class="status" role="status" aria-live="polite"></p>
+<video id="result" class="preview" controls playsinline hidden></video>
+<p class="hint">Le rendu utilise la photo originale et des effets de caméra. La qualité et le format d’enregistrement dépendent du navigateur de ton appareil. Aucun abonnement ni clé API n’est utilisé.</p>
+</section>
+<section class="card"><strong>À savoir</strong><p class="hint">Sur iPhone, garde cette page ouverte pendant la création. Si l’enregistrement vidéo n’est pas pris en charge par ton navigateur, l’aperçu restera disponible mais le téléchargement pourra être indisponible. Le fichier peut être volumineux selon la photo et l’appareil.</p></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const photo=$('photo'),preview=$('preview'),make=$('make'),save=$('save'),status=$('status'),result=$('result');
+let image=null,objectUrl=null,recordedUrl=null;
+photo.addEventListener('change',()=>{
+ const file=photo.files&&photo.files[0]; if(!file)return;
+ if(!file.type.startsWith('image/')){status.textContent='Choisis un fichier image.';return}
+ if(objectUrl)URL.revokeObjectURL(objectUrl);
+ objectUrl=URL.createObjectURL(file);image=new Image();
+ image.onload=()=>{preview.src=objectUrl;preview.hidden=false;make.disabled=false;status.textContent='Photo prête. Choisis le mouvement puis lance la création.'};
+ image.onerror=()=>{status.textContent='Impossible de lire cette image.';make.disabled=true};
+ image.src=objectUrl;result.hidden=true;save.hidden=true;
+});
+$('scale').addEventListener('input',()=>{$('scaleLabel').textContent=Number($('scale').value)<7?'discret':Number($('scale').value)<13?'modérée':'forte'});
+make.addEventListener('click',async()=>{
+ if(!image)return;
+ const canvas=document.createElement('canvas');canvas.width=1280;canvas.height=720;
+ const ctx=canvas.getContext('2d');const duration=Number($('duration').value);const motion=$('motion').value;const strength=Number($('scale').value)/100;const caption=$('caption').value.trim();
+ const supported=window.MediaRecorder&&canvas.captureStream;
+ let mime='';
+ if(supported){mime=['video/mp4;codecs=h264','video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(t=>MediaRecorder.isTypeSupported(t))||''}
+ if(!supported||!mime){status.textContent='Ton navigateur ne permet pas ici l’enregistrement vidéo. Essaie Safari à jour ou un autre navigateur compatible.';return}
+ make.disabled=true;save.hidden=true;result.hidden=true;status.textContent='Création de la vidéo… garde cette page ouverte.';
+ const stream=canvas.captureStream(30);let recorder;
+ try{recorder=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:5000000})}catch(e){stream.getTracks().forEach(t=>t.stop());make.disabled=false;status.textContent='Ce navigateur ne prend pas en charge le format vidéo nécessaire.';return}
+ const chunks=[];recorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+ const done=new Promise(resolve=>{recorder.onstop=()=>resolve(new Blob(chunks,{type:mime}))});
+ const start=performance.now();
+ function frame(now){
+  const p=Math.min(1,(now-start)/(duration*1000));
+  const w=canvas.width,h=canvas.height,iw=image.naturalWidth,ih=image.naturalHeight;
+  const base=Math.max(w/iw,h/ih);let z=1,x=0,y=0;
+  if(motion==='zoom')z=1+strength*p;
+  else if(motion==='back')z=1+strength*(1-p);
+  else if(motion==='pan'){z=1+strength*.35;x=(p-.5)*w*strength*1.4}
+  else {z=1+strength*p;x=(p-.5)*w*strength*.65}
+  const dw=iw*base*z,dh=ih*base*z;
+  ctx.fillStyle='#101116';ctx.fillRect(0,0,w,h);
+  ctx.save();ctx.beginPath();ctx.rect(0,0,w,h);ctx.clip();ctx.drawImage(image,(w-dw)/2+x,(h-dh)/2,dw,dh);ctx.restore();
+  if(caption){const fontSize=Math.round(w*.038);ctx.font='700 '+fontSize+'px system-ui, sans-serif';const pad=24;const max=Math.min(ctx.measureText(caption).width,w*.82);const boxW=Math.min(max,w*.84)+pad*2;const boxH=fontSize+pad*1.25;ctx.fillStyle='rgba(0,0,0,.58)';ctx.beginPath();ctx.roundRect((w-boxW)/2,h-boxH-35,boxW,boxH,18);ctx.fill();ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(caption,w/2,h-boxH/2-35,w*.82)}
+  if(p<1)requestAnimationFrame(frame);else setTimeout(()=>recorder.state!=='inactive'&&recorder.stop(),100);
+ }
+ recorder.start(250);requestAnimationFrame(frame);
+ try{
+  const blob=await done;stream.getTracks().forEach(t=>t.stop());
+  if(!blob.size)throw new Error('Le navigateur n’a pas produit de vidéo.');
+  if(recordedUrl)URL.revokeObjectURL(recordedUrl);recordedUrl=URL.createObjectURL(blob);
+  result.src=recordedUrl;result.hidden=false;save.hidden=false;
+  const ext=mime.includes('mp4')?'mp4':'webm';save.onclick=()=>{const a=document.createElement('a');a.href=recordedUrl;a.download='valoria-video.'+ext;document.body.appendChild(a);a.click();a.remove()};
+  status.textContent='Vidéo créée ('+(blob.size/1024/1024).toFixed(1)+' Mo). Appuie sur Enregistrer pour la sauvegarder.';result.load();
+ }catch(e){status.textContent=e.message||'Une erreur est survenue.'}
+ finally{make.disabled=false}
+});
+</script></body></html>
