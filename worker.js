@@ -217,6 +217,29 @@ export default {
         }
         return json({ image: "data:image/png;base64," + result.image, model: "@cf/runwayml/stable-diffusion-v1-5-img2img" });
       }
+      if (body.action === "generateVideo") {
+        if (!env.AI) return json({ error: "Le moteur vidéo IA n’est pas activé sur ce Worker." }, 503);
+        const prompt = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 1200) : "";
+        const imageData = typeof body.image === "string" ? body.image : "";
+        if (!prompt) return json({ error: "Décris le mouvement souhaité pour la vidéo." }, 400);
+        if (!/^data:image\/(?:jpeg|png|webp);base64,/.test(imageData)) return json({ error: "Ajoute une photo JPG, PNG ou WebP." }, 400);
+        if (imageData.length > 4_200_000) return json({ error: "La photo est trop volumineuse. Choisis une image plus légère (maximum 3 Mo environ)." }, 413);
+        // Image-to-video is a hosted model: this does not run WanGP on the phone.
+        // Require explicit opt-in in the UI because model usage may incur charges.
+        const result = await env.AI.run("alibaba/wan-2.7-i2v", {
+          image: imageData,
+          prompt: prompt + ". Keep the product's shape, color, dimensions and visible details unchanged. Smooth camera motion only; no morphing, no added parts, no text or watermark.",
+          negative_prompt: "object deformation, changed proportions, extra parts, flicker, text, watermark, blurry",
+          duration: 5,
+          resolution: "720P",
+          watermark: false
+        });
+        const video = result && result.result && result.result.video || result && result.video;
+        if (typeof video !== "string" || !/^https:\/\//i.test(video)) {
+          return json({ error: "Le moteur vidéo n’a pas renvoyé de lien vidéo exploitable. Vérifie la disponibilité du modèle et réessaie." }, 502);
+        }
+        return json({ video, model: "alibaba/wan-2.7-i2v", duration: 5, resolution: "720P" });
+      }
       if (body.action === "generateImage") {
         if (!env.AI) return json({ error: "La génération d’images IA n’est pas activée sur ce Worker." }, 503);
         const prompt = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 1800) : "";
