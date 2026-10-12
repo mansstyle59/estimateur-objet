@@ -9,11 +9,15 @@ Petite application web mobile en français pour préparer une décision d’acha
 - Afficher une fourchette indicative de revente.
 - Enregistrer les estimations dans le navigateur.
 
-## Limites à connaître
-- La photo est affichée, mais n’est pas analysée par une IA.
-- Les liens Leboncoin et Facebook Marketplace sont conservés comme référence, mais les annonces ne sont pas importées automatiquement.
-- Les fourchettes sont des repères génériques par catégorie et état, pas des prix de marché vérifiés ni une garantie de vente.
-- Les données d’historique sont stockées localement dans le navigateur utilisé.
+## Fonctionnement et limites réelles
+- L’analyse d’une photo utilise un modèle de vision IA via le Worker Cloudflare. Si le modèle ou le quota du fournisseur est indisponible, l’analyse peut échouer : aucune disponibilité illimitée n’est garantie.
+- Pour un lien d’annonce, le Worker essaie de lire les métadonnées et le texte public. Leboncoin, Facebook Marketplace et Vinted peuvent bloquer l’accès automatisé ; une capture d’écran ou une photo reste alors nécessaire.
+- Les prix d’une recherche eBay, lorsqu’elle est configurée, sont des prix demandés d’annonces actives, pas des ventes conclues. Sans comparables réellement récupérés, l’estimation reste indicative.
+- L’historique reste local au navigateur. Utilise **Exporter mes données** puis **Importer une sauvegarde** pour transférer les estimations entre appareils, sans compte.
+- L’interface n’impose pas de plafond quotidien local. Les fournisseurs d’IA, les API et l’hébergement peuvent toutefois appliquer leurs propres quotas, conditions ou limites de coût.
+
+## Vérifications avant publication
+Cette branche contient des modifications en attente de revue. Le déploiement de production n’est pas fait automatiquement : configure le Worker, teste une vraie photo et un lien public, puis teste l’export/import sur iPhone et ordinateur avant de fusionner.
 
 ## Publier sur GitHub Pages
 1. Ouvrir Settings dans ce dépôt.

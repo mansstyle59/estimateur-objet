@@ -1,6 +1,6 @@
 # Estimateur Objet — API Cloudflare gratuite
 
-Cette version utilise Cloudflare Workers AI pour analyser une photo. Elle ne nécessite pas de clé Gemini. Cloudflare annonce un quota gratuit de **10 000 Neurons par jour** pour Workers AI ; les quotas et modèles disponibles peuvent changer. Consulte les [tarifs officiels](https://developers.cloudflare.com/workers-ai/platform/pricing/).
+Cette version utilise un modèle de vision de Cloudflare Workers AI pour analyser réellement une photo. Elle ne nécessite pas de clé Gemini. Cloudflare annonce un quota gratuit de **10 000 Neurons par jour** pour Workers AI ; les quotas et modèles disponibles peuvent changer. Consulte les [tarifs officiels](https://developers.cloudflare.com/workers-ai/platform/pricing/).
 
 **Important :** cette version ne dispose pas d'une API Google Search intégrée. Elle produit une fourchette indicative à partir de l'analyse IA et propose des liens de recherche Google, Leboncoin et eBay pour vérifier les annonces en cours. Les prix affichés dans les annonces ne sont pas forcément les prix de vente conclus.
 
@@ -30,6 +30,8 @@ Le fichier `wrangler.toml` déclare le binding AI.
 
 ## Limites
 
+- L’interface n’impose pas de plafond quotidien local, mais Cloudflare Workers AI, OpenRouter et les autres API peuvent appliquer leurs propres quotas, limites de débit ou indisponibilités.
+- Si la photo est envoyée, le Worker choisit un modèle compatible avec l’image ; si ce modèle échoue, un modèle de secours n’est utilisé que si `OPENROUTER_API_KEY` est configurée comme secret Cloudflare.
 - Une connexion Internet est nécessaire.
 - L'estimation IA est indicative et peut être imprécise.
 - Les liens de recherche ouvrent des résultats actuels, mais l'application ne lit pas automatiquement les prix de ces pages.
