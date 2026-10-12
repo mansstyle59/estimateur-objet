@@ -4301,7 +4301,7 @@ body .wrap .top .pill{flex:0 0 auto!important;margin-left:auto!important;padding
     const command=match[1].toLowerCase();
     const aliases={lbc:'leboncoin',facebook:'facebook',marketplace:'facebook',fb:'facebook',all:'tous',marche:'tous'};
     const key=aliases[command]||command;
-    let query=match[2].trim().replace(/^(?:recherche|recherches|cherche|trouve|trouver)\\s+/i,'').replace(/^(?:des|du|de la|de l['’]|de|les|le|la|un|une)\\s+/i,'').trim();
+    let query=match[2].trim().replace(/^(?:recherche|recherches|cherche|trouve|trouver)\s+/i,'').replace(/^(?:des|du|de la|de l['’]|de|les|le|la|un|une)\s+/i,'').trim();
     if(!query)return {error:'Ajoute ce que tu cherches après la commande.'};
     if(query.length>180)query=query.slice(0,180);
     if(key==='tous')return {query,selected:Object.keys(sites)};
