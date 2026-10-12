@@ -4242,5 +4242,94 @@ body .wrap .top .pill{flex:0 0 auto!important;margin-left:auto!important;padding
 }
 @media(max-width:350px){#chatApp .chat-suggestions{grid-template-columns:minmax(0,1fr)!important}#chatApp .chat-suggestion{min-height:70px!important}}
 </style>
+
+<style id="valoria-market-plugins-style">
+#valoria-market-plugins{margin:14px 0 18px;padding:16px;border:1px solid #80503d;border-radius:18px;background:linear-gradient(145deg,#211d1a,#171816);color:var(--ink,#f5f6fb);box-shadow:0 10px 26px #0003}
+#valoria-market-plugins h2{margin:0 0 5px;font-size:18px}
+#valoria-market-plugins .vmp-sub{margin:0 0 12px;color:var(--muted,#b7b3aa);font-size:12px}
+#valoria-market-plugins .vmp-row{display:flex;gap:8px}
+#valoria-market-plugins input{min-width:0;flex:1;width:100%;border:1px solid #50453c;border-radius:11px;padding:12px;background:#111210;color:#fff}
+#valoria-market-plugins button{border:1px solid #b56a4d;border-radius:11px;padding:11px 13px;background:#d97757;color:#171411;font-weight:800}
+#valoria-market-plugins .vmp-examples{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+#valoria-market-plugins .vmp-examples button{padding:7px 9px;font-size:11px;background:#30211d;color:#f4b39a;border-color:#674034}
+#valoria-market-plugins .vmp-hint{font-size:11px;color:#b7b3aa;margin:9px 0 0}
+#valoria-market-plugins .vmp-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+#valoria-market-plugins .vmp-link{display:flex;gap:9px;align-items:center;min-width:0;text-decoration:none;color:inherit;padding:11px;border:1px solid #494039;border-radius:12px;background:#1d1c19}
+#valoria-market-plugins .vmp-link strong{display:block;font-size:12px}
+#valoria-market-plugins .vmp-link small{display:block;font-size:10px;color:#b7b3aa;margin-top:2px}
+#valoria-market-plugins .vmp-icon{display:grid;place-items:center;width:30px;height:30px;flex-shrink:0;border-radius:9px;background:#30211d;color:#f4b39a;font-weight:900}
+#valoria-market-plugins .vmp-status{margin-top:10px;font-size:12px;color:#f4b39a;overflow-wrap:anywhere}
+@media(max-width:440px){#valoria-market-plugins{padding:13px}#valoria-market-plugins .vmp-row{flex-direction:column}#valoria-market-plugins .vmp-row button{width:100%}}
+</style>
+<section id="valoria-market-plugins" aria-labelledby="valoria-market-plugins-title">
+  <h2 id="valoria-market-plugins-title">⌕ Plugins de recherche marché</h2>
+  <p class="vmp-sub">Tape une commande comme <b>@leboncoin recherche des meubles anciens</b>, puis ouvre les résultats du site choisi.</p>
+  <form id="vmp-form">
+    <div class="vmp-row"><input id="vmp-command" type="text" autocomplete="off" aria-label="Commande de recherche" placeholder="@leboncoin recherche des meubles anciens"><button type="submit">Lancer</button></div>
+  </form>
+  <div class="vmp-examples" aria-label="Exemples de commandes">
+    <button type="button" data-vmp-example="@leboncoin recherche des meubles anciens">Meubles anciens</button>
+    <button type="button" data-vmp-example="@vinted veste de marque">Vêtements de marque</button>
+    <button type="button" data-vmp-example="@facebook outils à petit prix">Outils pas chers</button>
+    <button type="button" data-vmp-example="@tous meuble à rénover">Comparer partout</button>
+  </div>
+  <div id="vmp-status" class="vmp-status" role="status" aria-live="polite">Raccourcis de recherche prêts.</div>
+  <div id="vmp-results" class="vmp-results"></div>
+  <p class="vmp-hint">Important : ces plugins ouvrent les recherches publiques officielles. Ce ne sont pas encore des serveurs MCP connectés : aucun accès automatique aux annonces privées, aucune lecture garantie des résultats. Leboncoin, Facebook et Vinted peuvent limiter l’accès automatisé.</p>
+</section>
+<script id="valoria-market-plugins-script">
+(function(){
+  const root=document.getElementById('valoria-market-plugins');
+  if(!root||root.dataset.ready==='1')return;
+  root.dataset.ready='1';
+  const form=document.getElementById('vmp-form');
+  const input=document.getElementById('vmp-command');
+  const results=document.getElementById('vmp-results');
+  const status=document.getElementById('vmp-status');
+  const sites={
+    leboncoin:{label:'Leboncoin',icon:'L',desc:'Petites annonces en France',url:q=>'https://www.leboncoin.fr/recherche?text='+encodeURIComponent(q)},
+    facebook:{label:'Facebook Marketplace',icon:'f',desc:'Annonces locales',url:q=>'https://www.facebook.com/marketplace/search/?query='+encodeURIComponent(q)},
+    vinted:{label:'Vinted',icon:'V',desc:'Mode et articles d’occasion',url:q=>'https://www.vinted.fr/catalog?search_text='+encodeURIComponent(q)},
+    ebay:{label:'eBay France',icon:'e',desc:'Annonces et objets de collection',url:q=>'https://www.ebay.fr/sch/i.html?_nkw='+encodeURIComponent(q)},
+    google:{label:'Google',icon:'G',desc:'Recherche web complémentaire',url:q=>'https://www.google.com/search?q='+encodeURIComponent(q+' occasion prix')}
+  };
+  function parseCommand(raw){
+    let value=String(raw||'').trim();
+    if(!value)return {error:'Écris une commande, par exemple : @leboncoin recherche des meubles anciens.'};
+    const match=value.match(/^@([a-z-]+)\s*(.*)$/i);
+    if(!match)return {error:'Commence par @leboncoin, @facebook, @vinted, @ebay, @google ou @tous.'};
+    const command=match[1].toLowerCase();
+    const aliases={lbc:'leboncoin',facebook:'facebook',marketplace:'facebook',fb:'facebook',all:'tous',marche:'tous'};
+    const key=aliases[command]||command;
+    let query=match[2].trim().replace(/^(?:recherche|recherches|cherche|trouve|trouver)\s+/i,'').replace(/^(?:des|du|de la|de l['’]|de|les|le|la|un|une)\s+/i,'').trim();
+    if(!query)return {error:'Ajoute ce que tu cherches après la commande.'};
+    if(query.length>180)query=query.slice(0,180);
+    if(key==='tous')return {query,selected:Object.keys(sites)};
+    if(!sites[key])return {error:'Plugin inconnu : @'+command+'. Essaie @leboncoin, @facebook, @vinted, @ebay, @google ou @tous.'};
+    return {query,selected:key==='leboncoin'?['leboncoin','google','ebay']:key==='facebook'?['facebook','leboncoin','google']:[key,'leboncoin','google']};
+  }
+  function run(raw){
+    const parsed=parseCommand(raw);
+    results.replaceChildren();
+    if(parsed.error){status.textContent=parsed.error;return;}
+    status.textContent='Recherche préparée pour « '+parsed.query+' ». Choisis un site pour ouvrir ses résultats.';
+    parsed.selected.forEach(key=>{
+      const site=sites[key];if(!site)return;
+      const a=document.createElement('a');
+      a.className='vmp-link';a.href=site.url(parsed.query);a.target='_blank';a.rel='noopener noreferrer';
+      const icon=document.createElement('span');icon.className='vmp-icon';icon.textContent=site.icon;
+      const text=document.createElement('span');
+      const strong=document.createElement('strong');strong.textContent=site.label;
+      const small=document.createElement('small');small.textContent=site.desc;
+      text.append(strong,small);a.append(icon,text);results.append(a);
+    });
+  }
+  form.addEventListener('submit',event=>{event.preventDefault();run(input.value);});
+  root.querySelectorAll('[data-vmp-example]').forEach(button=>button.addEventListener('click',()=>{input.value=button.dataset.vmpExample||'';run(input.value);}));
+  const hero=root.ownerDocument.querySelector('.hero');
+  if(hero&&hero.parentNode)hero.insertAdjacentElement('afterend',root);
+})();
+</script>
+
 </body>
 </html>
