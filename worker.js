@@ -109,6 +109,90 @@ export default {
     if (request.method !== "POST") return json({ error: "Utilise une requête POST." }, 405);
     try {
       const body = await request.json();
+
+      if (body.action === "muapiCatalog") {
+        if (!env.MUAPI_API_KEY) return json({ error: "Studio créatif non configuré : ajoute MUAPI_API_KEY aux secrets du Worker Cloudflare." }, 503);
+        const requestUrl = new URL("https://api.muapi.ai/api/v1/models");
+        const category = typeof body.category === "string" ? body.category.trim().slice(0, 80) : "";
+        if (category) requestUrl.searchParams.set("category", category);
+        const response = await fetch(requestUrl.toString(), {
+          headers: { "x-api-key": env.MUAPI_API_KEY, "Accept": "application/json" },
+          signal: AbortSignal.timeout(12000)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) return json({ error: "Impossible de charger les modèles MuAPI (HTTP " + response.status + "). Vérifie la clé et ton compte." }, 502);
+        const models = Array.isArray(data.models) ? data.models : [];
+        const normalized = models.map(model => ({
+          name: String(model.name || "").slice(0, 120),
+          description: String(model.description || "").slice(0, 220),
+          category: String(model.category || "").slice(0, 80),
+          cost: Number.isFinite(Number(model.cost)) ? Number(model.cost) : null,
+          currency: String(model.cost_currency || data.currency || "USD").slice(0, 8),
+          dynamicPricing: Boolean(model.dynamic_pricing),
+          endpoint: String(model.endpoint || "").replace(/^\//, "").replace(/^api\/v1\//, "").slice(0, 160)
+        })).filter(model => model.name && model.endpoint && /^[a-z0-9][a-z0-9._-]*$/i.test(model.endpoint));
+        return json({ models: normalized.slice(0, 500), currency: String(data.currency || "USD"), total: Number(data.total) || normalized.length });
+      }
+      if (body.action === "muapiGenerate") {
+        if (!env.MUAPI_API_KEY) return json({ error: "Studio créatif non configuré : ajoute MUAPI_API_KEY aux secrets du Worker Cloudflare." }, 503);
+        const studio = ["image", "video", "lipsync", "cinema"].includes(body.studio) ? body.studio : "image";
+        const endpoint = typeof body.endpoint === "string" ? body.endpoint.trim() : "";
+        if (!/^[a-z0-9][a-z0-9._-]{0,159}$/i.test(endpoint)) return json({ error: "Choisis un modèle valide dans le catalogue MuAPI." }, 400);
+        const payload = body.params && typeof body.params === "object" && !Array.isArray(body.params) ? body.params : {};
+        const prompt = typeof payload.prompt === "string" ? payload.prompt.trim().slice(0, 4000) : "";
+        if (!prompt && !["lipsync"].includes(studio)) return json({ error: "Écris une description avant de lancer la génération." }, 400);
+        const allowed = new Set(["prompt", "negative_prompt", "image_url", "images_list", "video_url", "audio_url", "aspect_ratio", "resolution", "duration", "fps", "seed", "style", "camera_movement", "camera_motion", "quality", "num_frames", "guidance_scale", "strength", "mode", "audio", "generate_audio"]);
+        const clean = {};
+        for (const [key, value] of Object.entries(payload)) {
+          if (!allowed.has(key)) continue;
+          if (typeof value === "string") clean[key] = value.slice(0, key === "prompt" ? 4000 : 2500);
+          else if (typeof value === "number" && Number.isFinite(value)) clean[key] = value;
+          else if (typeof value === "boolean") clean[key] = value;
+          else if (key === "images_list" && Array.isArray(value)) clean[key] = value.filter(v => typeof v === "string" && /^https:\/\//i.test(v)).slice(0, 14);
+          else if (["resolution", "duration", "fps", "seed", "num_frames", "guidance_scale", "strength"].includes(key) && value === null) continue;
+        }
+        // Lip-sync needs a portrait/video and an audio URL on compatible models.
+        if (studio === "lipsync" && !(clean.audio_url && (clean.image_url || clean.video_url || (clean.images_list && clean.images_list.length)))) {
+          return json({ error: "Le Lip Sync demande une URL audio et une URL de portrait ou de vidéo compatible avec le modèle choisi." }, 400);
+        }
+        const submit = await fetch("https://api.muapi.ai/api/v1/" + endpoint, {
+          method: "POST",
+          headers: { "x-api-key": env.MUAPI_API_KEY, "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(clean),
+          signal: AbortSignal.timeout(25000)
+        });
+        const result = await submit.json().catch(() => ({}));
+        if (!submit.ok || !result.request_id) {
+          const safeMessage = typeof result.error === "string" ? result.error.slice(0, 260) : "MuAPI a refusé la demande.";
+          return json({ error: "Génération non lancée : " + safeMessage }, submit.status === 429 ? 429 : 502);
+        }
+        return json({
+          requestId: String(result.request_id).slice(0, 180),
+          status: String(result.status || "processing").slice(0, 40),
+          cost: result.cost && typeof result.cost === "object" ? { amountUsd: Number(result.cost.amount_usd) || 0, amountCredits: Number(result.cost.amount_credits) || 0 } : null,
+          studio
+        }, 202);
+      }
+      if (body.action === "muapiResult") {
+        if (!env.MUAPI_API_KEY) return json({ error: "Studio créatif non configuré : ajoute MUAPI_API_KEY aux secrets du Worker Cloudflare." }, 503);
+        const requestId = typeof body.requestId === "string" ? body.requestId.trim() : "";
+        if (!/^[a-z0-9_-]{4,180}$/i.test(requestId)) return json({ error: "Identifiant de génération invalide." }, 400);
+        const response = await fetch("https://api.muapi.ai/api/v1/predictions/" + encodeURIComponent(requestId) + "/result", {
+          headers: { "x-api-key": env.MUAPI_API_KEY, "Accept": "application/json" },
+          signal: AbortSignal.timeout(12000)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) return json({ error: "Impossible de récupérer le résultat (HTTP " + response.status + ")." }, 502);
+        const outputs = Array.isArray(data.outputs) ? data.outputs.filter(v => typeof v === "string" || (v && typeof v === "object")).slice(0, 12) : [];
+        return json({
+          requestId,
+          status: String(data.status || "processing").slice(0, 40),
+          outputs,
+          error: typeof data.error === "string" ? data.error.slice(0, 280) : null,
+          cost: data.cost && typeof data.cost === "object" ? { amountUsd: Number(data.cost.amount_usd) || 0, amountCredits: Number(data.cost.amount_credits) || 0, refunded: Boolean(data.cost.refunded) } : null,
+          balance: data.balance && Number.isFinite(Number(data.balance)) ? Number(data.balance) : null
+        });
+      }
       if (body.action === "renovateImage") {
         if (!env.AI) return json({ error: "La génération d’images IA n’est pas activée sur ce Worker." }, 503);
         const prompt = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 1400) : "";
