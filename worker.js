@@ -197,9 +197,10 @@ export default {
         if (userContent) context.push("MESSAGE UTILISATEUR : " + userContent);
         const history = messages.map(m=>({role:m && m.role==="assistant"?"assistant":"user",content:String(m && m.content || "").slice(0,2500)})).filter(m=>m.content.trim());
         const promptText = context.length ? context.join("\n\n") : "Analyse cet objet avec méthode, sans inventer les données absentes.";
-        const options = {messages:[{role:"system",content:system},...history,{role:"user",content:promptText}], reasoning_effort:"medium", max_tokens:1600};
+        const options = {messages:[{role:"system",content:system},...history,{role:"user",content:promptText}], max_tokens:1600};
+        // reasoning_effort is supported by Qwen, not documented for Llama Vision.
+        if (!imageMatch) options.reasoning_effort = "medium";
         // Use a vision-capable model for photos, and pass the complete data URI.
-        // Qwen text-only can return a plausible answer while silently ignoring the image.
         let result, answer = "", provider = "Cloudflare Workers AI", model = imageMatch ? "@cf/meta/llama-3.2-11b-vision-instruct" : "@cf/qwen/qwen3.8-27b";
         if (imageMatch) options.image = image;
         try {
@@ -293,7 +294,8 @@ Dans "details", fournis les faits observés, défauts à vérifier, risques et p
       let provider = "Cloudflare Workers AI";
       let raw = "";
       try {
-        const options = { messages: [{ role: "user", content: prompt }], reasoning_effort: "low" };
+        const options = { messages: [{ role: "user", content: prompt }] };
+        if (!imageMatch) options.reasoning_effort = "low";
         if (imageMatch) options.image = image;
         const result = await env.AI.run(model, options);
         raw = result?.response || result?.choices?.[0]?.message?.content || "";
