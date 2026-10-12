@@ -289,10 +289,34 @@ Détails saisis: ${details || "aucun"}
 ${listingContext}
 Réponds en français, en JSON strict uniquement avec: "title", "category" (meuble, outil, electronique, collection, mode, jardin, jouet, autre), "details", "condition" (excellent, bon, correct, moyen, à rénover ou inconnu), "renovation", "renovationType" (none, clean, paint, repair, custom), "identificationConfidence" (high, medium ou low), "alternatives" (maximum 3 identifications plausibles), "estimatedResaleLow" (nombre entier ou null, vente rapide), "estimatedResaleHigh" (nombre entier ou null, haut de fourchette réaliste), "estimatedListPrice" (nombre entier ou null, prix d’annonce conseillé), "maxBuyPrice" (nombre entier ou null, prix d’achat plafond prudent), "buyerVerdict" (ACHETER, NÉGOCIER ou PASSER), "negotiationStrategy" (texte court), "risks" (tableau de 3 risques maximum), "demand" (faible, moyenne ou forte), "workTimeHours" (nombre ou null), "priceBasis", "comparables" (vide sauf données réellement vérifiées).
 Dans "details", fournis les faits observés, défauts à vérifier, risques et prochaines vérifications. Dans "renovation", indique les travaux conseillés, difficulté et temps approximatif sans inventer de coût exact. Dans "priceBasis", explique la fourchette, les différences entre vente rapide et prix d’annonce, les hypothèses et les limites des données. "comparables" doit rester vide sauf données réellement vérifiées. Ne prétends jamais avoir vérifié des annonces ou ventes conclues. Si l’identité est incertaine, retourne null pour les deux prix. N’invente ni marque ni caractéristique.`;
-      const options = { messages: [{ role: "user", content: prompt }], reasoning_effort: "low" };
-      if (imageMatch) options.image = image;
-      const result = await env.AI.run("@cf/qwen/qwen3.8-27b", options);
-      const raw = result?.response || result?.choices?.[0]?.message?.content || "";
+      const model = imageMatch ? "@cf/meta/llama-3.2-11b-vision-instruct" : "@cf/qwen/qwen3.8-27b";
+      let provider = "Cloudflare Workers AI";
+      let raw = "";
+      try {
+        const options = { messages: [{ role: "user", content: prompt }], reasoning_effort: "low" };
+        if (imageMatch) options.image = image;
+        const result = await env.AI.run(model, options);
+        raw = result?.response || result?.choices?.[0]?.message?.content || "";
+      } catch (e) {
+        raw = "";
+      }
+      // Optional fallback is only attempted when the operator configured a key.
+      // Keep image input multimodal so the fallback cannot silently ignore the photo.
+      if (!raw.trim() && env.OPENROUTER_API_KEY) {
+        const content = [{ type: "text", text: prompt }];
+        if (imageMatch) content.push({ type: "image_url", image_url: { url: image } });
+        const fallback = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: { "Authorization": "Bearer " + env.OPENROUTER_API_KEY, "Content-Type": "application/json", "HTTP-Referer": "https://mansstyle59.github.io/estimateur-objet/", "X-Title": "Estimateur Objet" },
+          body: JSON.stringify({ model: "openrouter/free", messages: [{ role: "user", content }], max_tokens: 1600 }),
+          signal: AbortSignal.timeout(25000)
+        });
+        const fallbackData = await fallback.json().catch(() => ({}));
+        if (fallback.ok) {
+          raw = fallbackData?.choices?.[0]?.message?.content || "";
+          provider = "OpenRouter Free";
+        }
+      }
       let cleaned = String(raw).replace(/<think>[\s\S]*?<\/think>/gi, "").replace(/^\uFEFF/, "").replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim();
       let analysis;
       try { analysis = JSON.parse(cleaned); } catch { const start = cleaned.indexOf("{"), end = cleaned.lastIndexOf("}"); if (start >= 0 && end > start) { try { analysis = JSON.parse(cleaned.slice(start, end + 1)); } catch (e) {} } }
